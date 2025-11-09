@@ -1,5 +1,6 @@
 import NestedNavbar from "@/components/NestedNavbar";
 import PageTitle from "@/components/PageTitle";
+import ProjectsList from "@/components/projects/ProjectsList";
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
         <section className="py-10">
           <PageTitle title="Projects List" />
         </section>
+        <ProjectsList />
       </section>
     </section>
   );
