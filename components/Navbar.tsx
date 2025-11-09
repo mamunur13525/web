@@ -20,21 +20,31 @@ const Navbar = () => {
           mamun.ahmed13525@gmail.com
         </a>
       </nav>
-      <Button className="group items-center justify-start px-6 py-3 rounded-2xl cursor-pointer bg-[#000000] hidden md:flex  duration-300 transition-all hover:w-46 w-10 relative">
-        <CloudDownload />
-        <span className="absolute right-2.5 top-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-full duration-300 transition-all">Download Resume</span>
-      </Button>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            size={"icon"}
-            variant={"outline"}
-            className="border-none cursor-pointer rounded-2xl md:hidden"
+      <div className="flex items-center gap-4">
+        <Button
+          className="group items-center justify-start px-6 py-3 rounded-2xl cursor-pointer bg-[#000000] hidden md:flex  duration-300 transition-all hover:w-46 w-10 relative"
+          type="button"
+        >
+          <CloudDownload />
+          <span className="absolute right-2.5 top-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-full duration-300 transition-all  pointer-events-none group-hover:pointer-events-auto">
+            Download Resume
+          </span>
+        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              size={"icon"}
+              variant={"outline"}
+              className="border-none cursor-pointer rounded-xl border"
+              type="button"
+            >
+              <ListMinus />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            className="w-56 px-4 py-8 space-y-2 rounded-4xl"
+            align="end"
           >
-            <ListMinus />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56 px-4 py-8 space-y-2 rounded-4xl" align="end">
             <DropdownMenuItem className="px-4 py-4 cursor-pointer flex items-center rounded-2xl">
               <CloudDownload />
               Download Resume
@@ -47,8 +57,9 @@ const Navbar = () => {
               <CloudDownload />
               Download Resume
             </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </header>
   );
 };
