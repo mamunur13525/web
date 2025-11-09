@@ -24,12 +24,12 @@ const HeroSection = () => {
           <span className="text-[#bdbdbd]">I&rsquo;m a</span> Full Stack
           Developer <span className="text-[#bdbdbd]">at</span>
         </h1>
-        <div className="flex  items-center gap-8 font-stack">
+        <div className="flex items-center gap-8 font-stack">
           <h1 className="text-4xl font-bold tracking-wide text-[#eb5d04]">
             W3Dev Com.
           </h1>
           <Button
-            className="rounded-2xl cursor-pointer relative flex items-center gap-4 py-6 px-6 shadow-lg hover:bg-white border-none"
+            className="rounded-2xl cursor-pointer relative flex items-center gap-4 py-6 px-6 hover:bg-white shadow-none border border-zinc-200/70"
             variant={"outline"}
             type='button'
           >

@@ -2,33 +2,56 @@ const projects = [
   {
     id: 1,
     thumbnail:
-      "https://visionic.agency/wp-content/uploads/2025/11/fontora-tham-1536x1152.webp",
-    title: "Fontora Icons- 5000+ Open Source icon Library",
+      "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/portfolio_-4B21TasT.png?updatedAt=1762599897570",
+    title: "React Portfolio Website",
     description:
-      "FontoraIcons is a large library of over 5000 open-source vector icons designed for designers and developers. It offers a wide variety of styles and formats (SVG, EPS, PSD, etc.) and aims to be a comprehensive resource for icon needs.",
-    slug: "fontora-icons-5000-open-source-icon-library",
+      "A modern and responsive portfolio website built with React, showcasing my projects, skills, and professional experience. Features smooth animations, dynamic content loading, and a clean, minimalist design.",
+    slug: "react-portfolio-website",
     live: "",
-    type: ["full_stack", "web_app"],
+    type: ["front-end"],
   },
   {
     id: 2,
     thumbnail:
-      "https://visionic.agency/wp-content/uploads/2025/09/splito_branding_3-1536x1152.webp",
-    title: "Splitto – Share Expenses, Made Simple",
+      "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/free-course_vEjskA84X.png?updatedAt=1762599897613",
+    title: "Course Blog Site",
     description:
-      "Keep track of group expenses without the hassle. Splitto helps you record costs, divide them fairly among friends, and stay clear on who owes what. No payments, just simple tracking to keep everyone on the same page.",
-    slug: "splitto-share-expenses-made-simple",
+      "A comprehensive blog platform focused on educational content and online courses. Features course listings, blog posts, user authentication, and a responsive design that works seamlessly across all devices.",
+    slug: "course-blog-site",
     live: "",
-    type: ["full_stack", "web_app"],
+    type: ["full-stack"],
+  },
+
+  {
+    id: 4,
+    thumbnail:
+      "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/dashboard_ULSQ07oDQ.png?updatedAt=1762599897605",
+    title: "Admin Dashboard",
+    description:
+      "A feature-rich admin dashboard with data visualization, user management, and analytics tools. Built with modern web technologies, offering real-time updates and a responsive interface for efficient administration.",
+    slug: "admin-dashboard",
+    live: "",
+    type: ["full-stack"],
+  },
+  {
+    id: 5,
+    thumbnail:
+      "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/fruits-e-commerce_SS17K5pM3.png?updatedAt=1762599897673",
+    title: "Fruits E-Commerce App",
+    description:
+      "A full-featured e-commerce platform specialized in fresh fruit sales. Includes shopping cart functionality, secure checkout, product categorization, and real-time inventory management.",
+    slug: "fruits-e-commerce-app",
+    live: "",
+    type: ["full-stack", "web_app"],
   },
   {
     id: 3,
     thumbnail:
-      "https://visionic.agency/wp-content/uploads/2025/09/Talash-ai-heroo-1536x1152.webp",
-    title: "Talash Ai – Solution of Missing Child",
+      "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/netflix-clone_TgDbP-00r.png?updatedAt=1762599897697",
+    title: "Netflix Clone Webapp",
     description:
-      "Keep track of group expenses without the hassle. Splitto helps you record costs, divide them fairly among friends, and stay clear on who owes what. No payments, just simple tracking to keep everyone on the same page.",
-    slug: "",
+      "A Netflix-inspired streaming platform clone featuring a modern UI, dynamic content loading, video playback capabilities, and user authentication. Built with React and integrated with a movie database API.",
+    slug: "netflix-clone-webapp",
     live: "",
     type: ["full_stack", "web_app"],
   },

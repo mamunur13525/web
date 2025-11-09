@@ -32,18 +32,13 @@ export default function Home() {
         setProject(foundProject);
       }
       setLoading(false);
-    }, 2000);
-    return () => {
-      setLoading(false);
-    };
+    }, 500);
   }, [slug]);
 
   return (
     <section className="bg-[#f8f8f8] overflow-y-auto h-screen w-screen">
       <section className="container max-w-4xl mx-auto py-20 px-10 lg:px-0">
         <NestedNavbar />
-        {/* <section className="py-10">
-        </section> */}
         <div className="py-10">
           {loading ? (
             <ProjectDetailsSkeleton />

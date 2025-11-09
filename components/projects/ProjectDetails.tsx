@@ -19,7 +19,7 @@ type ProjectType = {
 };
 
 const ProjectDetails = ({ project }: { project: ProjectType }) => {
-  const { title, thumbnail, description, slug, type } = project;
+  const { title, thumbnail, description, slug, type, live } = project;
   return (
     <div>
       <div className="mb-20">
@@ -28,7 +28,7 @@ const ProjectDetails = ({ project }: { project: ProjectType }) => {
         </div>
         <h1 className="text-4xl font-bold mt-4 mb-4">{title}</h1>
         <p className="text-zinc-500">{description}</p>
-        <Link href={""}>
+        <Link href={live} target="_blank" rel="noopener noreferrer">
           <Button className="flex-1 rounded-4xl cursor-pointer w-52 py-7 mt-5">
             <Eye />
             Live View

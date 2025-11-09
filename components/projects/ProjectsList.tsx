@@ -30,6 +30,10 @@ type ProjectType = {
 };
 const ProjectsList = () => {
   const [activeBtn, setActiveBtn] = useState("");
+  const filteredProjects =
+    activeBtn && activeBtn !== ""
+      ? projects.filter((p) => p.type && p.type.includes(activeBtn))
+      : projects;
   return (
     <div>
       <div className="flex flex-wrap justify-between gap-2 bg-white rounded-2xl py-2 px-2 w-fit">
@@ -54,12 +58,15 @@ const ProjectsList = () => {
         })}
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-10">
-        {projects.map((project: ProjectType) => {
+        {filteredProjects.map((project: ProjectType, index: number) => {
           return (
             <SingleProject
               key={project.id}
               project={project}
-              className="last:lg:col-span-2"
+              index={index}
+              className={
+                filteredProjects?.length % 2 === 1 ? "last:lg:col-span-2" : ""
+              }
             />
           );
         })}

@@ -1,10 +1,8 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -19,28 +17,24 @@ const ProjectViewDialog = ({
   thumbnail: string;
   slug: string;
 }) => {
-  console.log(thumbnail);
   return (
     <Dialog>
       <form>
         <DialogTrigger asChild>
-          <Button
-            className="absolute top-1/2 left-1/2 -translate-1/2 rounded-full cursor-pointer duration-500 scale-90 group-hover:scale-120"
-            variant={"secondary"}
+          <button
+            className="h-42 w-42 flex items-center justify-center absolute top-1/2 left-1/2 -translate-1/2 rounded-full cursor-pointer duration-500 scale-90 group-hover:scale-120 text-sm gap-2 bg-[radial-gradient(circle,rgba(255,255,255,1)_65%,rgba(255,255,255,0.49)_68%)]"
+            type="button"
           >
-            <Eye />
+            <Eye className="w-4 h-4" />
             Full View
-          </Button>
+          </button>
         </DialogTrigger>
-        <DialogContent className="w-full h-full max-h-11/12! max-w-11/12!">
+        <DialogContent className="w-full h-fit max-h-10/12! max-w-11/12! p-0! overflow-auto bg-transparent border-none">
           <DialogHeader>
-            <DialogTitle>Preview</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
-            </DialogDescription>
+            <DialogTitle className="sr-only"></DialogTitle>
+            <DialogDescription className="sr-only"></DialogDescription>
           </DialogHeader>
-          <div className="px-1 w-full h-full flex justify-center items-center over">
+          <div className="bg-green-500 relative top-0 p-0! w-full h-fit">
             <Image
               className="w-full"
               src={thumbnail}
