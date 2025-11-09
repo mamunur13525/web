@@ -37,7 +37,7 @@ export default function Home() {
 
   return (
     <section className="bg-[#f8f8f8] overflow-y-auto h-screen w-screen">
-      <section className="container max-w-4xl mx-auto py-20 px-10 lg:px-0">
+      <section className="container max-w-4xl mx-auto py-10 lg:py-20 px-7 lg:px-0">
         <NestedNavbar />
         <div className="py-10">
           {loading ? (

@@ -6,9 +6,9 @@ const Reading = () => {
   return (
     <Link
       href={"/reading"}
-      className="absolute bottom-0 p-5 pb-0 pt-16 overflow-hidden"
+      className="bottom-0 p-5 pb-0 pt-20 overflow-hidden"
     >
-      <h1 className="text-base font-semibold leading-5">
+      <h1 className=" md:pt-0 text-base font-semibold leading-5">
         Rules for focued success in a distracted workd
       </h1>
       <p className="text-zinc-500 text-xs font-medium mb-4">Cal Newport</p>
