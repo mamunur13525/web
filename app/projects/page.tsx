@@ -1,14 +1,14 @@
-import MainSection from "@/components/home/MainSection";
-import HeroSection from "@/components/home/HeroSection";
-import Navbar from "@/components/Navbar";
+import NestedNavbar from "@/components/NestedNavbar";
+import PageTitle from "@/components/PageTitle";
 
 export default function Home() {
   return (
     <section className="bg-[#f8f8f8] overflow-y-auto h-screen w-screen">
       <section className="container max-w-4xl mx-auto py-20 px-10 lg:px-0">
-        <Navbar />
-        <HeroSection />
-        <MainSection />
+        <NestedNavbar />
+        <section className="py-10">
+          <PageTitle title="Projects List" />
+        </section>
       </section>
     </section>
   );
