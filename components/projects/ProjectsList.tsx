@@ -100,7 +100,7 @@ const ProjectsList = () => {
           );
         })}
       </div>
-      <div className="grid grid-cols-2 gap-5 mt-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-10">
         {projects.map((project: ProjectType) => {
           return <SingleProject key={project.id} project={project} />;
         })}

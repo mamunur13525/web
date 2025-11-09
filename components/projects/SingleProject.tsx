@@ -26,7 +26,7 @@ const SingleProject = ({ project }: { project: ProjectProps }) => {
     type,
   } = project;
   return (
-    <div className="bg-white rounded-2xl last:col-span-2 h-full relative flex flex-col">
+    <div className="bg-white rounded-2xl last:lg:col-span-2 h-full relative flex flex-col">
       <Card
         className={cn(
           "relative border-4 p-0 border-white shadow-2xl shadow-zinc-400/20 rounded-4xl min-h-[270px] h-auto  w-full bg-[#f6f6f6] cursor-pointer hover:-translate-y-2 hover:scale-[101%] hover:shadow-zinc-400/40 duration-300 transition-all overflow-hidden"
