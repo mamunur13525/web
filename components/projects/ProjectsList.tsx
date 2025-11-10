@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import SingleProject from "./SingleProject";
@@ -9,26 +9,52 @@ import { projects } from "@/data/demo/projects";
 const filterBtns = [
   {
     id: 1,
-    name: "All",
+    name: "All Category's",
     type: "",
   },
   {
     id: 2,
     name: "Full Stack",
-    type: "full_stack",
+    type: "full-stack",
+  },
+  {
+    id: 3,
+    name: "Front End",
+    type: "front-end",
+  },
+  {
+    id: 4,
+    name: "AI App",
+    type: "ai",
   },
 ];
 
 type ProjectType = {
   id: number;
-  thumbnail: string;
+  image: {
+    thumbnail: string;
+    full_screen: string;
+  };
   title: string;
   description: string;
   slug: string;
-  live: string;
+  live: {
+    preview: string;
+    git: string;
+  };
   type: string[];
 };
 const ProjectsList = () => {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const handler = () => setIsDesktop(mq.matches);
+    // run once to set initial value on the client
+    handler();
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
   const [activeBtn, setActiveBtn] = useState("");
   const filteredProjects =
     activeBtn && activeBtn !== ""
@@ -57,16 +83,19 @@ const ProjectsList = () => {
           );
         })}
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-10">
+      <div
+        className={cn(
+          "grid grid-cols-1 md:grid-cols-2 gap-5 lg:grid-cols-1 lg:gap-10 mt-10"
+        )}
+      >
         {filteredProjects.map((project: ProjectType, index: number) => {
           return (
             <SingleProject
               key={project.id}
               project={project}
               index={index}
-              className={
-                filteredProjects?.length % 2 === 1 ? "last:lg:col-span-2" : ""
-              }
+              view={isDesktop ? "row" : "column"}
+              className={isDesktop && index % 2 === 1 ? "flex-row-reverse" : "last:md:col-span-2 last:lg:col-span-1"}
             />
           );
         })}

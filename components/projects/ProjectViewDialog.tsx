@@ -11,10 +11,10 @@ import { Eye } from "lucide-react";
 import Image from "next/image";
 
 const ProjectViewDialog = ({
-  thumbnail,
+  fullImage,
   slug,
 }: {
-  thumbnail: string;
+  fullImage: string;
   slug: string;
 }) => {
   return (
@@ -34,10 +34,10 @@ const ProjectViewDialog = ({
             <DialogTitle className="sr-only"></DialogTitle>
             <DialogDescription className="sr-only"></DialogDescription>
           </DialogHeader>
-          <div className="bg-green-500 relative top-0 p-0! w-full h-fit">
+          <div className="bg-white relative top-0 p-0! w-full h-fit">
             <Image
               className="w-full"
-              src={thumbnail}
+              src={fullImage}
               alt={slug}
               width={500}
               height={500}

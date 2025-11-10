@@ -4,7 +4,7 @@ import React from "react";
 const Map = () => {
   return (
     <Link
-      href="https://www.google.com/maps/place/Dhaka/@25.7771894,90.8288723,4z/data=!4m6!3m5!1s0x3755b8b087026b81:0x8fa563bbdd5904c2!8m2!3d23.804093!4d90.4152376!16zL20vMGZuYjQ?entry=ttu&g_ep=EgoyMDI1MTEwNC4xIKXMDSoASAFQAw%3D%3D"
+      href="https://www.google.com/maps/place/Bangladesh/@23.4270773,85.0428532,6z/data=!3m1!4b1!4m15!1m8!3m7!1s0x3755b8b087026b81:0x8fa563bbdd5904c2!2sDhaka!3b1!8m2!3d23.804093!4d90.4152376!16zL20vMGZuYjQ!3m5!1s0x30adaaed80e18ba7:0xf2d28e0c4e1fc6b!8m2!3d23.684994!4d90.356331!16zL20vMDE2MmI?entry=ttu&g_ep=EgoyMDI1MTEwNC4xIKXMDSoASAFQAw%3D%3D"
       target="_blank"
       rel="noopener noreferrer"
       className=" pt-20 flex flex-col justify-end items-center h-full overflow-hidden "

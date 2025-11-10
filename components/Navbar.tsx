@@ -35,7 +35,7 @@ const Navbar = () => {
             <Button
               size={"icon"}
               variant={"outline"}
-              className="border-none cursor-pointer rounded-lg md:rounded-xl border"
+              className="cursor-pointer rounded-lg md:rounded-xl border"
               type="button"
             >
               <ListMinus />

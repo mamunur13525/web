@@ -16,9 +16,11 @@ const WhatReadingDetails = () => {
         >
           <div className="absolute left-0 top-0 w-full h-full bg-black/30 duration-500 opacity-0 group-hover:opacity-100">
             <Link
-              href={"/#"}
-              rel="noopener noreferrer"
+              href={
+                "https://www.amazon.com/Deep-Work-Focused-Success-Distracted/dp/0349413681"
+              }
               target="_blank"
+              rel="noopener noreferrer"
               className="h-42 w-42 flex items-center justify-center absolute top-1/2 left-1/2 -translate-1/2 rounded-full cursor-pointer duration-500 scale-90 group-hover:scale-120 text-sm gap-2 bg-[radial-gradient(circle,rgba(255,255,255,1)_65%,rgba(255,255,255,0.49)_68%)]"
               type="button"
             >
@@ -46,7 +48,7 @@ const WhatReadingDetails = () => {
             Cal Newport
           </div>
         </div>
-       
+
         <div className="text-zinc-700 mt-10">
           {/* Render markdown contnt from data/demo/deepwork.md */}
           <div
@@ -55,7 +57,13 @@ const WhatReadingDetails = () => {
             }}
           />
         </div>
-         <Link href={"/"} target="_blank" rel="noopener noreferrer">
+        <Link
+          href={
+            "https://www.amazon.com/Deep-Work-Focused-Success-Distracted/dp/0349413681"
+          }
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Button className="flex-1 rounded-4xl cursor-pointer w-52 py-7 mt-10">
             <CreditCard />
             Buy This Book

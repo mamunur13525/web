@@ -16,14 +16,14 @@ const HowWorks = () => {
           vision and set the foundation for a successful collaboration.
         </p>
       </div>
-      <div className="flex flex-wrap justify-between gap-2 bg-white rounded-2xl py-2 px-2">
+      <div className="grid grid-cols-2 sm:grid-cols-4  gap-y-4 gap-x-2 bg-white rounded-2xl py-2 px-2">
         {[1, 2, 3, 4].map((btn: number) => {
           return (
             <Button
               key={btn}
               variant={activeBtn === btn ? "default" : "outline"}
               className={cn(
-                "rounded-[14px] border-0 px-3 sm:px-6 shadow-zinc-100 cursor-pointer shrink-0",
+                "w-full rounded-[14px] border-0 px-3 sm:px-6 shadow-zinc-100 cursor-pointer shrink-0",
                 activeBtn === btn
                   ? ""
                   : "hover:bg-white hover:shadow-zinc-200 hover:shadow-xl"

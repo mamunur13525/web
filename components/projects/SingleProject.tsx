@@ -1,71 +1,144 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { Eye, Link as IconLink } from "lucide-react";
 import Link from "next/link";
+import React from "react";
 
 interface ProjectProps {
   id: number;
-  thumbnail: string;
+  image: {
+    thumbnail: string;
+    full_screen: string;
+  };
   title: string;
   description: string;
   slug: string;
-  live: string;
+  live: {
+    preview: string;
+    git: string;
+  };
   type: string[];
 }
 const SingleProject = ({
   project,
   className = "",
   index = 0,
+  view = "column",
 }: {
   project: ProjectProps;
   className?: string;
   index?: number;
+  view?: string;
 }) => {
-  const { title, description, thumbnail, slug, live, type } = project;
+  const {
+    title,
+    description,
+    image: { thumbnail },
+    slug,
+    live: { preview },
+    type,
+  } = project;
   return (
     <div
       className={cn(
-        "bg-white rounded-4xl h-full relative flex flex-col shadow animate-fade-up animate-duration-500",
+        "bg-white rounded-4xl  relative  animate-fade-up animate-duration-500",
+        view === "row"
+          ? "flex items-center  flex-row h-fit"
+          : "flex flex-col h-full shadow",
         `animate-delay-${(index + 1) * 100}`,
         className
       )}
     >
-      <Link href={`/projects/${slug}`}>
+      <Link
+        href={`/projects/${slug}`}
+        className={view === "row" ? "w-6/12 " : "w-full"}
+      >
         <Card
           className={cn(
-            "relative border-4 p-0 border-white shadow-2xl shadow-zinc-400/20 rounded-4xl min-h-[270px] h-auto  w-full bg-[#f6f6f6] cursor-pointer hover:-translate-y-2 hover:scale-[101%] hover:shadow-zinc-400/40 duration-300 transition-all overflow-hidden"
+            "relative border-4 p-0 border-white shadow-2xl shadow-zinc-400/20 rounded-4xl min-h-[270px] h-auto w-full bg-[#f6f6f6] cursor-pointer hover:-translate-y-2 hover:scale-[101%] hover:shadow-zinc-400/40 duration-300 transition-all overflow-hidden"
           )}
         >
           <div
-            className="w-full h-72 bg-cover bg-center bg-no-repeat"
+            className={cn(
+              "w-full bg-cover bg-center bg-no-repeat",
+              view === "column" ? "h-72" : "h-112"
+            )}
             style={{
               backgroundImage: `url(${thumbnail})`,
             }}
           ></div>
         </Card>
       </Link>
-      <div className="flex flex-col justify-between flex-1 py-3 px-5 gap-7">
+      <div
+        className={cn(
+          "flex flex-col justify-between gap-7",
+          view === "row" ? "w-6/12 py-3 px-10" : "flex-1 py-3 px-5"
+        )}
+      >
         <div className="flex-1">
-          <div className="bg-[#dbdbdb] uppercase border w-fit px-3 py-1 rounded-full text-xs font-medium">
-            {type[0]}
+          <div className="flex flex-wrap items-center justify-start gap-2">
+            {type.map((typ: string) => (
+              <div
+                key={typ}
+                className="bg-[#dbdbdb] uppercase border w-fit px-3 py-1 rounded-full text-xs font-medium"
+              >
+                {typ}
+              </div>
+            ))}
           </div>
-          <h2 className="bg-white py-3 w-fit rounded-2xl text-xl font-medium">
+          <h2
+            className={cn(
+              "bg-white py-3 w-fit ",
+              view === "row" ? "text-3xl font-bold" : "text-xl font-medium"
+            )}
+          >
             {title}
           </h2>
           <p className="text-zinc-500">{description}</p>
+          <div>
+            <p className="mt-3 font-medium text-zinc-800">Technology Use: </p>
+            <div className="flex flex-wrap items-center justify-start gap-2">
+              {type.map((typ: string, index: number) => (
+                <React.Fragment key={typ}>
+                  {index !== 0 && "|"}
+                  <div
+                    key={typ}
+                    className="bg-zinc-200 px-2  rounded-full uppercase w-fit py-1 text-xs font-medium"
+                  >
+                    {typ}
+                  </div>
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
         </div>
         <div className="flex justify-center gap-5">
           <Link href={`/projects/${slug}`} className="w-full">
             <Button
               variant={"outline"}
-              className="flex-1 rounded-2xl cursor-pointer w-full"
+              className={cn(
+                "flex-1  cursor-pointer w-full",
+                view === "row" ? "py-5 rounded-full" : "rounded-2xl"
+              )}
             >
               <Eye /> View Details
             </Button>
           </Link>
-          <Link href={live} className="w-full">
-            <Button className="flex-1 rounded-2xl cursor-pointer w-full">
+          <Link
+            href={preview}
+            rel="noopener noreferrer"
+            target="_blank"
+            className="w-full"
+          >
+            <Button
+              className={cn(
+                "flex-1  cursor-pointer w-full",
+                view === "row" ? "py-5 rounded-full" : "rounded-2xl"
+              )}
+            >
               <IconLink />
               Live View
             </Button>
