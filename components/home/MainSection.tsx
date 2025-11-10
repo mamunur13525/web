@@ -25,6 +25,14 @@ const cardlists = [
     type: "how_work",
     title: "How i work",
   },
+  {
+    type: "blogs",
+    title: "My Blogs",
+  },
+  {
+    type: "contact_us",
+    title: "Contact US",
+  },
 ];
 
 const MainSection = () => {
@@ -37,7 +45,8 @@ const MainSection = () => {
             key={type}
             className={cn(
               "relative border-4 p-0 border-white shadow-2xl shadow-zinc-400/20 rounded-4xl min-h-[270px] h-auto  w-full bg-[#f6f6f6] cursor-pointer hover:-translate-y-2 hover:scale-105 hover:shadow-zinc-400/40 duration-300 transition-all overflow-hidden",
-              type === "how_work" ? "sm:col-span-2" : ""
+              type === "how_work" ? "sm:col-span-2" : "",
+              type === "blogs" ? "sm:col-span-2" : ""
             )}
           >
             <div className="absolute left-3 top-4">

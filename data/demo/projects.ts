@@ -35,23 +35,7 @@ Unlike traditional tools, Flow AI lets you design structured, scalable workflows
     },
     type: ["front-end", "ai", "chat-bot", "web-app"],
   },
-  {
-    id: 1,
-    image: {
-      thumbnail:
-        "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/portfolio_-4B21TasT.png?updatedAt=1762599897570",
-      full_screen: "",
-    },
-    title: "React Portfolio Website",
-    description:
-      "A modern and responsive portfolio website built with React, showcasing my projects, skills, and professional experience. Features smooth animations, dynamic content loading, and a clean, minimalist design.",
-    slug: "react-portfolio-website",
-    live: {
-      preview: "https://app.flowaistudio.com",
-      git: "",
-    },
-    type: ["front-end"],
-  },
+
   {
     id: 2,
     image: {
@@ -63,24 +47,6 @@ Unlike traditional tools, Flow AI lets you design structured, scalable workflows
     description:
       "A comprehensive blog platform focused on educational content and online courses. Features course listings, blog posts, user authentication, and a responsive design that works seamlessly across all devices.",
     slug: "course-blog-site",
-    live: {
-      preview: "",
-      git: "",
-    },
-    type: ["full-stack"],
-  },
-
-  {
-    id: 4,
-    image: {
-      thumbnail:
-        "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/dashboard_ULSQ07oDQ.png?updatedAt=1762599897605",
-      full_screen: "",
-    },
-    title: "Admin Dashboard",
-    description:
-      "A feature-rich admin dashboard with data visualization, user management, and analytics tools. Built with modern web technologies, offering real-time updates and a responsive interface for efficient administration.",
-    slug: "admin-dashboard",
     live: {
       preview: "",
       git: "",
@@ -104,6 +70,41 @@ Unlike traditional tools, Flow AI lets you design structured, scalable workflows
     },
     type: ["full-stack", "web_app"],
   },
+  {
+    id: 1,
+    image: {
+      thumbnail:
+        "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/portfolio_-4B21TasT.png?updatedAt=1762599897570",
+      full_screen: "",
+    },
+    title: "React Portfolio Website",
+    description:
+      "A modern and responsive portfolio website built with React, showcasing my projects, skills, and professional experience. Features smooth animations, dynamic content loading, and a clean, minimalist design.",
+    slug: "react-portfolio-website",
+    live: {
+      preview: "https://app.flowaistudio.com",
+      git: "",
+    },
+    type: ["front-end"],
+  },
+  {
+    id: 4,
+    image: {
+      thumbnail:
+        "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/dashboard_ULSQ07oDQ.png?updatedAt=1762599897605",
+      full_screen: "",
+    },
+    title: "Admin Dashboard",
+    description:
+      "A feature-rich admin dashboard with data visualization, user management, and analytics tools. Built with modern web technologies, offering real-time updates and a responsive interface for efficient administration.",
+    slug: "admin-dashboard",
+    live: {
+      preview: "",
+      git: "",
+    },
+    type: ["full-stack"],
+  },
+
   {
     id: 3,
     image: {

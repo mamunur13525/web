@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,9 +8,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Logo from "./logo";
 import { Button } from "./ui/button";
-import { CloudDownload, ListMinus } from "lucide-react";
+import { CloudDownload, File, ListMinus, Mail } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const navigate = useRouter();
   return (
     <header className="flex items-start justify-between md:px-0">
       <nav className="flex flex-col md:flex-row items-start md:items-end gap-1 md:gap-3 mb-6 md:mb-10">
@@ -26,7 +30,7 @@ const Navbar = () => {
           type="button"
         >
           <CloudDownload />
-          <span className="absolute right-2.5 top-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-full duration-300 transition-all pointer-events-none group-hover:pointer-events-auto">
+          <span className="absolute right-3.5 top-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-full duration-300 transition-all pointer-events-none group-hover:pointer-events-auto">
             Download Resume
           </span>
         </Button>
@@ -45,15 +49,24 @@ const Navbar = () => {
             className="w-56 px-3 md:px-4 py-6 md:py-8 space-y-2 rounded-3xl md:rounded-4xl"
             align="end"
           >
-            <DropdownMenuItem className="px-4 py-4 cursor-pointer flex items-center rounded-2xl">
-              <CloudDownload />
-              Download Resume
+            <DropdownMenuItem
+              onClick={() => navigate.push("/projects")}
+              className="px-4 py-4 cursor-pointer flex items-center rounded-2xl"
+            >
+              <File />
+              Projects
             </DropdownMenuItem>
-            <DropdownMenuItem className="px-4 py-4 cursor-pointer flex items-center rounded-2xl">
-              <CloudDownload />
-              Download Resume
+            <DropdownMenuItem
+              onClick={() => navigate.push("/contact")}
+              className="px-4 py-4 cursor-pointer flex items-center rounded-2xl"
+            >
+              <Mail />
+              Contact Us
             </DropdownMenuItem>
-            <DropdownMenuItem className="px-4 py-4 cursor-pointer flex items-center rounded-2xl">
+             <DropdownMenuItem
+              onClick={() => navigate.push("/projects")}
+              className="px-4 py-4 cursor-pointer flex items-center rounded-2xl md:hidden"
+            >
               <CloudDownload />
               Download Resume
             </DropdownMenuItem>

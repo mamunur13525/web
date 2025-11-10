@@ -19,7 +19,7 @@ const HomeProjects = () => {
         </div>
         <div className="absolute top-0 left-[30%] -rotate-12 -translate-x-1/2 w-28 h-32 rounded-4xl overflow-hidden border-4 border-white shadow-xl z-20 ">
           <Image
-            src="https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/dashboard_ULSQ07oDQ.png?updatedAt=1762599897605"
+            src="https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/fruits-e-commerce_SS17K5pM3.png?updatedAt=1762599897673"
             alt="cover1"
             fill
             className="object-cover w-full h-full"
@@ -27,7 +27,7 @@ const HomeProjects = () => {
         </div>
         <div className="absolute top-0 left-1/2  -translate-x-1/2 w-28 h-32 -translate-y-6 rounded-4xl overflow-hidden border-4 border-white shadow-xl z-50">
           <Image
-            src="https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/portfolio_-4B21TasT.png?updatedAt=1762599897570"
+            src="https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/flowaistudio-1_MNqdrJgBP3.webp?updatedAt=1762756994858"
             alt="cover2"
             width={96}
             height={96}
@@ -36,7 +36,7 @@ const HomeProjects = () => {
         </div>
         <div className="absolute top-0 right-[30%] rotate-12 translate-x-1/2  w-28 h-32 rounded-4xl overflow-hidden border-4 border-white shadow-xl z-40 ">
           <Image
-            src="https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/free-course_vEjskA84X.png?updatedAt=1762599897613"
+            src="https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/nexvioshort-1_P6Whb1owe.webp?updatedAt=1762758164846"
             alt="cover1"
             fill
             className="object-cover w-full h-full"
@@ -44,7 +44,7 @@ const HomeProjects = () => {
         </div>
         <div className="absolute top-0 right-5 rotate-45 translate-x-1/2 translate-y-6 w-28 h-32 rounded-4xl overflow-hidden border-4 border-white shadow-xl z-30 ">
           <Image
-            src="https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/fruits-e-commerce_SS17K5pM3.png?updatedAt=1762599897673"
+            src="https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/portfolio_-4B21TasT.png?updatedAt=1762599897570"
             alt="cover1"
             fill
             className="object-cover w-full h-full"

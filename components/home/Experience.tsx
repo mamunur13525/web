@@ -19,9 +19,9 @@ const expericeList = [
 ];
 const Experience = () => {
   return (
-    <Link href={"/experience"} className="pt-20 pb-6 px-5">
-      <div className="flex flex-col space-y-4  relative">
-        <span className="absolute top-4 left-[5px] z-0 block w-0.5 min-h-9/12 translate-y-2.5 bg-[#ababab]  "></span>
+    <Link href={"/experience"} className="pt-20 lg:pt-24 pb-14 w-full h-full flex items-center px-5">
+      <div className="h-full w-full  flex flex-col justify-between space-y-4 relative">
+        <span className="absolute top-4 left-[5px] z-0 block w-0.5 min-h-9/12 translate-y-2.5 bg-[#ababab]"></span>
         {expericeList.map(
           (exp: { id: number; title: string; time: string }) => {
             return (

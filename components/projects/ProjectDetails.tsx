@@ -6,6 +6,7 @@ import Link from "next/link";
 import { projects } from "@/data/demo/projects";
 import SingleProject from "./SingleProject";
 import ProjectViewDialog from "./ProjectViewDialog";
+import { useEffect, useState } from "react";
 
 type ProjectType = {
   id: number;
@@ -32,12 +33,27 @@ const ProjectDetails = ({ project }: { project: ProjectType }) => {
     type,
     live: { preview },
   } = project;
+  const [caseStudyHtml, setCaseStudyHtml] = useState<string>("");
+
+  // Fetch the rendered case-study HTML from a server API that reads the file with fs
+  useEffect(() => {
+    const t = encodeURIComponent(type[0] ?? "");
+    if (!t) return;
+    fetch(`/api/case-study?type=${t}`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to load case study: ${res.status}`);
+        return res.text();
+      })
+      .then((html) => setCaseStudyHtml(html))
+      .catch((err) => {
+        console.error(err);
+        setCaseStudyHtml("<p class='text-zinc-500'>Case study not available.</p>");
+      });
+  }, [type]);
   return (
     <div>
-      <div className="mb-20">
-        <div className="bg-[#dbdbdb] uppercase border w-fit px-3 py-1 rounded-full ">
-          {type[0]}
-        </div>
+      <div className="mb-10">
+        <div className="bg-[#dbdbdb] uppercase border w-fit px-3 py-1 rounded-full ">{type[0]}</div>
         <h1 className="text-4xl font-bold mt-4 mb-4">{title}</h1>
         <p className="text-zinc-500">{description}</p>
         <Link href={preview} target="_blank" rel="noopener noreferrer">
@@ -63,7 +79,19 @@ const ProjectDetails = ({ project }: { project: ProjectType }) => {
           />
         </Card>
       </div>
-
+      <section className="pt-10 pb-20">
+        <h1 className="text-4xl font-bold mt-4 mb-4">Case Study</h1>
+        <div>
+          <div className="text-zinc-700 mt-10">
+            {/* Render markdown content fetched from the server API */}
+            <div
+              dangerouslySetInnerHTML={{
+                __html: caseStudyHtml,
+              }}
+            />
+          </div>
+        </div>
+      </section>
       <div>
         <h1 className="text-4xl font-bold mt-8 mb-4">Recent Projects</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">

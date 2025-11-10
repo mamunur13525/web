@@ -29,12 +29,12 @@ const ProjectViewDialog = ({
             Full View
           </button>
         </DialogTrigger>
-        <DialogContent className="w-full h-fit max-h-10/12! max-w-11/12! p-0! overflow-auto bg-transparent border-none">
+        <DialogContent className="w-full h-fit max-h-10/12! max-w-11/12!  overflow-auto bg-white border-none">
           <DialogHeader>
-            <DialogTitle className="sr-only"></DialogTitle>
+            <DialogTitle>Details</DialogTitle>
             <DialogDescription className="sr-only"></DialogDescription>
           </DialogHeader>
-          <div className="bg-white relative top-0 p-0! w-full h-fit">
+          <div className="bg-white relative top-0 p-0! rounded-2xl overflow-hidden w-full h-fit">
             <Image
               className="w-full"
               src={fullImage}

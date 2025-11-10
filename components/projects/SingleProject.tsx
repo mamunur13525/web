@@ -83,7 +83,7 @@ const SingleProject = ({
             {type.map((typ: string) => (
               <div
                 key={typ}
-                className="bg-[#dbdbdb] uppercase border w-fit px-3 py-1 rounded-full text-xs font-medium"
+                className="bg-[#dbdbdb] uppercase border w-fit px-2 py-0 rounded-full text-[10px] font-medium"
               >
                 {typ}
               </div>
@@ -97,16 +97,25 @@ const SingleProject = ({
           >
             {title}
           </h2>
-          <p className="text-zinc-500">{description}</p>
+          <p
+            className={cn(
+              " text-zinc-500",
+              view === "row" ? "" : "text-zinc-500"
+            )}
+          >
+            {description}
+          </p>
           <div>
-            <p className="mt-3 font-medium text-zinc-800">Technology Use: </p>
+            <p className="mt-3 text-sm font-medium text-zinc-800">
+              Technology Use:{" "}
+            </p>
             <div className="flex flex-wrap items-center justify-start gap-2">
               {type.map((typ: string, index: number) => (
                 <React.Fragment key={typ}>
                   {index !== 0 && "|"}
                   <div
                     key={typ}
-                    className="bg-zinc-200 px-2  rounded-full uppercase w-fit py-1 text-xs font-medium"
+                    className="bg-[#dbdbdb] uppercase border w-fit px-2 py-0 rounded-full text-[10px] font-medium"
                   >
                     {typ}
                   </div>
@@ -115,7 +124,12 @@ const SingleProject = ({
             </div>
           </div>
         </div>
-        <div className="flex justify-center gap-5">
+        <div
+          className={cn(
+            "flex justify-center gap-5 pb-2",
+            view === "row" ? "pt-4" : ""
+          )}
+        >
           <Link href={`/projects/${slug}`} className="w-full">
             <Button
               variant={"outline"}

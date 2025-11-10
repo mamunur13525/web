@@ -1,0 +1,88 @@
+"use client";
+
+import { useState } from "react";
+import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
+import { projects } from "@/data/demo/projects";
+import SingleBlog from "./SingleBlog";
+
+const filterBtns = [
+  {
+    id: 1,
+    name: "All Category's",
+    type: "",
+  },
+  {
+    id: 2,
+    name: "Full Stack",
+    type: "full-stack",
+  },
+  {
+    id: 3,
+    name: "Front End",
+    type: "front-end",
+  },
+  {
+    id: 4,
+    name: "AI App",
+    type: "ai",
+  },
+];
+
+type ProjectType = {
+  id: number;
+  image: {
+    thumbnail: string;
+    full_screen: string;
+  };
+  title: string;
+  description: string;
+  slug: string;
+  live: {
+    preview: string;
+    git: string;
+  };
+  type: string[];
+};
+const BlogsList = () => {
+  const [activeBtn, setActiveBtn] = useState("");
+  const filteredProjects =
+    activeBtn && activeBtn !== ""
+      ? projects.filter((p) => p.type && p.type.includes(activeBtn))
+      : projects;
+
+  return (
+    <div>
+      <div className="flex flex-wrap justify-between gap-2 bg-white rounded-2xl py-2 px-2 w-fit">
+        {filterBtns.map((btn: { id: number; name: string; type: string }) => {
+          const { id, name, type } = btn;
+          const active = activeBtn === type;
+          return (
+            <Button
+              key={id}
+              variant={active ? "default" : "outline"}
+              className={cn(
+                "rounded-[14px] border-0 px-3 sm:px-6 shadow-zinc-100 cursor-pointer shrink-0",
+                active
+                  ? ""
+                  : "hover:bg-white hover:shadow-zinc-200 hover:shadow-xl"
+              )}
+              onClick={() => setActiveBtn(type)}
+            >
+              {name}
+            </Button>
+          );
+        })}
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
+        {filteredProjects.map((project: ProjectType, index: number) => {
+          return (
+            <SingleBlog key={project.id} project={project} index={index} />
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default BlogsList;

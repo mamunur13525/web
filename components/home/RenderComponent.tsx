@@ -4,6 +4,7 @@ import Reading from "./Reading";
 import HomeProjects from "./HomeProjects";
 import Map from "./Map";
 import Experience from "./Experience";
+import HomeBlogs from "./HomeBlogs";
 
 const RenderComponent = ({ type = "" }: { type: string }) => {
   if (type === "experience") return <Experience />;
@@ -11,6 +12,8 @@ const RenderComponent = ({ type = "" }: { type: string }) => {
   if (type === "reading") return <Reading />;
   if (type === "map") return <Map />;
   if (type === "how_work") return <HowWorks />;
+  if (type === "blogs") return <HomeBlogs />;
+  if (type === "contact_us") return <HowWorks />;
   return null;
 };
 

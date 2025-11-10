@@ -3,7 +3,7 @@ import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { CreditCard } from "lucide-react";
 import Link from "next/link";
-import { markdownFileToHtml } from "../../lib/markdown";
+import { useEffect, useState } from "react";
 
 const WhatReadingDetails = () => {
   return (
@@ -50,12 +50,8 @@ const WhatReadingDetails = () => {
         </div>
 
         <div className="text-zinc-700 mt-10">
-          {/* Render markdown contnt from data/demo/deepwork.md */}
-          <div
-            dangerouslySetInnerHTML={{
-              __html: markdownFileToHtml("data/demo/deepwork.md"),
-            }}
-          />
+          {/* Render markdown content fetched from server API */}
+          <ReadingMarkdown filePath="data/demo/deepwork.md" />
         </div>
         <Link
           href={
@@ -75,3 +71,25 @@ const WhatReadingDetails = () => {
 };
 
 export default WhatReadingDetails;
+
+// Small client-side component that fetches rendered markdown HTML from the server
+function ReadingMarkdown({ filePath }: { filePath: string }) {
+  const [html, setHtml] = useState<string>("");
+
+  useEffect(() => {
+    if (!filePath) return;
+    const url = `/api/markdown?file=${encodeURIComponent(filePath)}`;
+    fetch(url)
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch markdown: ${res.status}`);
+        return res.text();
+      })
+      .then((text) => setHtml(text))
+      .catch((err) => {
+        console.error(err);
+        setHtml("<p class='text-zinc-500'>Content not available.</p>");
+      });
+  }, [filePath]);
+
+  return <div dangerouslySetInnerHTML={{ __html: html }} />;
+}
