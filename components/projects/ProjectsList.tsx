@@ -62,7 +62,7 @@ const ProjectsList = () => {
       : projects;
   return (
     <div>
-      <div className="flex flex-wrap justify-between gap-2 bg-white rounded-2xl py-2 px-2 w-fit">
+      <div className="flex flex-wrap justify-between gap-2 bg-white rounded-full py-2 px-2 w-fit">
         {filterBtns.map((btn: { id: number; name: string; type: string }) => {
           const { id, name, type } = btn;
           const active = activeBtn === type;
@@ -71,7 +71,7 @@ const ProjectsList = () => {
               key={id}
               variant={active ? "default" : "outline"}
               className={cn(
-                "rounded-[14px] border-0 px-3 sm:px-6 shadow-zinc-100 cursor-pointer shrink-0",
+                "rounded-full border-0 px-3 sm:px-6 shadow-zinc-100 cursor-pointer shrink-0",
                 active
                   ? ""
                   : "hover:bg-white hover:shadow-zinc-200 hover:shadow-xl"

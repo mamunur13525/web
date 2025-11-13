@@ -95,20 +95,20 @@ const SingleBlog = ({
           </Link>
           <p className="text-sm text-zinc-500">{description}</p>
         </div>
-        <div className="flex justify-center gap-5">
+        <div className="gap-5">
           <Link
             href={preview}
             rel="noopener noreferrer"
             target="_blank"
-            className="w-full"
+            className="w-fit"
           >
             <Button
               className={cn(
-                "flex-1  cursor-pointer w-full rounded-xl hover:bg-zinc-800 hover:text-white duration-300"
+                "flex-1 cursor-pointer w-36 rounded-full hover:bg-zinc-800 hover:text-white duration-300"
               )}
             >
               <ExternalLink />
-              View
+              View Blog
             </Button>
           </Link>
         </div>

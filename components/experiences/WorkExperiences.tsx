@@ -136,16 +136,16 @@ const WorkExperiences = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-white border flex items-center justify-center duration-200 hover:shadow-lg shadow-black/20">
+                  <div className="w-14 h-14 rounded-full bg-white border flex items-center justify-center duration-200 hover:shadow-lg shadow-black/20">
                     {company.image ? (
                       // keep simple img to avoid external loader config
                       <img
                         src={company.image}
                         alt={company.company ?? "company"}
-                        className="w-12 h-12 rounded-2xl object-cover"
+                        className="w-12 h-12 rounded-full object-cover"
                       />
                     ) : (
-                      <div className="w-12 h-12 rounded-2xl bg-gray-100" />
+                      <div className="w-12 h-12 rounded-full bg-gray-100" />
                     )}
                   </div>
                 </Link>

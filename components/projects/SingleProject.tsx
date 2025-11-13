@@ -47,7 +47,7 @@ const SingleProject = ({
         "bg-white rounded-4xl  relative  animate-fade-up animate-duration-500",
         view === "row"
           ? "flex items-center  flex-row h-fit"
-          : "flex flex-col h-full shadow",
+          : "flex flex-col h-full  border",
         `animate-delay-${(index + 1) * 100}`,
         className
       )}
@@ -134,8 +134,8 @@ const SingleProject = ({
             <Button
               variant={"outline"}
               className={cn(
-                "flex-1  cursor-pointer w-full",
-                view === "row" ? "py-5 rounded-full" : "rounded-2xl"
+                "flex-1  cursor-pointer w-full rounded-full",
+                view === "row" ? "py-5" : ""
               )}
             >
               <Eye /> View Details
@@ -149,8 +149,8 @@ const SingleProject = ({
           >
             <Button
               className={cn(
-                "flex-1  cursor-pointer w-full",
-                view === "row" ? "py-5 rounded-full" : "rounded-2xl"
+                "flex-1  cursor-pointer w-full rounded-full",
+                view === "row" ? "py-5" : ""
               )}
             >
               <IconLink />

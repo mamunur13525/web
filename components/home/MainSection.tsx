@@ -50,7 +50,7 @@ const MainSection = () => {
             )}
           >
             <div className="absolute left-3 top-4">
-              <span className="bg-white px-4 py-3 w-fit rounded-2xl text-xs font-medium">
+              <span className="bg-white px-4 py-3 w-fit rounded-full text-xs font-medium">
                 {title}
               </span>
             </div>

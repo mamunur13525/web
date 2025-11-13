@@ -26,7 +26,7 @@ export default function CalBooker() {
       data-cal-namespace="15min"
       data-cal-link="mohammad-mamun/15min"
       data-cal-config='{"layout":"month_view"}'
-      className="px-6 py-5 rounded-2xl cursor-pointer bg-[#000000]"
+      className="px-6 py-5 rounded-full cursor-pointer bg-[#000000]"
     >
       Book a call
     </Button>

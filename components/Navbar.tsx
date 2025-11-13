@@ -26,7 +26,7 @@ const Navbar = () => {
       </nav>
       <div className="flex items-center gap-2 md:gap-4 pt-2">
         <Button
-          className="group items-center justify-start px-4 md:px-6 py-2 md:py-3 rounded-xl md:rounded-2xl cursor-pointer bg-[#000000] hidden md:flex duration-300 transition-all hover:w-46 w-10 relative"
+          className="group items-center justify-start px-4 md:px-6 py-2 md:py-3 rounded-full cursor-pointer bg-[#000000] hidden md:flex duration-300 transition-all hover:w-46 w-10 relative"
           type="button"
         >
           <CloudDownload />
@@ -39,33 +39,33 @@ const Navbar = () => {
             <Button
               size={"icon"}
               variant={"outline"}
-              className="cursor-pointer rounded-lg md:rounded-xl border"
+              className="cursor-pointer rounded-full border"
               type="button"
             >
               <ListMinus />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-56 px-3 md:px-4 py-6 md:py-8 space-y-2 rounded-3xl md:rounded-4xl"
+            className="w-56 px-2 py-2 rounded-2xl shadow-none"
             align="end"
           >
             <DropdownMenuItem
               onClick={() => navigate.push("/projects")}
-              className="px-4 py-4 cursor-pointer flex items-center rounded-2xl"
+              className="px-4 py-4 cursor-pointer flex items-center rounded-xl"
             >
               <File />
               Projects
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => navigate.push("/contact")}
-              className="px-4 py-4 cursor-pointer flex items-center rounded-2xl"
+              className="px-4 py-4 cursor-pointer flex items-center rounded-xl"
             >
               <Mail />
               Contact Us
             </DropdownMenuItem>
              <DropdownMenuItem
               onClick={() => navigate.push("/projects")}
-              className="px-4 py-4 cursor-pointer flex items-center rounded-2xl md:hidden"
+              className="px-4 py-4 cursor-pointer flex items-center rounded-full md:hidden"
             >
               <CloudDownload />
               Download Resume
