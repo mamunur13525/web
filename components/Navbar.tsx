@@ -8,7 +8,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Logo from "./logo";
 import { Button } from "./ui/button";
-import { CloudDownload, File, ListMinus, Mail } from "lucide-react";
+import {
+  CloudDownload,
+  FolderOpenDot,
+  ListMinus,
+  MailPlus,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {
@@ -53,17 +58,17 @@ const Navbar = () => {
               onClick={() => navigate.push("/projects")}
               className="px-4 py-4 cursor-pointer flex items-center rounded-xl"
             >
-              <File />
+              <FolderOpenDot />
               Projects
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => navigate.push("/contact")}
               className="px-4 py-4 cursor-pointer flex items-center rounded-xl"
             >
-              <Mail />
+              <MailPlus />
               Contact Us
             </DropdownMenuItem>
-             <DropdownMenuItem
+            <DropdownMenuItem
               onClick={() => navigate.push("/projects")}
               className="px-4 py-4 cursor-pointer flex items-center rounded-full md:hidden"
             >

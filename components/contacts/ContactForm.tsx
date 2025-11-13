@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "../ui/textarea";
 import { toast } from "sonner";
+import { Loader, Send } from "lucide-react";
 
 const contactSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -68,7 +69,7 @@ const ContactForm = () => {
       )}
     >
       <div className="p-6 ">
-        <h1 className="text-2xl font-medium mb-10">Send Email:</h1>
+        <h1 className="text-full font-medium mb-10">Send Email:</h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className=" grid grid-cols-1 gap-4 md:grid-cols-2"
@@ -80,7 +81,7 @@ const ContactForm = () => {
               {...register("name")}
               placeholder="Your name"
               aria-invalid={errors.name ? "true" : "false"}
-              className="py-6 rounded-2xl"
+              className="py-6 rounded-full"
             />
             {errors.name && (
               <p className="text-sm text-destructive mt-1">
@@ -96,7 +97,7 @@ const ContactForm = () => {
               placeholder="you@example.com"
               type="email"
               aria-invalid={errors.email ? "true" : "false"}
-              className="py-6 rounded-2xl"
+              className="py-6 rounded-full"
             />
             {errors.email && (
               <p className="text-sm text-destructive mt-1">
@@ -127,10 +128,11 @@ const ContactForm = () => {
 
           <div className="col-span-1 md:col-span-2 flex justify-end">
             <Button
-              className="px-6 py-6 rounded-2xl cursor-pointer bg-[#000000]"
+              className="px-6! py-6 rounded-full cursor-pointer bg-[#000000]"
               type="submit"
               disabled={submitting}
             >
+              {submitting? <Loader className="animate animate-spin"/>:<Send />}
               {submitting ? "Sending..." : "Send message"}
             </Button>
           </div>
