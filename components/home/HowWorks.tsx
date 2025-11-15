@@ -16,7 +16,7 @@ const HowWorks = () => {
           vision and set the foundation for a successful collaboration.
         </p>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-4  gap-y-4 gap-x-2 bg-white rounded-full py-2 px-2">
+      <div className="grid grid-cols-2 sm:grid-cols-4  gap-y-4 gap-x-2 bg-white rounded-3xl md:rounded-full py-2 px-2">
         {[1, 2, 3, 4].map((btn: number) => {
           return (
             <Button

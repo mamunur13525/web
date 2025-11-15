@@ -62,7 +62,7 @@ const ProjectsList = () => {
       : projects;
   return (
     <div>
-      <div className="flex flex-wrap justify-between gap-2 bg-white rounded-full py-2 px-2 w-fit">
+      <div className="flex flex-wrap justify-between gap-2 bg-white rounded-3xl md:rounded-full py-2 px-2 w-fit">
         {filterBtns.map((btn: { id: number; name: string; type: string }) => {
           const { id, name, type } = btn;
           const active = activeBtn === type;

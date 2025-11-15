@@ -29,7 +29,7 @@ const Navbar = () => {
           mamun.ahmed13525@gmail.com
         </a>
       </nav>
-      <div className="flex items-center gap-2 md:gap-4 pt-2">
+      <div className="flex items-center gap-2 md:gap-4">
         <Button
           className="group items-center justify-start px-4 md:px-6 py-2 md:py-3 rounded-full cursor-pointer bg-[#000000] hidden md:flex duration-300 transition-all hover:w-46 w-10 relative"
           type="button"
@@ -44,7 +44,7 @@ const Navbar = () => {
             <Button
               size={"icon"}
               variant={"outline"}
-              className="cursor-pointer rounded-full border"
+              className="w-10 h-10 cursor-pointer rounded-full border"
               type="button"
             >
               <ListMinus />
