@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Stack+Sans+Notch:wght@200..700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
-
+@import "tailwindcss/preflight.css" layer(base);
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -125,4 +125,77 @@
   .font-stack {
     font-family: "Stack Sans Notch", sans-serif;
   }
+}
+
+/*
+  Some global base rules apply border/outline to every element which is
+  useful for consistent UI but breaks rendered markdown/third-party HTML
+  (adds unwanted borders). Provide a small utility to neutralize that
+  inside containers that render raw HTML from markdown.
+*/
+@layer components {
+  .no-global-border * {
+    /* undo the universal border/outline for child elements */
+    border-color: transparent !important;
+    outline: none !important;
+  }
+
+  /* Minimal local `prose` styles so the project doesn't need the
+     @tailwindcss/typography plugin to render markdown nicely. These
+     provide sensible defaults for headings, paragraphs, lists, code, etc. */
+  .prose {
+    color: var(--foreground);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+  .prose p {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    color: inherit;
+    font-weight: 700;
+    margin-top: 1.25em;
+    margin-bottom: 0.5em;
+    line-height: 1.2;
+  }
+  .prose h1 { font-size: 2rem; }
+  .prose h2 { font-size: 1.5rem; }
+  .prose h3 { font-size: 1.25rem; }
+  .prose ul,
+  .prose ol {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding-left: 1.25rem;
+  }
+  .prose li { margin-top: 0.35rem; }
+  .prose pre {
+    background: rgba(15, 23, 42, 0.9);
+    color: #e6eef8;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow: auto;
+  }
+  .prose code {
+    background: rgba(0,0,0,0.04);
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace;
+    font-size: 0.95em;
+  }
+  .prose a { color: var(--primary); text-decoration: underline; }
+  .prose img { max-width: 100%; height: auto; display: block; margin: 0.75rem 0; }
+  .prose blockquote {
+    border-left: 4px solid rgba(0,0,0,0.08);
+    padding-left: 1rem;
+    color: var(--muted-foreground);
+    font-style: italic;
+    margin: 1rem 0;
+  }
+
+  /* minor helpers for dark mode */
+  .dark .prose-invert { color: var(--card-foreground); }
 }

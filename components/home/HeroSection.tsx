@@ -7,7 +7,7 @@ import CalBooker from "../contacts/CalAI";
 
 const HeroSection = () => {
   return (
-    <>
+    <section className="mt-20">
       <div className="mb-6 md:mb-10 space-y-2 md:space-y-3 md:px-0">
         <h1 className="flex flex-col md:flex-row items-start md:items-center gap-2 text-3xl md:text-4xl font-bold tracking-wide font-stack">
           <span>Hi, I&rsquo;m</span>
@@ -52,7 +52,7 @@ const HeroSection = () => {
           </p>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 

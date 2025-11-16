@@ -37,23 +37,65 @@ const ProjectDetails = ({ project }: { project: ProjectType }) => {
 
   // Fetch the rendered case-study HTML from a server API that reads the file with fs
   useEffect(() => {
-    const t = encodeURIComponent(type[0] ?? "");
+    // Use the project slug to load the corresponding case-study markdown file
+    // files are stored under data/case-study/<slug>.md
+    const t = encodeURIComponent(slug ?? "");
     if (!t) return;
     fetch(`/api/case-study?type=${t}`)
       .then((res) => {
-        if (!res.ok) throw new Error(`Failed to load case study: ${res.status}`);
+        if (!res.ok) {
+          setCaseStudyHtml(
+            "<p class='text-zinc-500'>Case study not available.</p>"
+          );
+        }
         return res.text();
       })
-      .then((html) => setCaseStudyHtml(html))
+      .then((html) => {
+        try {
+          // If it's valid JSON, parse it and handle expected shapes:
+          const parsed = JSON.parse(html);
+
+          // If server returned an object with an html property, use it
+          if (parsed && typeof parsed === "object" && typeof parsed.html === "string") {
+            setCaseStudyHtml(parsed.html);
+            return;
+          }
+
+          // If server returned a plain JSON string containing HTML, use it
+          if (typeof parsed === "string") {
+            setCaseStudyHtml(parsed);
+            return;
+          }
+
+          // If server returned an error shape, treat as not available
+          if (parsed && (parsed.error || parsed.message || parsed.status === "error")) {
+            setCaseStudyHtml(
+              "<p class='text-zinc-500'>Case study not available.</p>"
+            );
+            return;
+          }
+
+          // Otherwise fall through and let the outer setCaseStudyHtml(html) run
+        } catch (e) {
+          // Not JSON — fall through to use raw html string
+        }
+        setCaseStudyHtml(html);
+      })
       .catch((err) => {
         console.error(err);
-        setCaseStudyHtml("<p class='text-zinc-500'>Case study not available.</p>");
+        setCaseStudyHtml(
+          "<p class='text-zinc-500'>Case study not available.</p>"
+        );
       });
-  }, [type]);
+  }, [slug]);
+
+
   return (
     <div>
       <div className="mb-10">
-        <div className="bg-[#dbdbdb] uppercase border w-fit px-3 py-1 rounded-full ">{type[0]}</div>
+        <div className="bg-[#dbdbdb] uppercase border w-fit px-3 py-1 rounded-full ">
+          {type[0]}
+        </div>
         <h1 className="text-4xl font-bold mt-4 mb-4">{title}</h1>
         <p className="text-zinc-500">{description}</p>
         <Link href={preview} target="_blank" rel="noopener noreferrer">
@@ -79,15 +121,17 @@ const ProjectDetails = ({ project }: { project: ProjectType }) => {
           />
         </Card>
       </div>
-      <section className="pt-10 pb-20">
-        <h1 className="text-4xl font-bold mt-4 mb-4">Case Study</h1>
+      <section className="mt-10 pb-20">
         <div>
-          <div className="text-zinc-700 mt-10">
+          <div className="text-zinc-700 ">
             {/* Render markdown content fetched from the server API */}
             <div
               dangerouslySetInnerHTML={{
                 __html: caseStudyHtml,
               }}
+              // Use `prose` for nice typographic defaults and `no-global-border`
+              // to neutralize the universal border/outline applied in global CSS
+              className="prose prose-slate dark:prose-invert no-global-border"
             />
           </div>
         </div>

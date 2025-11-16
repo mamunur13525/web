@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 const Navbar = () => {
   const navigate = useRouter();
   return (
-    <header className="flex items-start justify-between md:px-0">
+    <header className="container max-w-6xl mx-auto fixed top-10 left-1/2 -translate-x-1/2 flex items-start justify-between md:px-0">
       <nav className="flex flex-col md:flex-row items-start md:items-end gap-1 md:gap-3 mb-6 md:mb-10">
         <Logo />
         <a

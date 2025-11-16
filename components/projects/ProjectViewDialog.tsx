@@ -29,7 +29,7 @@ const ProjectViewDialog = ({
             Full View
           </button>
         </DialogTrigger>
-        <DialogContent className="w-full h-fit max-h-10/12! max-w-11/12!  overflow-auto bg-white border-none">
+        <DialogContent className="w-full h-fit max-h-11/12! max-w-11/12!  overflow-auto bg-white border-none">
           <DialogHeader>
             <DialogTitle>Details</DialogTitle>
             <DialogDescription className="sr-only"></DialogDescription>
