@@ -8,12 +8,11 @@ The platform also includes an **AI Chat Block** that works with text, image, and
 
 ## The Challenge
 The main challenges were:
-- Integrating AI image and video generation for the first time  
+- Integrating AI image and video generation 
 - Ensuring different blocks (text, image, video, chat) could connect and share data  
 - Handling issues with video-to-text and image-to-text model accuracy  
 - Designing a scalable database for future features  
 - Adding project collaboration, permissions, and credit-based payments  
-- Building an admin dashboard and documentation  
 
 ---
 
@@ -23,46 +22,13 @@ The main challenges were:
 - Added support for text → image, image → text, video → text, and many more block combinations.  
 - Implemented an AI Chat Block with multimodal support.
 
-### AI Integration  
-- Used **Replicate** for image and video generation.  
-- Tested multiple models to fix performance issues with video-to-text and image-to-text tasks.
-
-### Core Features  
-- Block connection system  
-- Credit-based payment & usage  
-- Project sharing with view, edit, admin roles  
-- User role management for project owners  
-- Admin dashboard  
-- Full documentation  
-
----
-
-## Tech Stack
-- **Frontend:** React.js, React Flow, TailwindCSS  
-- **Backend:** Hono.js  
-- **Database:** PostgreSQL  
-- **AI Models:** Replicate  
-- **Auth:** JWT Token, Google, Auth0  
-- **Payments:** Stripe  
-- **Hosting:** Netlify  
-
----
-
-## Results
-- Fully functional multimodal AI block studio  
-- Stable image, video, and text generation system  
-- Scalable database ready for future updates  
-- Smooth collaboration features (view/edit/admin)  
-- Successful admin dashboard and documentation  
-
 ---
 
 ## Learnings
 This project was challenging and rewarding.  
 I improved in:
 - AI model integration  
-- Complex database design  
-- Block-based architecture  
+- Complex database design    
 - Payment systems and permission roles  
 - Building complete documentation  
 

@@ -21,18 +21,11 @@ const cardlists = [
     type: "map",
     title: "Map",
   },
-  {
-    type: "how_work",
-    title: "How i work",
-  },
+ 
   {
     type: "blogs",
     title: "My Blogs",
-  },
-  {
-    type: "contact_us",
-    title: "Contact US",
-  },
+  }
 ];
 
 const MainSection = () => {

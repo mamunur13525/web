@@ -16,7 +16,7 @@ Unlike traditional tools, Flow AI lets you design structured, scalable workflows
       preview: "https://app.flowaistudio.com",
       git: "",
     },
-    type: ["full-stack", "ai", "web-app"],
+    type: ["Company Project", "AI", "React","PostgresSQL",  "Tailwind","Hono.js"],
   },
   {
     id: 7,
