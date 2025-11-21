@@ -14,7 +14,11 @@ interface ProjectProps {
     full_screen: string;
   };
   title: string;
-  description: string;
+  description: {
+    long: string;
+    short: string;
+    list: string[];
+  };
   slug: string;
   live: {
     preview: string;
@@ -80,14 +84,16 @@ const SingleProject = ({
       >
         <div className="flex-1">
           <div className="flex flex-wrap items-center justify-start gap-2">
-            {type.map((typ: string) => (
-              <div
-                key={typ}
-                className="bg-[#dbdbdb] uppercase border w-fit px-2 py-0 rounded-full text-[10px] font-medium"
-              >
-                {typ}
-              </div>
-            ))}
+              {type.map((typ: string) => (
+                <React.Fragment key={typ}>
+                  <div
+                    key={typ}
+                    className="inline-flex items-center rounded-lg border bg-zinc-200 px-1.5 py-0.5 font-mono text-xs text-muted-foreground dark:bg-zinc-900"
+                  >
+                    {typ}
+                  </div>
+                </React.Fragment>
+              ))}
           </div>
           <h2
             className={cn(
@@ -103,25 +109,19 @@ const SingleProject = ({
               view === "row" ? "" : "text-zinc-500"
             )}
           >
-            {description}
+            {description.long}
           </p>
-          <div>
-            <p className="mt-3 text-sm font-medium text-zinc-800">
-              Technology Use:{" "}
-            </p>
-            <div className="flex flex-wrap items-center justify-start gap-2">
-              {type.map((typ: string, index: number) => (
+            <div className="flex flex-wrap items-center justify-start gap-2 mt-3">
+              {type.map((typ: string) => (
                 <React.Fragment key={typ}>
-                  {index !== 0 && "|"}
                   <div
                     key={typ}
-                    className="bg-[#dbdbdb] uppercase border w-fit px-2 py-0 rounded-full text-[10px] font-medium"
+                    className="inline-flex items-center rounded-lg border bg-zinc-200 px-1.5 py-0.5 font-mono text-xs text-muted-foreground dark:bg-zinc-900"
                   >
                     {typ}
                   </div>
                 </React.Fragment>
               ))}
-            </div>
           </div>
         </div>
         <div
@@ -154,7 +154,7 @@ const SingleProject = ({
               )}
             >
               <IconLink />
-              Live View
+              Live Preview
             </Button>
           </Link>
         </div>

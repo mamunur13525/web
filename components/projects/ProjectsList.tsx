@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import SingleProject from "./SingleProject";
 import { projects } from "@/data/demo/projects";
+import { ProjectType } from "@/types/types";
 
 const filterBtns = [
   {
@@ -29,21 +30,7 @@ const filterBtns = [
   },
 ];
 
-type ProjectType = {
-  id: number;
-  image: {
-    thumbnail: string;
-    full_screen: string;
-  };
-  title: string;
-  description: string;
-  slug: string;
-  live: {
-    preview: string;
-    git: string;
-  };
-  type: string[];
-};
+
 const ProjectsList = () => {
   const [isDesktop, setIsDesktop] = useState(false);
 

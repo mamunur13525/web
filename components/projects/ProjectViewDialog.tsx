@@ -35,13 +35,17 @@ const ProjectViewDialog = ({
             <DialogDescription className="sr-only"></DialogDescription>
           </DialogHeader>
           <div className="bg-white relative top-0 p-0! rounded-2xl overflow-hidden w-full h-fit">
-            <Image
-              className="w-full"
-              src={fullImage}
-              alt={slug}
-              width={500}
-              height={500}
-            />
+            {fullImage ? (
+              <Image
+                className="w-full"
+                src={fullImage}
+                alt={slug}
+                width={500}
+                height={500}
+              />
+            ) : (
+              "No Image Found!"
+            )}
           </div>
         </DialogContent>
       </form>

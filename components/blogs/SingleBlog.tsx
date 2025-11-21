@@ -13,7 +13,11 @@ interface ProjectProps {
     full_screen: string;
   };
   title: string;
-  description: string;
+ description: {
+    long: string;
+    short: string;
+    list: string[]
+  };
   slug: string;
   live: {
     preview: string;
@@ -93,7 +97,7 @@ const SingleBlog = ({
               {title}
             </h2>
           </Link>
-          <p className="text-sm text-zinc-500">{description}</p>
+          <p className="text-sm text-zinc-500">{description.long}</p>
         </div>
         <div className="gap-5">
           <Link

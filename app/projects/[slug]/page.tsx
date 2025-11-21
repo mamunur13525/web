@@ -5,24 +5,9 @@ import NotFoundProject from "@/components/projects/NotFoundProject";
 import ProjectDetails from "@/components/projects/ProjectDetails";
 import ProjectDetailsSkeleton from "@/components/skeletons/ProjectDetailsSkeleton";
 import { projects } from "@/data/demo/projects";
+import { ProjectType } from "@/types/types";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-
-type ProjectType = {
-  id: number;
-  image: {
-    thumbnail: string;
-    full_screen: string;
-  };
-  title: string;
-  description: string;
-  slug: string;
-  live: {
-    preview: string;
-    git: string;
-  };
-  type: string[];
-};
 
 export default function Home() {
   const { slug } = useParams();

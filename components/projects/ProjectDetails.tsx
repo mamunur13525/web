@@ -7,22 +7,9 @@ import { projects } from "@/data/demo/projects";
 import SingleProject from "./SingleProject";
 import ProjectViewDialog from "./ProjectViewDialog";
 import { useEffect, useState } from "react";
+import { ProjectType } from "@/types/types";
 
-type ProjectType = {
-  id: number;
-  image: {
-    thumbnail: string;
-    full_screen: string;
-  };
-  title: string;
-  description: string;
-  slug: string;
-  live: {
-    preview: string;
-    git: string;
-  };
-  type: string[];
-};
+
 const ProjectDetails = ({ project }: { project: ProjectType }) => {
   const {
     id,
@@ -97,11 +84,11 @@ const ProjectDetails = ({ project }: { project: ProjectType }) => {
           {type[0]}
         </div>
         <h1 className="text-4xl font-bold mt-4 mb-4">{title}</h1>
-        <p className="text-zinc-500">{description}</p>
+        <p className="text-zinc-500">{description.long}</p>
         <Link href={preview} target="_blank" rel="noopener noreferrer">
           <Button className="flex-1 rounded-4xl cursor-pointer w-52 py-7 mt-5">
             <Eye />
-            Live View
+            Live Preview
           </Button>
         </Link>
         <Card

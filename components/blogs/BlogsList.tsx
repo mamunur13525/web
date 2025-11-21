@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { projects } from "@/data/demo/projects";
 import SingleBlog from "./SingleBlog";
+import { ProjectType } from "@/types/types";
 
 const filterBtns = [
   {
@@ -29,21 +30,6 @@ const filterBtns = [
   },
 ];
 
-type ProjectType = {
-  id: number;
-  image: {
-    thumbnail: string;
-    full_screen: string;
-  };
-  title: string;
-  description: string;
-  slug: string;
-  live: {
-    preview: string;
-    git: string;
-  };
-  type: string[];
-};
 const BlogsList = () => {
   const [activeBtn, setActiveBtn] = useState("");
   const filteredProjects =

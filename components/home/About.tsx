@@ -95,7 +95,7 @@ const AboutSection = () => {
             </span>
           </p>
           <div className="ml-6 space-y-1">
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-gray-`600 dark:text-gray-400">
               <span className="text-gray-400 dark:text-gray-500 mr-2">•</span>
               4k+ weekly downloads on{" "}
               <Link href="#" className="hover:underline">

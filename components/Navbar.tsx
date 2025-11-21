@@ -75,7 +75,7 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed z-20 top-0 pt-10 pb-4 px-7 xl:px-0 left-1/2 -translate-x-1/2 flex items-start justify-between origin-center
+      className={`fixed z-200 top-0 pt-10 pb-4 px-7 xl:px-0 left-1/2 -translate-x-1/2 flex items-start justify-between origin-center
         transition-all duration-300 ease-in-out bg-[#f8f8f8]
         ${isScrolled ? "max-w-3xl scale-95" : "max-w-6xl scale-100"}
         container mx-auto`}
