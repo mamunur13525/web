@@ -31,7 +31,7 @@ const HeroSection = () => {
             W3Dev Com.
           </h1>
           <Button
-            className="rounded-full cursor-pointer relative flex items-center gap-4 py-4 md:py-6 md:px-6 hover:bg-white shadow-none border border-zinc-200/70"
+            className="rounded-full cursor-pointer relative flex items-center gap-4 py-4 md:py-6 md:px-6 hover:bg-white border border-zinc-200/70 inset-shadow-2xs inset-shadow-white"
             variant={"outline"}
             type='button'
           >

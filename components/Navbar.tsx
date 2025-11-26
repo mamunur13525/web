@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,75 +15,69 @@ import {
   MailPlus,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const SCROLL_THRESHOLD = 50; // px
 
 const Navbar = () => {
   const navigate = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
-  // useRef to guard rAF scheduling
-  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    // prefer an explicit scroll container if present
-    const explicit = document.getElementById("scroll-container");
-    // fallback to document.scrollingElement (most browsers) or window
-    const scrollingEl: (Window | Element) =
-      explicit ?? document.scrollingElement ?? window;
-
-    const getScrollY = () => {
-      if (scrollingEl === window) return window.scrollY || 0;
-      // Element
-      return (scrollingEl as Element).scrollTop || 0;
-    };
+    if (typeof window === 'undefined') return;
 
     const handleScroll = () => {
-      console.log('hello scroll')
-      // throttle with rAF
-      if (rafRef.current !== null) return;
-      rafRef.current = window.requestAnimationFrame(() => {
-        const y = getScrollY();
-        const next = y > SCROLL_THRESHOLD;
-        // debug - remove in production
-        console.debug("scrollY:", y, "isScrolled:", next);
-        setIsScrolled(next);
-        if (rafRef.current) {
-          window.cancelAnimationFrame(rafRef.current);
-          rafRef.current = null;
-        }
-      });
+      // Check for scrollable section elements first (since that's the actual scroll container)
+      const scrollableSection = document.querySelector('section[class*="overflow-y-auto"]');
+      
+      if (scrollableSection) {
+        // Use the scrollable section's scrollTop
+        const scrollTop = scrollableSection.scrollTop;
+        setIsScrolled(scrollTop > SCROLL_THRESHOLD);
+      } else {
+        // Fallback to window scroll
+        const scrollY = window.scrollY || window.pageYOffset;
+        setIsScrolled(scrollY > SCROLL_THRESHOLD);
+      }
     };
 
-    // initial check (in case page loaded already scrolled)
+    // Initial check
     handleScroll();
 
-    // add listener
-    scrollingEl.addEventListener("scroll", handleScroll, { passive: true });
+    // Find the scrollable section
+    const scrollableSection = document.querySelector('section[class*="overflow-y-auto"]');
+    
+    // Listen to scroll events on the scrollable section (primary)
+    if (scrollableSection) {
+      scrollableSection.addEventListener('scroll', handleScroll, { passive: true });
+    }
+    
+    // Also listen to window scroll events as fallback
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
-    // cleanup
     return () => {
-      scrollingEl.removeEventListener("scroll", handleScroll as EventListener);
-      if (rafRef.current) {
-        window.cancelAnimationFrame(rafRef.current);
-        rafRef.current = null;
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollableSection) {
+        scrollableSection.removeEventListener('scroll', handleScroll);
       }
     };
   }, []);
 
   return (
+
     <header
-      className={`fixed z-200 top-0 pt-10 pb-4 px-7 xl:px-0 left-1/2 -translate-x-1/2 flex items-start justify-between origin-center
-        transition-all duration-300 ease-in-out bg-[#f8f8f8]
-        ${isScrolled ? "max-w-3xl scale-95" : "max-w-6xl scale-100"}
-        container mx-auto`}
+      className={`fixed z-200 top-0  pb-4 px-7 xl:px-0 left-1/2 -translate-x-1/2  transition-all duration-500 ease-in-out ${isScrolled?'bg-[#747475]/10':'bg-transparent'}  backdrop-blur-lg w-full`}
     >
-      <nav className="flex flex-col md:flex-row items-start md:items-end gap-1 md:gap-3 ">
+      <div className={`flex items-start justify-between origin-center transition-all duration-500 ease-in-out container mx-auto ${
+        isScrolled ? 'max-w-6xl lg:px-6 pt-4 ' : 'pt-10 max-w-7xl'
+      }
+      `}>
+
+      <nav className="flex items-end gap-1 md:gap-3 ">
         <Logo />
         <a
           href="mailto:mamun.ahmed135255@gmail.com"
-          className="underline underline-offset-3 text-xs md:text-sm text-zinc-800 pb-1"
+          className="underline underline-offset-3 text-xs md:text-sm text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1 pb-2"
         >
           mamun.ahmed13525@gmail.com
         </a>
@@ -114,7 +107,7 @@ const Navbar = () => {
           </DropdownMenuTrigger>
 
           <DropdownMenuContent
-            className="w-56 px-2 py-2 rounded-2xl shadow-none"
+            className="w-56 px-2 py-2 rounded-2xl shadow-none z-300"
             align="end"
           >
             <DropdownMenuItem
@@ -143,6 +136,7 @@ const Navbar = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+          </div>
     </header>
   );
 };
