@@ -14,17 +14,6 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [project, setProject] = useState<ProjectType | null>(null);
 
-  useEffect(() => {
-    setTimeout(() => {
-      const foundProject = projects.find(
-        (project: ProjectType) => project.slug === slug
-      );
-      if (foundProject?.id) {
-        setProject(foundProject);
-      }
-      setLoading(false);
-    }, 500);
-  }, [slug]);
 
   return (
     <section className="bg-[#f8f8f8] overflow-y-auto h-screen w-screen">

@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { projects } from "@/data/demo/projects";
 import SingleBlog from "./SingleBlog";
-import { ProjectType } from "@/types/types";
+import { BlogType } from "@/types/types";
 
 const filterBtns = [
   {
@@ -32,10 +32,11 @@ const filterBtns = [
 
 const BlogsList = () => {
   const [activeBtn, setActiveBtn] = useState("");
+  const blogEntries = projects as BlogType[];
   const filteredProjects =
     activeBtn && activeBtn !== ""
-      ? projects.filter((p) => p.type && p.type.includes(activeBtn))
-      : projects;
+      ? blogEntries.filter((p) => p.type && p.type.includes(activeBtn))
+      : blogEntries;
 
   return (
     <div>
@@ -61,7 +62,7 @@ const BlogsList = () => {
         })}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
-        {filteredProjects.map((project: ProjectType, index: number) => {
+        {filteredProjects.map((project: BlogType, index: number) => {
           return (
             <SingleBlog key={project.id} project={project} index={index} />
           );

@@ -17,9 +17,13 @@ const expericeList = [
     time: "2019 - 2021 - Remote",
   },
 ];
+
 const Experience = () => {
   return (
-    <Link href={"/experience"} className="pt-20 lg:pt-24 pb-14 w-full h-full flex items-center px-5">
+    <Link
+      href={"/experience"}
+      className="pt-20 lg:pt-24 pb-14 w-full h-full flex items-center px-5"
+    >
       <div className="h-full w-full  flex flex-col justify-between space-y-4 relative">
         <span className="absolute top-4 left-[5px] z-0 block w-0.5 min-h-9/12 translate-y-2.5 bg-[#ababab]"></span>
         {expericeList.map(
@@ -36,7 +40,7 @@ const Experience = () => {
                 </div>
               </div>
             );
-          }
+          },
         )}
       </div>
     </Link>

@@ -5,7 +5,8 @@ import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import SingleProject from "./SingleProject";
 import { projects } from "@/data/demo/projects";
-import { ProjectType } from "@/types/types";
+
+type DemoProject = (typeof projects)[number];
 
 const filterBtns = [
   {
@@ -30,7 +31,6 @@ const filterBtns = [
   },
 ];
 
-
 const ProjectsList = () => {
   const [isDesktop, setIsDesktop] = useState(false);
   useEffect(() => {
@@ -42,10 +42,13 @@ const ProjectsList = () => {
     return () => mq.removeEventListener("change", handler);
   }, []);
   const [activeBtn, setActiveBtn] = useState("");
+  const typedProjects = projects as DemoProject[];
   const filteredProjects =
     activeBtn && activeBtn !== ""
-      ? projects.filter((p) => p.type && p.type.includes(activeBtn))
-      : projects;
+      ? typedProjects.filter((p) => p.type && p.type.includes(activeBtn))
+      : typedProjects;
+
+  console.log("hello world.");
   return (
     <div>
       <div className="flex flex-wrap justify-between gap-2 bg-white rounded-3xl md:rounded-full py-2 px-2 w-fit">
@@ -60,7 +63,7 @@ const ProjectsList = () => {
                 "rounded-full border-0 px-3 sm:px-6 shadow-zinc-100 cursor-pointer shrink-0",
                 active
                   ? ""
-                  : "hover:bg-white hover:shadow-zinc-200 hover:shadow-xl"
+                  : "hover:bg-white hover:shadow-zinc-200 hover:shadow-xl",
               )}
               onClick={() => setActiveBtn(type)}
             >
@@ -71,17 +74,21 @@ const ProjectsList = () => {
       </div>
       <div
         className={cn(
-          "grid grid-cols-1 md:grid-cols-2 gap-5 lg:grid-cols-1 lg:gap-10 mt-10"
+          "grid grid-cols-1 md:grid-cols-2 gap-5 lg:grid-cols-1 lg:gap-10 mt-10",
         )}
       >
-        {filteredProjects.map((project: ProjectType, index: number) => {
+        {filteredProjects.map((project: DemoProject, index: number) => {
           return (
             <SingleProject
               key={project.id}
               project={project}
               index={index}
               view={isDesktop ? "row" : "column"}
-              className={isDesktop && index % 2 === 1 ? "flex-row-reverse" : "last:md:col-span-2 last:lg:col-span-1"}
+              className={
+                isDesktop && index % 2 === 1
+                  ? "flex-row-reverse"
+                  : "last:md:col-span-2 last:lg:col-span-1"
+              }
             />
           );
         })}

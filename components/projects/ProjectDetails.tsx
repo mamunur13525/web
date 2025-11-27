@@ -9,6 +9,8 @@ import ProjectViewDialog from "./ProjectViewDialog";
 import { useEffect, useState } from "react";
 import { ProjectType } from "@/types/types";
 
+type DemoProject = (typeof projects)[number];
+
 
 const ProjectDetails = ({ project }: { project: ProjectType }) => {
   const {
@@ -129,7 +131,7 @@ const ProjectDetails = ({ project }: { project: ProjectType }) => {
           {projects
             .filter((prj) => prj.id !== id)
             .slice(0, 3)
-            .map((project: ProjectType) => {
+            .map((project: DemoProject) => {
               return <SingleProject key={project.id} project={project} />;
             })}
         </div>
