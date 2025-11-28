@@ -2,7 +2,7 @@
 
 import Logo from "./logo";
 import { Button } from "./ui/button";
-import { CloudDownload, ExternalLink, ListMinus, X } from "lucide-react";
+import { ArrowUpRight, CloudDownload, ExternalLink, ListMinus, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -162,9 +162,8 @@ const Navbar = () => {
                     isMenuOpen && "menu-item-visible"
                   )}
                   style={{
-                    animationDelay: `${
-                      MENU_PANEL_DURATION + index * MENU_ITEM_STAGGER
-                    }ms`,
+                    animationDelay: `${MENU_PANEL_DURATION + index * MENU_ITEM_STAGGER
+                      }ms`,
                   }}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -174,16 +173,16 @@ const Navbar = () => {
             ))}
           </ul>
 
-          <div className="flex md:flex-col items-center md:items-start gap-2 justify-between text-sm text-zinc-500">
-            <span className="flex items-center gap-1 whitespace-nowrap">
+          <div className="flex flex-wrap md:flex-col items-center md:items-start gap-2 justify-between text-sm text-zinc-500">
+            <span className="flex items-center gap-1">
               Based in Dhaka, Bangladesh
             </span>
             <a
               href="mailto:mamun.ahmed135255@gmail.com"
-              className="flex items-center gap-1 font-medium text-zinc-800 underline-offset-4 hover:underline"
+              className="group flex items-center gap-0 hover:gap-1 transition-all duration-300 font-medium text-zinc-800 underline-offset-4 hover:underline"
             >
               mamun.ahmed13525@gmail.com
-              <ExternalLink className="w-3.5!" />
+              <ArrowUpRight className="w-3.5! pt-1 group-hover:pt-0 duration-300 " />
             </a>
           </div>
         </div>
