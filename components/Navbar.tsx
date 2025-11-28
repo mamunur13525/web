@@ -2,7 +2,13 @@
 
 import Logo from "./logo";
 import { Button } from "./ui/button";
-import { ArrowUpRight, CloudDownload, ExternalLink, ListMinus, X } from "lucide-react";
+import {
+  ArrowUpRight,
+  CloudDownload,
+  ExternalLink,
+  ListMinus,
+  X,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -84,8 +90,8 @@ const Navbar = () => {
         className={cn(
           "flex items-start justify-between origin-center transition-all duration-500 ease-in-out container mx-auto  py-3 rounded-full border",
           isScrolled
-            ? "bg-[#747475]/10 backdrop-blur-lg max-w-[90%] lg:max-w-272 px-6"
-            : "max-w-6xl px-7 xl:px-0 border-transparent bg-transparent"
+            ? "bg-[#747475]/10 backdrop-blur-lg max-w-[90%] lg:max-w-4xl px-6"
+            : "max-w-5xl px-7 xl:px-0 border-transparent bg-transparent"
         )}
       >
         <nav className="flex items-end gap-1 md:gap-3 ">
@@ -162,8 +168,9 @@ const Navbar = () => {
                     isMenuOpen && "menu-item-visible"
                   )}
                   style={{
-                    animationDelay: `${MENU_PANEL_DURATION + index * MENU_ITEM_STAGGER
-                      }ms`,
+                    animationDelay: `${
+                      MENU_PANEL_DURATION + index * MENU_ITEM_STAGGER
+                    }ms`,
                   }}
                   onClick={() => setIsMenuOpen(false)}
                 >

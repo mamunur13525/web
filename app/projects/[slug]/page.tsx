@@ -14,11 +14,10 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [project, setProject] = useState<ProjectType | null>(null);
 
-
   return (
     <section className="bg-[#f8f8f8] overflow-y-auto h-screen w-screen">
-      <section className="container max-w-6xl mx-auto py-10 lg:py-20 px-7 lg:px-0">
-        <NestedNavbar prevRoute="/projects"/>
+      <section className="container max-w-5xl mx-auto py-10 lg:py-20 px-7 lg:px-0">
+        <NestedNavbar prevRoute="/projects" />
         <div className="py-10">
           {loading ? (
             <ProjectDetailsSkeleton />

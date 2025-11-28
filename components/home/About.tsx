@@ -7,19 +7,20 @@ const AboutSection = () => {
         About
       </h1>
 
-      <div className="space-y-5 text-base md:text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+      <div className="space-y-5 text-base leading-relaxed text-gray-700 dark:text-gray-300">
         <p>
-          Design Engineer with 5+ years of experience, recognized for pixel-perfect
-          execution and a strong eye for detail. Skilled in{" "}
+          Design Engineer with 5+ years of experience, recognized for
+          pixel-perfect execution and a strong eye for detail. Skilled in{" "}
           <span className="font-semibold">Next.js</span>,{" "}
           <span className="font-semibold">React</span>,{" "}
-          <span className="font-semibold">TypeScript</span>, and modern front-end
-          technologies, building high-quality, user-focused web and mobile applications.
+          <span className="font-semibold">TypeScript</span>, and modern
+          front-end technologies, building high-quality, user-focused web and
+          mobile applications.
         </p>
 
         <p>
-          Passionate about exploring new tools and transforming ideas into polished,
-          thoughtfully crafted personal projects.
+          Passionate about exploring new tools and transforming ideas into
+          polished, thoughtfully crafted personal projects.
         </p>
 
         <div className="space-y-2">
@@ -46,7 +47,8 @@ const AboutSection = () => {
             >
               React Wheel Picker
             </Link>{" "}
-            — an iOS-style wheel picker with inertia scrolling and infinite looping
+            — an iOS-style wheel picker with inertia scrolling and infinite
+            looping
           </p>
           <p>• 4k+ weekly downloads on npm</p>
           <p>▲ Selected for the Vercel OSS Program, Summer 2025 Cohort</p>
