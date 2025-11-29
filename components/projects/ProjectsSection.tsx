@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { ExternalLink, Github, Link2 } from "lucide-react";
+import { Github, Link2 } from "lucide-react";
 import AccordionIcon from "../ui/accordion-icon";
 import { projects } from "@/data/demo/projects";
 import Image from "next/image";
