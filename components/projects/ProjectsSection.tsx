@@ -12,32 +12,13 @@ import { projects } from "@/data/demo/projects";
 import Image from "next/image";
 import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-
-interface FeatureItem {
-  text: string;
-}
-
-const FeaturesList = ({ items }: { items: FeatureItem[] }) => {
-  if (!items || items.length === 0) return null;
-
-  return (
-    <ul className="space-y-2 mb-4 text-zinc-800">
-      {items.map((item, index) => (
-        <li key={index}>
-          <div className="flex items-start gap-2">
-            <span className="mt-2 w-1.5 h-1.5 rounded-full bg-muted-foreground/40 shrink-0" />
-            <span>{item.text}</span>
-          </div>
-        </li>
-      ))}
-    </ul>
-  );
-};
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const ProjectsSection = () => {
   return (
     <section className="py-12 md:py-16">
-      <h1 className="flex flex-col md:flex-row items-start md:items-center gap-2 text-3xl md:text-4xl font-bold tracking-wide font-stack mb-8">
+      <h1 className="text-3xl font-semibold tracking-wide font-stack mb-8">
         Projects
       </h1>
 
@@ -82,6 +63,10 @@ const ProjectsSection = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            window.open(project.live.preview, "_blank");
+                          }}
                         >
                           <Link2 className="-rotate-60 w-4 h-4 text-zinc-600" />
                         </Link>
@@ -95,6 +80,10 @@ const ProjectsSection = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.open(project.live.git, "_blank");
+                      }}
                     >
                       <Github className="w-4 h-4 text-zinc-600" />
                     </Link>
@@ -103,8 +92,38 @@ const ProjectsSection = () => {
               </AccordionTrigger>
               <AccordionContent className="pt-4 px-10 border">
                 <div className="space-y-4">
-                  {project.features && (
-                    <FeaturesList items={project.features} />
+                  {/* Markdown Content */}
+                  {project.content && (
+                    <div className="prose prose-zinc max-w-none">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          h2: ({ node, ...props }) => (
+                            <h2
+                              className="text-base font-semibold mb-3 mt-4 text-zinc-900"
+                              {...props}
+                            />
+                          ),
+                          p: ({ node, ...props }) => (
+                            <p
+                              className="text-zinc-700 leading-relaxed mb-4"
+                              {...props}
+                            />
+                          ),
+                          ul: ({ node, ...props }) => (
+                            <ul className="space-y-2 mb-4 ml-4" {...props} />
+                          ),
+                          li: ({ node, ...props }) => (
+                            <li className="flex items-start gap-2 text-zinc-800">
+                              <span className="mt-2 w-1.5 h-1.5 rounded-full bg-muted-foreground/40 shrink-0" />
+                              <span {...props} />
+                            </li>
+                          ),
+                        }}
+                      >
+                        {project.content}
+                      </ReactMarkdown>
+                    </div>
                   )}
 
                   {project.image.thumbnail && (

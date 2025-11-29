@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
-import { projects } from "@/data/demo/projects";
+import { blogs } from "@/data/demo/blogs";
 import SingleBlog from "./SingleBlog";
 import { BlogType } from "@/types/types";
 
@@ -32,11 +32,10 @@ const filterBtns = [
 
 const BlogsList = () => {
   const [activeBtn, setActiveBtn] = useState("");
-  const blogEntries = projects as BlogType[];
   const filteredProjects =
     activeBtn && activeBtn !== ""
-      ? blogEntries.filter((p) => p.type && p.type.includes(activeBtn))
-      : blogEntries;
+      ? blogs.filter((p) => p.category && p.category.includes(activeBtn))
+      : blogs;
 
   return (
     <div>
@@ -62,10 +61,8 @@ const BlogsList = () => {
         })}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 mt-10">
-        {filteredProjects.map((project: BlogType, index: number) => {
-          return (
-            <SingleBlog key={project.id} project={project} index={index} />
-          );
+        {filteredProjects.map((blog: BlogType, index: number) => {
+          return <SingleBlog key={blog.id} blog={blog} />;
         })}
       </div>
     </div>

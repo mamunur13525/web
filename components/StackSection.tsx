@@ -6,7 +6,7 @@ import { Techstacks } from "@/data/demo/stacks";
 const StackSection = () => {
   return (
     <section className="py-12 md:py-16">
-      <h1 className="flex flex-col md:flex-row items-start md:items-center gap-2 text-3xl md:text-4xl font-bold tracking-wide font-stack mb-6">
+      <h1 className="text-3xl font-semibold tracking-wide font-stack mb-6">
         Stack
       </h1>
 

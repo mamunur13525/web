@@ -3,7 +3,7 @@ import Link from "next/link";
 const AboutSection = () => {
   return (
     <section className="py-12 md:py-16">
-      <h1 className="flex flex-col md:flex-row items-start md:items-center gap-2 text-3xl md:text-4xl font-bold tracking-wide font-stack mb-2">
+      <h1 className="text-3xl font-semibold tracking-wide font-stack mb-2">
         About
       </h1>
 

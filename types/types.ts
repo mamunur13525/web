@@ -25,25 +25,11 @@ type ProjectType = {
   };
   type: string[];
 };
-
 type BlogType = {
   id: number;
-  image: {
-    thumbnail: string;
-    full_screen: string;
-  };
-  title: string;
-  description: {
-    long: string;
-    short: string;
-    list: string[];
-  };
   slug: string;
-  live: {
-    preview: string;
-    git: string;
-  };
-  type: string[];
+  image: string;
+  title: string;
+  category: string;
 };
-
 export type { ProjectType, BlogType };

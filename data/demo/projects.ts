@@ -13,20 +13,17 @@ const projects = [
     },
     title: "Flow AI Studio",
     date: "2024 - Present",
-    description: {
-      short: `Flow AI is an AI-powered document processing and workflow automation system built for professionals who think in systems.`,
-      list: [""],
-      long: `Flow AI is an AI-powered document processing and workflow automation system built for professionals who think in systems.
+    content: `Flow AI is an AI-powered document processing and workflow automation system built for professionals who think in systems.
 
-Unlike traditional tools, Flow AI lets you design structured, scalable workflows for faster processing, greater control, and seamless collaboration.`,
-    },
+Unlike traditional tools, Flow AI lets you design structured, scalable workflows for faster processing, greater control, and seamless collaboration.
+
+## Key Features
+
+- AI-powered document processing and workflow automation
+- Structured, scalable workflow design for professionals
+- Real-time collaboration capabilities
+- Fast processing with greater control`,
     slug: "flow-ai-studio",
-    features: [
-      { text: "AI-powered document processing and workflow automation" },
-      { text: "Structured, scalable workflow design for professionals" },
-      { text: "Real-time collaboration capabilities" },
-      { text: "Fast processing with greater control" },
-    ],
     live: {
       preview: "https://app.flowaistudio.com",
       git: "",
@@ -51,18 +48,17 @@ Unlike traditional tools, Flow AI lets you design structured, scalable workflows
     },
     title: "Nexvio AI",
     date: "2024",
-    description: {
-      short: `Automate customer support with Nexvio Agents, an AI-powered chatbot platform for seamless 24/7 customer interactions.`,
-      list: [""],
-      long: `Automate Your Customer Support with Nexvio Agents. Transform customer interactions into seamless, 24/7 experiences that boost satisfaction, capture leads, and drive revenue—all while cutting costs.`,
-    },
+    content: `Automate customer support with Nexvio Agents, an AI-powered chatbot platform for seamless 24/7 customer interactions.
+
+Transform customer interactions into seamless, 24/7 experiences that boost satisfaction, capture leads, and drive revenue—all while cutting costs.
+
+## Core Capabilities
+
+- 24/7 automated customer support
+- Seamless AI-powered chatbot interactions
+- Boost satisfaction and capture leads
+- Drive revenue while cutting costs`,
     slug: "nexvio-ai-chat-bot",
-    features: [
-      { text: "24/7 automated customer support" },
-      { text: "Seamless AI-powered chatbot interactions" },
-      { text: "Boost satisfaction and capture leads" },
-      { text: "Drive revenue while cutting costs" },
-    ],
     live: {
       preview: "https://nexvio.ai",
       git: "",
@@ -79,18 +75,15 @@ Unlike traditional tools, Flow AI lets you design structured, scalable workflows
     },
     title: "Course Blog Site",
     date: "2023",
-    description: {
-      short: `A comprehensive blog platform focused on educational content and online courses.`,
-      list: [""],
-      long: `A comprehensive blog platform focused on educational content and online courses. Features course listings, blog posts, user authentication, and a responsive design that works seamlessly across all devices.`,
-    },
+    content: `A comprehensive blog platform focused on educational content and online courses. Features course listings, blog posts, user authentication, and a responsive design that works seamlessly across all devices.
+
+## Platform Features
+
+- Course listings and educational content
+- Blog posts and articles
+- User authentication system
+- Responsive design for all devices`,
     slug: "course-blog-site",
-    features: [
-      { text: "Course listings and educational content" },
-      { text: "Blog posts and articles" },
-      { text: "User authentication system" },
-      { text: "Responsive design for all devices" },
-    ],
     live: {
       preview: "",
       git: "",
@@ -106,18 +99,15 @@ Unlike traditional tools, Flow AI lets you design structured, scalable workflows
     },
     title: "Fruits E-Commerce App",
     date: "2023",
-    description: {
-      short: `A full-featured e-commerce platform specialized in fresh fruit sales.`,
-      list: [""],
-      long: `A full-featured e-commerce platform specialized in fresh fruit sales. Includes shopping cart functionality, secure checkout, product categorization, and real-time inventory management.`,
-    },
+    content: `A full-featured e-commerce platform specialized in fresh fruit sales. Includes shopping cart functionality, secure checkout, product categorization, and real-time inventory management.
+
+## E-Commerce Features
+
+- Shopping cart functionality
+- Secure checkout process
+- Product categorization
+- Real-time inventory management`,
     slug: "fruits-e-commerce-app",
-    features: [
-      { text: "Shopping cart functionality" },
-      { text: "Secure checkout process" },
-      { text: "Product categorization" },
-      { text: "Real-time inventory management" },
-    ],
     live: {
       preview: "",
       git: "",
@@ -133,18 +123,15 @@ Unlike traditional tools, Flow AI lets you design structured, scalable workflows
     },
     title: "React Portfolio Website",
     date: "2022",
-    description: {
-      short: `A modern and responsive portfolio website built with React, showcasing projects and professional experience.`,
-      list: [""],
-      long: `A modern and responsive portfolio website built with React, showcasing my projects, skills, and professional experience. Features smooth animations, dynamic content loading, and a clean, minimalist design.`,
-    },
+    content: `A modern and responsive portfolio website built with React, showcasing my projects, skills, and professional experience. Features smooth animations, dynamic content loading, and a clean, minimalist design.
+
+## Highlights
+
+- Showcase projects and professional experience
+- Smooth animations and transitions
+- Dynamic content loading
+- Clean, minimalist design`,
     slug: "react-portfolio-website",
-    features: [
-      { text: "Showcase projects and professional experience" },
-      { text: "Smooth animations and transitions" },
-      { text: "Dynamic content loading" },
-      { text: "Clean, minimalist design" },
-    ],
     live: {
       preview: "https://app.flowaistudio.com",
       git: "",
@@ -160,18 +147,15 @@ Unlike traditional tools, Flow AI lets you design structured, scalable workflows
     },
     title: "Admin Dashboard",
     date: "2023",
-    description: {
-      short: `A feature-rich admin dashboard with data visualization, user management, and analytics tools.`,
-      list: [""],
-      long: `A feature-rich admin dashboard with data visualization, user management, and analytics tools. Built with modern web technologies, offering real-time updates and a responsive interface for efficient administration.`,
-    },
+    content: `A feature-rich admin dashboard with data visualization, user management, and analytics tools. Built with modern web technologies, offering real-time updates and a responsive interface for efficient administration.
+
+## Dashboard Features
+
+- Data visualization and analytics
+- User management system
+- Real-time updates
+- Responsive interface for efficient administration`,
     slug: "admin-dashboard",
-    features: [
-      { text: "Data visualization and analytics" },
-      { text: "User management system" },
-      { text: "Real-time updates" },
-      { text: "Responsive interface for efficient administration" },
-    ],
     live: {
       preview: "",
       git: "",
@@ -188,18 +172,15 @@ Unlike traditional tools, Flow AI lets you design structured, scalable workflows
     },
     title: "Netflix Clone Webapp",
     date: "2023",
-    description: {
-      short: `A Netflix-inspired streaming platform clone featuring a modern UI and dynamic content loading.`,
-      list: [""],
-      long: `A Netflix-inspired streaming platform clone featuring a modern UI, dynamic content loading, video playback capabilities, and user authentication. Built with React and integrated with a movie database API.`,
-    },
+    content: `A Netflix-inspired streaming platform clone featuring a modern UI, dynamic content loading, video playback capabilities, and user authentication. Built with React and integrated with a movie database API.
+
+## What's Included
+
+- Modern UI inspired by Netflix
+- Dynamic content loading
+- Video playback capabilities
+- User authentication and movie database API integration`,
     slug: "netflix-clone-webapp",
-    features: [
-      { text: "Modern UI inspired by Netflix" },
-      { text: "Dynamic content loading" },
-      { text: "Video playback capabilities" },
-      { text: "User authentication and movie database API integration" },
-    ],
     live: {
       preview: "",
       git: "",
