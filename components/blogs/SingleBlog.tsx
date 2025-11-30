@@ -8,7 +8,7 @@ const SingleBlog = ({ blog }: { blog: BlogType }) => {
       href={blog?.slug ? `/blog/${blog.slug}` : "#"}
       className="group block h-full w-full"
     >
-      <div className="border border-border rounded-3xl overflow-hidden hover:shadow-lg transition-shadow duration-300 p-2">
+      <div className="border border-border rounded-3xl overflow-hidden transition-shadow duration-300 p-2">
         {/* Image */}
         <div className="relative w-full h-[200px] rounded-xl overflow-hidden  bg-gray-100">
           <Image
@@ -21,7 +21,7 @@ const SingleBlog = ({ blog }: { blog: BlogType }) => {
 
         {/* Content */}
         <div className="py-6 px-1">
-          <h3 className="text-lg leading-5 font-semibold mb-2 group-hover:text-primary transition-colors">
+          <h3 className="text-lg leading-5 font-semibold mb-2 group-hover:text-primary transition-colors group-hover:underline">
             {blog?.title}
           </h3>
           <p className="text-sm text-muted-foreground">{blog?.category}</p>

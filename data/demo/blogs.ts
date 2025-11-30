@@ -8,11 +8,11 @@ const blogs = [
     image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=600&fit=crop",
     date: "2024-11-15",
     content: `
-# Building Scalable Web Apps with Next.js and React
+### Building Scalable Web Apps with Next.js and React
 
 Next.js has become the go-to framework for building modern web applications. In this comprehensive guide, we'll explore how to build scalable applications using Next.js 14 and React 18.
 
-## Key Features
+### Key Features
 
 - Server-side rendering for better SEO
 - API routes for backend functionality
@@ -33,15 +33,15 @@ Start by creating a new Next.js project with the latest features and TypeScript 
     image: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&h=600&fit=crop",
     date: "2024-11-10",
     content: `
-# Mastering TypeScript: Advanced Patterns and Best Practices
+### Mastering TypeScript: Advanced Patterns and Best Practices
 
 TypeScript has revolutionized how we write JavaScript. Let's explore advanced patterns that will make your code more maintainable and type-safe.
 
-## Advanced Generics
+### Advanced Generics
 
 Generics allow you to write reusable, type-safe code that works with multiple types.
 
-## Utility Types
+### Utility Types
 
 TypeScript provides powerful utility types like Partial, Pick, and Omit for type transformations.
     `,
@@ -55,17 +55,17 @@ TypeScript provides powerful utility types like Partial, Pick, and Omit for type
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
     date: "2024-11-05",
     content: `
-# AI Integration in Modern Web Applications
+## AI Integration in Modern Web Applications
 
 Artificial Intelligence is transforming web development. Learn how to integrate AI features into your applications.
 
-## Popular AI APIs
+### Popular AI APIs
 
 - OpenAI GPT for natural language processing
 - Stability AI for image generation
 - Anthropic Claude for conversational AI
 
-## Implementation Strategies
+### Implementation Strategies
 
 Start with simple integrations and gradually add more complex AI features.
     `,
@@ -79,18 +79,18 @@ Start with simple integrations and gradually add more complex AI features.
     image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop",
     date: "2024-10-28",
     content: `
-# State Management with Zustand
+## State Management with Zustand
 
 Zustand offers a simple, scalable approach to state management in React applications without the boilerplate of Redux.
 
-## Why Zustand?
+### Why Zustand?
 
 - Minimal boilerplate
 - No providers needed
 - TypeScript support out of the box
 - Excellent performance
 
-## Basic Usage
+### Basic Usage
 
 Create stores with minimal code and maximum flexibility.
     `,
@@ -104,18 +104,18 @@ Create stores with minimal code and maximum flexibility.
     image: "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?w=800&h=600&fit=crop",
     date: "2024-10-20",
     content: `
-# Tailwind CSS: Utility-First Styling
+## Tailwind CSS: Utility-First Styling
 
 Tailwind CSS has changed how we approach styling in modern web development. Learn the utility-first approach.
 
-## Benefits
+### Benefits
 
 - Rapid development
 - Consistent design system
 - Responsive by default
 - Easy customization
 
-## Best Practices
+### Best Practices
 
 Use Tailwind's configuration to create a cohesive design system.
     `,
@@ -129,17 +129,17 @@ Use Tailwind's configuration to create a cohesive design system.
     image: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=800&h=600&fit=crop",
     date: "2024-10-15",
     content: `
-# PostgreSQL Performance Optimization
+## PostgreSQL Performance Optimization
 
 Optimize your PostgreSQL database for better performance and scalability.
 
-## Indexing Strategies
+### Indexing Strategies
 
 - B-tree indexes for general queries
 - GiST indexes for full-text search
 - Partial indexes for filtered data
 
-## Query Optimization
+### Query Optimization
 
 Use EXPLAIN ANALYZE to understand query performance.
     `,

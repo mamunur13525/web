@@ -1,10 +1,11 @@
 import { Connects } from "@/data/demo/connects";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
+import SectionTitle from "../ui/section-title";
 
 const ConnectSection = () => {
   return (
-    <section className="w-full py-12 mt-14">
+    <SectionTitle>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {Connects.map((connect) => (
           <a
@@ -12,7 +13,7 @@ const ConnectSection = () => {
             href={connect.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-4 px-3 py-3 rounded-xl border border-border bg-card hover:bg-accent transition-colors duration-200 group"
+            className="group flex items-center gap-4 px-3 py-3 rounded-3xl border border-border bg-card hover:bg-accent transition-colors duration-200 group"
           >
             <div className="shrink-0 w-16 h-16 rounded-lg bg-background flex items-center justify-center">
               <Image
@@ -35,7 +36,7 @@ const ConnectSection = () => {
           </a>
         ))}
       </div>
-    </section>
+    </SectionTitle>
   );
 };
 

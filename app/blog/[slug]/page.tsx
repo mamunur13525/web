@@ -7,6 +7,9 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import NestedNavbar from "@/components/NestedNavbar";
+import Navbar from "@/components/Navbar";
+import FullscreenImage from "@/components/ui/fullscreen-image";
 
 export default function BlogDetailPage() {
   const params = useParams();
@@ -28,14 +31,10 @@ export default function BlogDetailPage() {
   }
 
   return (
-    <main className="min-h-screen py-12 px-4 md:px-8 max-w-4xl mx-auto">
-      <Link
-        href="/"
-        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        Back to home
-      </Link>
+    <main>
+      <div className="mb-4">
+        <NestedNavbar />
+      </div>
 
       <article>
         <div className="mb-6">
@@ -47,14 +46,11 @@ export default function BlogDetailPage() {
         </div>
 
         {blog.image && (
-          <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-8">
-            <Image
-              src={blog.image}
-              alt={blog.title}
-              fill
-              className="object-cover"
-            />
-          </div>
+          <FullscreenImage
+            src={blog.image}
+            alt={blog.title}
+            className="object-cover"
+          />
         )}
 
         <div className="prose prose-zinc max-w-none">

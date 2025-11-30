@@ -14,21 +14,19 @@ import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import SectionTitle from "../ui/section-title";
+import FullscreenImage from "../ui/fullscreen-image";
 
 const ProjectsSection = () => {
   return (
-    <section className="py-12 md:py-16">
-      <h1 className="text-3xl font-semibold tracking-wide font-stack mb-8">
-        Projects
-      </h1>
-
+    <SectionTitle title="Projects">
       <div className="relative">
         {projects.map((project) => (
           <Accordion
             key={project.id}
-            type="single"
-            collapsible
+            type="multiple"
             className="relative  w-full"
+            defaultValue={[`project-8`]}
           >
             <AccordionItem value={`project-${project.id}`} className="">
               <AccordionTrigger
@@ -127,14 +125,11 @@ const ProjectsSection = () => {
                   )}
 
                   {project.image.thumbnail && (
-                    <div className="relative w-full max-w-72 aspect-video rounded-lg overflow-hidden border border-border">
-                      <Image
-                        src={project.image.thumbnail}
-                        alt={project.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
+                    <FullscreenImage
+                      src={project.image.thumbnail}
+                      alt={project.title}
+                      className="object-cover"
+                    />
                   )}
 
                   <div className="flex flex-wrap gap-2 mt-2">
@@ -153,7 +148,7 @@ const ProjectsSection = () => {
           </Accordion>
         ))}
       </div>
-    </section>
+    </SectionTitle>
   );
 };
 

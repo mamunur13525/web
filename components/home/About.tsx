@@ -1,12 +1,9 @@
 import Link from "next/link";
+import SectionTitle from "../ui/section-title";
 
 const AboutSection = () => {
   return (
-    <section className="py-12 md:py-16">
-      <h1 className="text-3xl font-semibold tracking-wide font-stack mb-2">
-        About
-      </h1>
-
+    <SectionTitle title="About">
       <div className="space-y-5 text-base leading-relaxed text-gray-700 dark:text-gray-300">
         <p>
           Design Engineer with 5+ years of experience, recognized for
@@ -54,7 +51,7 @@ const AboutSection = () => {
           <p>▲ Selected for the Vercel OSS Program, Summer 2025 Cohort</p>
         </div>
       </div>
-    </section>
+    </SectionTitle>
   );
 };
 

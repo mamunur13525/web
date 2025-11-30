@@ -2,14 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { Techstacks } from "@/data/demo/stacks";
+import SectionTitle from "./ui/section-title";
 
 const StackSection = () => {
   return (
-    <section className="py-12 md:py-16">
-      <h1 className="text-3xl font-semibold tracking-wide font-stack mb-6">
-        Stack
-      </h1>
-
+    <SectionTitle title="Stack">
       <div className="flex flex-wrap gap-4">
         {Techstacks.map((stack) => (
           <Tooltip key={stack.name}>
@@ -35,7 +32,7 @@ const StackSection = () => {
           </Tooltip>
         ))}
       </div>
-    </section>
+    </SectionTitle>
   );
 };
 

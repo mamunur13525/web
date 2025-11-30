@@ -7,7 +7,7 @@ import CalBooker from "../contacts/CalAI";
 
 const HeroSection = () => {
   return (
-    <section className="mt-20">
+    <section className="py-10">
       <div className="mb-6 md:mb-10 space-y-2 md:space-y-3 md:px-0">
         <h1 className="flex flex-col md:flex-row items-start md:items-center gap-2 text-3xl md:text-4xl font-bold tracking-wide font-stack">
           <span>Hi, I&rsquo;m</span>
@@ -33,7 +33,7 @@ const HeroSection = () => {
           <Button
             className="rounded-full cursor-pointer relative flex items-center gap-4 py-4 md:py-6 md:px-6 hover:bg-white border border-zinc-200/70 inset-shadow-2xs inset-shadow-white"
             variant={"outline"}
-            type='button'
+            type="button"
           >
             <RippleEffect />
             <span>Open to work</span>

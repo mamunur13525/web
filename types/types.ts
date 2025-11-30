@@ -32,4 +32,27 @@ type BlogType = {
   title: string;
   category: string;
 };
-export type { ProjectType, BlogType };
+
+interface DescriptionItem {
+  text: string;
+  subItems?: DescriptionItem[];
+}
+
+interface ExperienceItem {
+  id: string;
+  title: string;
+  organization: string;
+  period: string;
+  description: DescriptionItem[];
+  skills: string[];
+  type: "education" | "experience";
+}
+
+interface ExperienceGroup {
+  id: string;
+  organization: string;
+  logo: string;
+  list: ExperienceItem[];
+}
+
+export type { ProjectType, BlogType, ExperienceGroup, DescriptionItem };
