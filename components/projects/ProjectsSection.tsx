@@ -30,7 +30,7 @@ const ProjectsSection = () => {
           >
             <AccordionItem value={`project-${project.id}`} className="">
               <AccordionTrigger
-                className="group hover:no-underline pr-4  rounded-none hover:bg-zinc-200/30 py-5 px-2 flex items-center justify-between border-b data-[state=open]:border-b-transparent"
+                className="group hover:no-underline pr-4  rounded-none hover:bg-accent/50 py-5 px-2 flex items-center justify-between border-b data-[state=open]:border-b-transparent"
                 icon={<AccordionIcon />}
               >
                 <div className="bg-black p-1 rounded-xl w-fit h-fit">
@@ -66,7 +66,7 @@ const ProjectsSection = () => {
                             window.open(project.live.preview, "_blank");
                           }}
                         >
-                          <Link2 className="-rotate-60 w-4 h-4 text-zinc-600" />
+                          <Link2 className="-rotate-60 w-4 h-4 text-muted-foreground" />
                         </Link>
                       </TooltipTrigger>
                       <TooltipContent>View Project</TooltipContent>
@@ -98,13 +98,13 @@ const ProjectsSection = () => {
                         components={{
                           h2: ({ node, ...props }) => (
                             <h2
-                              className="text-base font-semibold mb-3 mt-4 text-zinc-900"
+                              className="text-base font-semibold mb-3 mt-4 text-foreground"
                               {...props}
                             />
                           ),
                           p: ({ node, ...props }) => (
                             <p
-                              className="text-zinc-700 leading-relaxed mb-4"
+                              className="text-secondary-foreground leading-relaxed mb-4"
                               {...props}
                             />
                           ),
@@ -112,8 +112,8 @@ const ProjectsSection = () => {
                             <ul className="space-y-2 mb-4 ml-4" {...props} />
                           ),
                           li: ({ node, ...props }) => (
-                            <li className="flex items-start gap-2 text-zinc-800">
-                              <span className="mt-2 w-1.5 h-1.5 rounded-full bg-muted-foreground/40 shrink-0" />
+                            <li className="flex items-start gap-2 text-secondary-foreground">
+                              <span className="mt-2.5 w-1.5 h-1.5 rounded-full bg-muted-foreground/40 shrink-0" />
                               <span {...props} />
                             </li>
                           ),
@@ -136,7 +136,7 @@ const ProjectsSection = () => {
                     {project.type.map((type, index) => (
                       <span
                         key={index}
-                        className="px-2.5 py-0.5 rounded-full bg-secondary text-zinc-700 text-xs font-medium border border-border"
+                        className="px-2.5 py-0.5 rounded-full bg-secondary text-muted-foreground text-xs font-medium border border-border"
                       >
                         {type}
                       </span>

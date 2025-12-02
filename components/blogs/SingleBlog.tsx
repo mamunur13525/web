@@ -8,7 +8,7 @@ const SingleBlog = ({ blog }: { blog: BlogType }) => {
       href={blog?.slug ? `/blog/${blog.slug}` : "#"}
       className="group block h-full w-full"
     >
-      <div className="border border-border rounded-3xl overflow-hidden transition-shadow duration-300 p-2">
+      <div className=" rounded-3xl overflow-hidden transition-shadow duration-300 p-2">
         {/* Image */}
         <div className="relative w-full h-[200px] rounded-xl overflow-hidden  bg-gray-100">
           <Image

@@ -6,7 +6,7 @@ const SectionTitle = ({
   children?: React.ReactNode;
 }) => {
   return (
-    <section className="py-12">
+    <section className="py-12" id={title?.toLowerCase()}>
       <h1 className="text-3xl font-semibold tracking-wide font-stack mb-5">
         {title || ""}
       </h1>

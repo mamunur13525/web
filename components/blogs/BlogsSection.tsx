@@ -18,7 +18,7 @@ const BlogsSection = () => {
       <div className="flex justify-center mt-6">
         <Link href="/blogs">
           <Button
-            className="w-40 group py-5 rounded-full cursor-pointer bg-[#000000]"
+            className="w-40 group py-5 rounded-full cursor-pointer bg-[#000000] dark:text-white dark:bg-[#fafafa]/20 backdrop-blur-lg"
             variant="default"
             type="button"
           >

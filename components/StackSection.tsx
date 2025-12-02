@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { Techstacks } from "@/data/demo/stacks";
 import SectionTitle from "./ui/section-title";
+import { cn } from "@/lib/utils";
 
 const StackSection = () => {
   return (
@@ -22,7 +23,19 @@ const StackSection = () => {
                   alt={stack.name}
                   width={40}
                   height={40}
-                  className="w-10 h-10"
+                  className={cn(
+                    "w-10 h-10",
+                    [
+                      "react router",
+                      "tanstack",
+                      "shadcn/ui",
+                      "radix ui",
+                      "next.js",
+                      "chatgpt",
+                    ].includes(stack?.name?.toLowerCase() || "")
+                      ? "dark:invert"
+                      : ""
+                  )}
                 />
               </Link>
             </TooltipTrigger>

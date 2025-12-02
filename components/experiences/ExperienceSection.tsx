@@ -16,11 +16,11 @@ const DescriptionList = ({ items }: { items: DescriptionItem[] }) => {
   if (!items || items.length === 0) return null;
 
   return (
-    <ul className="space-y-2 mb-4  text-zinc-800">
+    <ul className="space-y-2 mb-4 text-secondary-foreground">
       {items.map((item, index) => (
         <li key={index}>
           <div className="flex items-start gap-2">
-            <span className="mt-2 w-1.5 h-1.5 rounded-full bg-muted-foreground/40 shrink-0" />
+            <span className="mt-2.5 w-1.5 h-1.5 rounded-full bg-muted-foreground/40 shrink-0" />
             <span>{item.text}</span>
           </div>
           {item.subItems && (
@@ -57,7 +57,7 @@ const ExperienceSection = () => {
                     value={item.id}
                     className="relative border-none pl-5"
                   >
-                    <div className="absolute -left-[15px] top-2 bg-[#f4f4f5] p-1.5 rounded-full border border-border shadow">
+                    <div className="absolute -left-[15px] top-2 bg-background p-1.5 rounded-full border border-border shadow">
                       {item.type === "experience" ? (
                         <Briefcase className="w-4 h-4 text-muted-foreground" />
                       ) : (
@@ -66,7 +66,7 @@ const ExperienceSection = () => {
                     </div>
 
                     <AccordionTrigger
-                      className="group hover:no-underline pr-4 hover:bg-zinc-200/30 py-2 px-2 rounded-lg"
+                      className="group hover:no-underline pr-4 hover:bg-accent/50 py-2 px-2 rounded-lg"
                       icon={<AccordionIcon />}
                     >
                       <div className="flex flex-col items-start text-left w-full">
@@ -85,7 +85,7 @@ const ExperienceSection = () => {
                           {item.skills.map((skill) => (
                             <span
                               key={skill}
-                              className="px-2.5 py-0.5 rounded-full bg-secondary text-zinc-700 text-xs font-medium border border-border"
+                              className="px-2.5 py-0.5 rounded-full bg-secondary  text-xs font-medium border border-border text-muted-foreground"
                             >
                               {skill}
                             </span>

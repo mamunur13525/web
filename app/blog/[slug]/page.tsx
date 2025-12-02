@@ -59,25 +59,25 @@ export default function BlogDetailPage() {
             components={{
               h1: ({ node, ...props }) => (
                 <h1
-                  className="text-3xl md:text-4xl font-bold mb-6 mt-8 text-zinc-900"
+                  className="text-3xl md:text-4xl font-bold mb-6 mt-8 text-foreground"
                   {...props}
                 />
               ),
               h2: ({ node, ...props }) => (
                 <h2
-                  className="text-2xl md:text-3xl font-semibold mb-4 mt-8 text-zinc-900"
+                  className="text-2xl md:text-3xl font-semibold mb-4 mt-8 text-foreground"
                   {...props}
                 />
               ),
               h3: ({ node, ...props }) => (
                 <h3
-                  className="text-xl md:text-2xl font-semibold mb-3 mt-6 text-zinc-900"
+                  className="text-xl md:text-2xl font-semibold mb-3 mt-6 text-foreground"
                   {...props}
                 />
               ),
               p: ({ node, ...props }) => (
                 <p
-                  className="text-zinc-700 leading-relaxed mb-4 text-base md:text-lg"
+                  className="text-muted-foreground leading-relaxed mb-4 text-base md:text-lg"
                   {...props}
                 />
               ),
@@ -88,26 +88,26 @@ export default function BlogDetailPage() {
                 <ol className="space-y-2 mb-6 ml-6 list-decimal" {...props} />
               ),
               li: ({ node, ...props }) => (
-                <li className="flex items-start gap-2 text-zinc-800 text-base md:text-lg">
-                  <span className="mt-2 w-1.5 h-1.5 rounded-full bg-muted-foreground/40 shrink-0" />
+                <li className="flex items-start gap-2 text-muted-foreground text-base md:text-lg">
+                  <span className="mt-2.5 w-1.5 h-1.5 rounded-full bg-muted-foreground/40 shrink-0" />
                   <span {...props} />
                 </li>
               ),
               code: ({ node, ...props }) => (
                 <code
-                  className="bg-zinc-100 px-1.5 py-0.5 rounded text-sm font-mono text-zinc-900"
+                  className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-foreground"
                   {...props}
                 />
               ),
               pre: ({ node, ...props }) => (
                 <pre
-                  className="bg-zinc-900 text-zinc-100 p-4 rounded-lg overflow-x-auto mb-6"
+                  className="bg-zinc-900 dark:bg-zinc-950 text-zinc-100 p-4 rounded-lg overflow-x-auto mb-6"
                   {...props}
                 />
               ),
               blockquote: ({ node, ...props }) => (
                 <blockquote
-                  className="border-l-4 border-zinc-300 pl-4 italic text-zinc-600 my-6"
+                  className="border-l-4 border-border pl-4 italic text-muted-foreground my-6"
                   {...props}
                 />
               ),

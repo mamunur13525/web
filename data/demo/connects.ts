@@ -25,7 +25,7 @@ const Connects = [
     url: "https://www.linkedin.com/in/mamunahmed13525",
   },
   {
-    name: "daily.dev",
+    name: "Daily.dev",
     handle: "@mamun13525",
     icon: dailydev,
     url: "https://app.daily.dev/mamun13525",
