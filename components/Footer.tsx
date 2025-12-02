@@ -16,16 +16,16 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative w-full mt-20 overflow-hidden">
+    <footer className="relative w-full mt-24 overflow-hidden">
       {/* Gradient Background - Theme Aware */}
 
       {/* Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-border to-transparent" />
 
-      <div className="relative z-10 py-12 md:py-16">
+      <div className="relative z-10 py-12">
         <div className="max-w-4xl mx-auto">
           {/* Main Footer Content */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
             {/* Brand Section */}
             <div className="space-y-4">
               <h3 className="text-2xl font-bold text-foreground font-stack">
@@ -111,7 +111,7 @@ const Footer = () => {
           </div>
 
           {/* Large Text Background */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-none scale-y-[170%]">
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-none scale-y-170">
             <span className="text-8xl md:text-9xl font-bold text-foreground/5 whitespace-nowrap font-stack ">
               Full Stack
               <span className="hidden sm:inline"> Dev.</span>

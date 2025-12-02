@@ -4,7 +4,7 @@ const experienceData: ExperienceGroup[] = [
   {
     id: "work-1",
     organization: "W3Dev: IT Services & Product Engineering",
-    logo: "",
+    logo: "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/w3dev-1_kKSbvNbR8.webp?updatedAt=1762666916361",
     list: [
       {
         id: "work-1",

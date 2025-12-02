@@ -25,18 +25,18 @@ export function ThemeToggle() {
       oscillator.connect(gainNode);
       gainNode.connect(audioContext.destination);
 
-      // Create a short, pleasant click sound
-      oscillator.frequency.value = 800;
-      oscillator.type = "sine";
+      // Create a sharp, percussive "click and mash" sound
+      oscillator.frequency.value = 1200;
+      oscillator.type = "square";
 
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.setValueAtTime(0.4, audioContext.currentTime);
       gainNode.gain.exponentialRampToValueAtTime(
         0.01,
-        audioContext.currentTime + 0.1
+        audioContext.currentTime + 0.05
       );
 
       oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + 0.1);
+      oscillator.stop(audioContext.currentTime + 0.05);
     } catch (error) {
       // Silently fail if Web Audio API is not supported
     }

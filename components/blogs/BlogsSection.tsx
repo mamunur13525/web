@@ -15,7 +15,7 @@ const BlogsSection = () => {
           <SingleBlog key={blog.id} blog={blog} />
         ))}
       </div>
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-center mt-8">
         <Link href="/blogs">
           <Button
             className="w-40 group py-5 rounded-full cursor-pointer bg-[#000000] dark:text-white dark:bg-[#fafafa]/20 backdrop-blur-lg"

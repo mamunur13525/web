@@ -12,7 +12,7 @@ const AboutSection = () => {
           components={{
             h2: ({ node, ...props }) => (
               <h2
-                className="text-lg font-semibold mb-3 mt-6 text-foreground"
+                className="text-lg font-semibold mb-4 mt-8 text-foreground"
                 {...props}
               />
             ),
@@ -23,7 +23,7 @@ const AboutSection = () => {
               />
             ),
             ul: ({ node, ...props }) => (
-              <ul className="space-y-2 mb-4 pl-2" {...props} />
+              <ul className="space-y-3 mb-6 pl-2" {...props} />
             ),
             li: ({ node, ...props }) => (
               <li className="flex items-start gap-2 text-secondary-foreground">

@@ -11,6 +11,7 @@ import AccordionIcon from "../ui/accordion-icon";
 import SectionTitle from "../ui/section-title";
 import { DescriptionItem } from "@/types/types";
 import experienceData from "@/data/demo/experience";
+import Image from "next/image";
 
 const DescriptionList = ({ items }: { items: DescriptionItem[] }) => {
   if (!items || items.length === 0) return null;
@@ -37,18 +38,28 @@ const DescriptionList = ({ items }: { items: DescriptionItem[] }) => {
 const ExperienceSection = () => {
   return (
     <SectionTitle title="Experience & Education">
-      <div className="space-y-12">
+      <div className="space-y-16">
         {experienceData.map((orgGroup) => (
           <div key={orgGroup.id}>
-            <h2 className="text-lg font-medium mb-6 flex items-center gap-3">
-              <div className="w-2 h-2 rounded-full bg-border" />
+            <h2 className="text-lg font-medium mb-8 flex items-center gap-3 ">
+              {orgGroup.logo ? (
+                <Image
+                  src={orgGroup.logo}
+                  alt={orgGroup.organization}
+                  width={24}
+                  height={24}
+                  className="rounded-full ml-1.5"
+                />
+              ) : (
+                <div className="w-2 h-2 bg-[#d4d4d8] rounded-full ml-3" />
+              )}
               {orgGroup.organization}
             </h2>
 
             <div className="relative border-l border-border ml-4">
               <Accordion
                 type="multiple"
-                className="w-full space-y-6"
+                className="w-full space-y-8"
                 defaultValue={["work-1"]}
               >
                 {orgGroup.list.map((item, index) => (
@@ -77,7 +88,7 @@ const ExperienceSection = () => {
                       </div>
                     </AccordionTrigger>
 
-                    <AccordionContent className="pt-4 pb-6">
+                    <AccordionContent className="pt-6 pb-8">
                       <DescriptionList items={item.description} />
 
                       {item.skills.length > 0 && (
@@ -97,6 +108,7 @@ const ExperienceSection = () => {
                 ))}
               </Accordion>
             </div>
+            <hr className="ml-[2.5%]" />
           </div>
         ))}
       </div>

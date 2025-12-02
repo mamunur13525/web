@@ -7,10 +7,10 @@ import CalBooker from "../contacts/CalAI";
 
 const HeroSection = () => {
   return (
-    <section className="py-10">
+    <section className="py-12">
       <div className="flex items-center justify-between pr-10">
-        <div className="mb-6 md:mb-10 space-y-2 md:space-y-3 md:px-0">
-          <h1 className="flex flex-col md:flex-row items-start md:items-center gap-2 text-3xl md:text-4xl font-bold tracking-wide font-stack">
+        <div className="mb-8 space-y-6 md:px-0">
+          <h1 className="flex flex-col md:flex-row items-start md:items-center gap-2 text-4xl md:text-5xl font-bold tracking-wide font-stack">
             <span>Hi, I&rsquo;m</span>
             <div className="flex items-center gap-2">
               <Image
@@ -23,12 +23,15 @@ const HeroSection = () => {
               <span>Mamun Ahmed!</span>
             </div>
           </h1>
-          <h1 className="text-3xl md:text-4xl font-bold tracking-wide font-stack">
-            <span className="text-[#bdbdbd]">I&rsquo;m a</span> Full Stack
-            Developer <span className="text-[#bdbdbd]">at</span>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-wide font-stack">
+            <span className="text-muted-foreground">I&rsquo;m a</span>{" "}
+            <span className="text-4xl md:text-5xl px-2 rounded-lg">
+              Full Stack
+            </span>{" "}
+            Developer <span className="text-muted-foreground">at</span>
           </h1>
           <div className="flex items-start md:items-center gap-4 md:gap-8 font-stack">
-            <h1 className="text-3xl md:text-4xl font-bold tracking-wide text-[#eb5d04]">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-wide text-orange-600 dark:text-orange-500">
               W3Dev Com.
             </h1>
             <Button

@@ -30,7 +30,7 @@ const ProjectsSection = () => {
           >
             <AccordionItem value={`project-${project.id}`} className="">
               <AccordionTrigger
-                className="group hover:no-underline pr-4  rounded-none hover:bg-accent/50 py-5 px-2 flex items-center justify-between border-b data-[state=open]:border-b-transparent"
+                className="group hover:no-underline pr-4  rounded-none hover:bg-accent/50 py-6 px-2 flex items-center justify-between border-b data-[state=open]:border-b-transparent"
                 icon={<AccordionIcon />}
               >
                 <div className="bg-black p-1 rounded-xl w-fit h-fit">
@@ -88,7 +88,7 @@ const ProjectsSection = () => {
                   )}
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="pt-4 px-10 border">
+              <AccordionContent className="pt-6 px-8 border">
                 <div className="space-y-4">
                   {/* Markdown Content */}
                   {project.content && (
@@ -98,7 +98,7 @@ const ProjectsSection = () => {
                         components={{
                           h2: ({ node, ...props }) => (
                             <h2
-                              className="text-base font-semibold mb-3 mt-4 text-foreground"
+                              className="text-base font-semibold mb-3 mt-6 text-foreground"
                               {...props}
                             />
                           ),

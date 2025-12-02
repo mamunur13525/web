@@ -39,7 +39,7 @@ const BlogsList = () => {
 
   return (
     <div>
-      <div className="flex flex-wrap justify-between gap-2 bg-white rounded-3xl md:rounded-full py-2 px-2 w-fit">
+      <div className="flex flex-wrap justify-between gap-2 bg-white dark:bg-gray-900 rounded-3xl md:rounded-full py-2 px-2 w-fit">
         {filterBtns.map((btn: { id: number; name: string; type: string }) => {
           const { id, name, type } = btn;
           const active = activeBtn === type;
@@ -48,10 +48,10 @@ const BlogsList = () => {
               key={id}
               variant={active ? "default" : "outline"}
               className={cn(
-                "rounded-full border-0 px-3 sm:px-6 shadow-zinc-100 cursor-pointer shrink-0",
+                "rounded-full border-0 px-3 sm:px-6 shadow-zinc-100 dark:shadow-[#151517] cursor-pointer shrink-0",
                 active
                   ? "font-medium"
-                  : "font-normal hover:bg-white hover:shadow-zinc-200 hover:shadow-xl"
+                  : "font-normal hover:bg-white dark:hover:bg-gray-700 hover:shadow-[#151517] dark:hover:shadow-[#151517] hover:shadow-xl"
               )}
               onClick={() => setActiveBtn(type)}
             >

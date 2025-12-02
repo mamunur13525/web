@@ -7,7 +7,7 @@ export default function Home() {
     <main>
       <NestedNavbar />
       <section className="pt-10 mb-5">
-        <PageTitle title="What I'm Reading" />
+        <PageTitle title="All Blogs" />
       </section>
       <BlogsList />
     </main>

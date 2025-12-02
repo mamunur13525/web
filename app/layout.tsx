@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/theme-provider";
+import AIChat from "@/components/ai/ai-chat";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,6 +44,7 @@ export default function RootLayout({
               {children}
               <Footer />
             </section>
+            <AIChat />
           </section>
           <Toaster position="top-center" />
         </ThemeProvider>
