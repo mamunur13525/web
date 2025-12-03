@@ -46,7 +46,7 @@ const AIChat = () => {
     if (isOpen) {
       scrollToBottom();
       // Focus input when chat opens
-      setTimeout(() => inputRef.current?.focus(), 300);
+      // setTimeout(() => inputRef.current?.focus(), 300);
     }
   }, [isOpen, messages]);
 

@@ -16,7 +16,7 @@ const StackSection = () => {
                 href={stack.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                className="flex flex-col items-center justify-center gap-1 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               >
                 <Image
                   src={stack.icon}
@@ -24,7 +24,7 @@ const StackSection = () => {
                   width={40}
                   height={40}
                   className={cn(
-                    "w-10 h-10",
+                    "w-8 h-8 sm:w-10 sm:h-10",
                     [
                       "react router",
                       "tanstack",
@@ -37,6 +37,7 @@ const StackSection = () => {
                       : ""
                   )}
                 />
+                <span className="text-xs sm:hidden">{stack.name}</span>
               </Link>
             </TooltipTrigger>
 

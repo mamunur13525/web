@@ -84,7 +84,7 @@ const experienceData: ExperienceGroup[] = [
         id: "freelance-1",
         title: "Front End Developer",
         organization: "Freelance",
-        period: "08.2018—2026",
+        period: "08.2021—2026",
         description: [
           {
             text: "Developed responsive frontend features using React and Ionic, contributing to the timely release of product updates.",

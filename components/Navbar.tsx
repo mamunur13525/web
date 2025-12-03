@@ -96,7 +96,9 @@ const Navbar = () => {
         )}
       >
         <nav className="flex items-end gap-1 md:gap-3 ">
-          <Logo />
+          <Link href="/#home">
+            <Logo />
+          </Link>
           <a
             href="mailto:mamun.ahmed135255@gmail.com"
             className="underline underline-offset-3 text-xs md:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1 pb-2"
@@ -106,6 +108,18 @@ const Navbar = () => {
         </nav>
 
         <div className="flex items-center gap-2 md:gap-4">
+          <Link
+            href="/blogs"
+            className="text-xs md:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1 pb-2"
+          >
+            Blogs
+          </Link>
+          <Link
+            href="/contact"
+            className="text-xs md:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1 pb-2"
+          >
+            Contact
+          </Link>
           <Button
             className="group items-center justify-start px-4 md:px-6 py-2 md:py-3 rounded-full cursor-pointer bg-[#000000] hidden md:flex duration-300 transition-all hover:w-46 w-10 relative"
             type="button"

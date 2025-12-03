@@ -26,11 +26,17 @@ type ProjectType = {
   type: string[];
 };
 type BlogType = {
-  id: number;
+  _id?: string;
+  id?: number;
   slug: string;
   image: string;
   title: string;
+  excerpt?: string;
+  content?: string;
   category: string;
+  date?: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 interface DescriptionItem {

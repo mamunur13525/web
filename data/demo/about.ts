@@ -1,10 +1,6 @@
 export const aboutContent = `
-- Design Engineer with 5+ years of experience, recognized for pixel-perfect execution and a strong eye for detail. Skilled in **Next.js**, **React**, **TypeScript**, and modern front-end technologies, building high-quality, user-focused web and mobile applications.
-- Passionate about exploring new tools and transforming ideas into polished, thoughtfully crafted personal projects.
-- Creator of [ZaDark](https://github.com/mamunur13525/ZaDark) (2022) — a tool that enhances the Zalo experience on PC & Web
-  - 80k+ downloads on SourceForge
-  - 20k+ active users on the Chrome Web Store
-- Creator of [React Wheel Picker](https://github.com/mamunur13525/react-wheel-picker) — an iOS-style wheel picker with inertia scrolling and infinite looping
-  - 4k+ weekly downloads on npm
-  - ▲ Selected for the Vercel OSS Program, Summer 2025 Cohort
+- Full Stack Developer with 5+ years of professional experience at **W3Dev: IT Services & Product Engineering** (Dec 2020 - Nov 2025), specializing in **React**, **Next.js**, **TypeScript**, **Express.js**, and modern full-stack technologies.
+- Developed AI-powered applications including **Flow.ai** (document processing automation), **FormGrid** (intelligent form systems), and enhanced conversational AI tools like **Zyber.ai** and **Landbot.ai**.
+- Freelance Front End Developer since 2021, delivering responsive web applications and collaborating with teams to build scalable, user-centric solutions.
+- Bachelor's degree in Information Systems from **Khan Bahadur Ahsanullah University** (2016-2022), with B1 English proficiency.
 `;

@@ -16,7 +16,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative w-full mt-24 overflow-hidden">
+    <footer className="relative w-full mt-24 h-fit overflow-hidden">
       {/* Gradient Background - Theme Aware */}
 
       {/* Decorative Elements */}

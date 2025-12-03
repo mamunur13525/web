@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
-import { blogs } from "@/data/demo/blogs";
 import SingleBlog from "./SingleBlog";
+import { Skeleton } from "@/components/ui/skeleton";
 import { BlogType } from "@/types/types";
 
 const filterBtns = [
@@ -15,27 +15,61 @@ const filterBtns = [
   },
   {
     id: 2,
-    name: "Full Stack",
-    type: "full-stack",
+    name: "React",
+    type: "React",
   },
   {
     id: 3,
-    name: "Front End",
-    type: "front-end",
+    name: "Next.js",
+    type: "Next.js",
   },
   {
     id: 4,
-    name: "AI App",
-    type: "ai",
+    name: "TypeScript",
+    type: "TypeScript",
   },
 ];
 
 const BlogsList = () => {
   const [activeBtn, setActiveBtn] = useState("");
-  const filteredProjects =
-    activeBtn && activeBtn !== ""
-      ? blogs.filter((p) => p.category && p.category.includes(activeBtn))
-      : blogs;
+  const [blogs, setBlogs] = useState<BlogType[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const url =
+          activeBtn && activeBtn !== ""
+            ? `/api/blogs?category=${encodeURIComponent(activeBtn)}`
+            : "/api/blogs";
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch blogs");
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+          setBlogs(result.data);
+        } else {
+          throw new Error(result.error || "Failed to fetch blogs");
+        }
+      } catch (err) {
+        console.error("Error fetching blogs:", err);
+        setError(err instanceof Error ? err.message : "An error occurred");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, [activeBtn]);
 
   return (
     <div>
@@ -51,7 +85,7 @@ const BlogsList = () => {
                 "rounded-full border-0 px-3 sm:px-6 shadow-zinc-100 dark:shadow-[#151517] cursor-pointer shrink-0",
                 active
                   ? "font-medium"
-                  : "font-normal hover:bg-white dark:hover:bg-gray-700 hover:shadow-[#151517] dark:hover:shadow-[#151517] hover:shadow-xl"
+                  : "font-normal hover:bg-white dark:hover:bg-gray-700 hover:shadow-[#151517]/20 dark:hover:shadow-[#151517] hover:shadow-xl"
               )}
               onClick={() => setActiveBtn(type)}
             >
@@ -60,11 +94,44 @@ const BlogsList = () => {
           );
         })}
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 mt-10">
-        {filteredProjects.map((blog: BlogType, index: number) => {
-          return <SingleBlog key={blog.id} blog={blog} />;
-        })}
-      </div>
+
+      {loading && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 mt-10">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="flex flex-col space-y-3">
+              <Skeleton className="h-48 w-full rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-[80%]" />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {error && (
+        <div className="mt-10 p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+          <p className="text-red-600 dark:text-red-400">
+            Error loading blogs: {error}
+          </p>
+        </div>
+      )}
+
+      {!loading && !error && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 mt-10">
+          {blogs.length > 0 ? (
+            blogs.map((blog: BlogType) => (
+              <SingleBlog key={blog._id || blog.slug} blog={blog} />
+            ))
+          ) : (
+            <div className="col-span-full text-center py-10">
+              <p className="text-muted-foreground">
+                No blogs found in this category.
+              </p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
