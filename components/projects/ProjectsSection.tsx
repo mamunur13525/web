@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Github, Link2 } from "lucide-react";
+import { ChevronDown, Github, Link2 } from "lucide-react";
 import AccordionIcon from "../ui/accordion-icon";
 import { projects } from "@/data/demo/projects";
 import Image from "next/image";
@@ -16,12 +16,17 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import SectionTitle from "../ui/section-title";
 import FullscreenImage from "../ui/fullscreen-image";
+import { Button } from "../ui/button";
+import React from "react";
 
 const ProjectsSection = () => {
+  const [visibleCount, setVisibleCount] = React.useState(5);
+  const visibleProjects = projects.slice(0, visibleCount);
+
   return (
     <SectionTitle title="Projects">
       <div className="relative">
-        {projects.map((project) => (
+        {visibleProjects.map((project) => (
           <Accordion
             key={project.id}
             type="multiple"
@@ -33,7 +38,7 @@ const ProjectsSection = () => {
                 className="group hover:no-underline pr-4  rounded-none hover:bg-accent/50 py-6 px-2 flex items-center justify-between border-b data-[state=open]:border-b-transparent"
                 icon={<AccordionIcon />}
               >
-                <div className="bg-black p-1 rounded-xl w-fit h-fit">
+                <div className="p-1 rounded-xl w-fit h-fit">
                   {project.icon ? (
                     <Image
                       src={project.icon || ""}
@@ -171,6 +176,23 @@ const ProjectsSection = () => {
             </AccordionItem>
           </Accordion>
         ))}
+        {visibleCount < projects.length && (
+          <div
+            className="absolute bottom-0 w-full h-24 flex items-end pb-8 justify-center mt-8"
+            style={{
+              background:
+                "linear-gradient(180deg,rgba(248, 248, 248, 0) 0%, rgba(248, 248, 248, 1) 56%)",
+            }}
+          >
+            <Button
+              variant="outline"
+              onClick={() => setVisibleCount((prev) => prev + 5)}
+              className="min-w-[120px] cursor-pointer"
+            >
+              Load More <ChevronDown className="w-4 h-4" />
+            </Button>
+          </div>
+        )}
       </div>
     </SectionTitle>
   );

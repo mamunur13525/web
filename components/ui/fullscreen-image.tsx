@@ -18,6 +18,46 @@ export default function FullscreenImage({
   aspectRatio = "video",
 }: FullscreenImageProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [scale, setScale] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [startPos, setStartPos] = useState({ x: 0, y: 0 });
+
+  const handleWheel = (e: React.WheelEvent) => {
+    e.stopPropagation();
+    if (e.deltaY < 0) {
+      setScale((prev) => Math.min(prev + 0.5, 4));
+    } else {
+      setScale((prev) => {
+        const newScale = Math.max(prev - 0.5, 1);
+        if (newScale === 1) {
+          setPosition({ x: 0, y: 0 });
+        }
+        return newScale;
+      });
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (scale > 1) {
+      setIsDragging(true);
+      setStartPos({ x: e.clientX - position.x, y: e.clientY - position.y });
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isDragging && scale > 1) {
+      e.preventDefault();
+      setPosition({
+        x: e.clientX - startPos.x,
+        y: e.clientY - startPos.y,
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
 
   // Handle escape key to close fullscreen
   useEffect(() => {
@@ -64,24 +104,51 @@ export default function FullscreenImage({
       {/* Fullscreen Modal */}
       {isFullscreen && (
         <div
-          className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center cursor-zoom-out"
-          onClick={() => setIsFullscreen(false)}
+          className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center"
+          onClick={() => {
+            setIsFullscreen(false);
+            setScale(1);
+            setPosition({ x: 0, y: 0 });
+          }}
         >
           <button
-            className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-            onClick={() => setIsFullscreen(false)}
+            className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-50"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsFullscreen(false);
+              setScale(1);
+              setPosition({ x: 0, y: 0 });
+            }}
             aria-label="Close fullscreen"
           >
             <X className="w-6 h-6 text-white" />
           </button>
-          <div className="relative w-[95vw] h-[95vh] max-w-7xl">
-            <Image
-              src={src}
-              alt={alt}
-              fill
-              className="object-contain"
-              quality={100}
-            />
+          <div
+            className="relative w-full h-full flex items-center justify-center overflow-hidden"
+            onWheel={handleWheel}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
+            <div
+              className="relative w-[95vw] h-[95vh] max-w-7xl transition-transform duration-100 ease-out"
+              style={{
+                transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
+                cursor:
+                  scale > 1 ? (isDragging ? "grabbing" : "grab") : "zoom-in",
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={src}
+                alt={alt}
+                fill
+                className="object-contain pointer-events-none"
+                quality={100}
+                draggable={false}
+              />
+            </div>
           </div>
         </div>
       )}

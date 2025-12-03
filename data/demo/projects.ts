@@ -1,5 +1,7 @@
-import flowai from '../../assets/icons/flow.ico'
-import nexvio from '../../assets/icons/nexvio.ico'
+import flowai from "../../assets/icons/flow.ico";
+import nexvio from "../../assets/icons/nexvio.ico";
+import zyberai from "../../assets/icons/zyberai.ico";
+import logo from '../../assets/icons/logo.ico'
 
 const projects = [
   {
@@ -65,29 +67,33 @@ Transform customer interactions into seamless, 24/7 experiences that boost satis
     },
     type: ["front-end", "ai", "chat-bot", "web-app"],
   },
-
   {
-    id: 2,
+    id: 6,
+    icon: zyberai,
     image: {
       thumbnail:
-        "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/free-course_vEjskA84X.png?updatedAt=1762599897613",
-      full_screen: "",
+        "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/zyberai_GX6_Ds-SQ.png",
+      full_screen:
+        "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/zyberai_GX6_Ds-SQ.png",
     },
-    title: "Course Blog Site",
-    date: "2023",
-    content: `A comprehensive blog platform focused on educational content and online courses. Features course listings, blog posts, user authentication, and a responsive design that works seamlessly across all devices.
+    title: "Zyber AI",
+    date: "2024",
+    content: `Zyber AI is a comprehensive AI platform offering a suite of generative tools including text generation, image synthesis, code generation, intelligent chatbots, and speech-to-text capabilities.
 
-## Platform Features
+The platform features a wide array of pre-built templates for text, image, and code generation, designed to streamline content creation workflows and boost productivity.
 
-- Course listings and educational content
-- Blog posts and articles
-- User authentication system
-- Responsive design for all devices`,
-    slug: "course-blog-site",
+## Key Capabilities
+
+- **AI Text Generation**: Create high-quality content for various use cases.
+- **AI Image Generator**: Generate stunning visuals from text descriptions.
+- **AI Code Generator**: Accelerate development with intelligent code suggestions.
+- **AI Chat Bot**: Deploy smart conversational agents.
+- **Speech to Text**: Accurate transcription services.
+- **Template Library**: Multiple templates for text, image, and code generation.`,
+    slug: "zyber-ai",
     live: {
-      preview: "https://course-free.netlify.app",
-      git: "https://github.com/mamunur13525/free_course_front",
-      backend: "https://github.com/mamunur13525/free_course_back",
+      preview: "https://zyberai.netlify.app",
+      git: "",
     },
     type: ["full-stack"],
   },
@@ -115,15 +121,17 @@ Transform customer interactions into seamless, 24/7 experiences that boost satis
     },
     type: ["full-stack", "web_app"],
   },
+
   {
     id: 1,
     image: {
       thumbnail:
-        "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/portfolio_-4B21TasT.png?updatedAt=1762599897570",
+        "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/mamun-website_R6gwhhpyb8.png",
       full_screen: "",
     },
-    title: "React Portfolio Website",
-    date: "2022",
+    icon: logo,
+    title: "mamundev-steel.vercel.app",
+    date: "2025-",
     content: `A modern and responsive portfolio website built with React, showcasing my projects, skills, and professional experience. Features smooth animations, dynamic content loading, and a clean, minimalist design.
 
 ## Highlights
@@ -132,34 +140,35 @@ Transform customer interactions into seamless, 24/7 experiences that boost satis
 - Smooth animations and transitions
 - Dynamic content loading
 - Clean, minimalist design`,
-    slug: "react-portfolio-website",
+    slug: "mamundev-steel",
     live: {
-      preview: "https://portfolio-mamun.netlify.app",
-      git: "https://github.com/mamunur13525/latest-portfolio",
+      preview: "https://mamundev-steel.vercel.app",
+      git: "https://github.com/mamunur13525/web",
     },
     type: ["front-end"],
   },
   {
-    id: 4,
+    id: 2,
     image: {
       thumbnail:
-        "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/dashboard_ULSQ07oDQ.png?updatedAt=1762599897605",
+        "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/free-course_vEjskA84X.png?updatedAt=1762599897613",
       full_screen: "",
     },
-    title: "Admin Dashboard",
+    title: "Course Blog Site",
     date: "2023",
-    content: `A feature-rich admin dashboard with data visualization, user management, and analytics tools. Built with modern web technologies, offering real-time updates and a responsive interface for efficient administration.
+    content: `A comprehensive blog platform focused on educational content and online courses. Features course listings, blog posts, user authentication, and a responsive design that works seamlessly across all devices.
 
-## Dashboard Features
+## Platform Features
 
-- Data visualization and analytics
-- User management system
-- Real-time updates
-- Responsive interface for efficient administration`,
-    slug: "admin-dashboard",
+- Course listings and educational content
+- Blog posts and articles
+- User authentication system
+- Responsive design for all devices`,
+    slug: "course-blog-site",
     live: {
-      preview: "",
-      git: "",
+      preview: "https://course-free.netlify.app",
+      git: "https://github.com/mamunur13525/free_course_front",
+      backend: "https://github.com/mamunur13525/free_course_back",
     },
     type: ["full-stack"],
   },
