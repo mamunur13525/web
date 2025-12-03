@@ -110,13 +110,13 @@ const Navbar = () => {
         <div className="flex items-center gap-2 md:gap-4">
           <Link
             href="/blogs"
-            className="text-xs md:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1 pb-2"
+            className="text-xs md:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1"
           >
             Blogs
           </Link>
           <Link
             href="/contact"
-            className="text-xs md:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1 pb-2"
+            className="text-xs md:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1"
           >
             Contact
           </Link>

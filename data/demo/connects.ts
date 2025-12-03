@@ -2,8 +2,6 @@ import x from '../../assets/icons/x.webp';
 import github from '../../assets/icons/github.webp';
 import linkedin from '../../assets/icons/linkedin.webp';
 import dailydev from '../../assets/icons/dailydotdev.webp';
-import zalo from '../../assets/icons/zalo.webp';
-import youtube from '../../assets/icons/youtube.webp';  
 
 const Connects = [
   {
