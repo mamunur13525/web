@@ -18,6 +18,7 @@ import SectionTitle from "../ui/section-title";
 import FullscreenImage from "../ui/fullscreen-image";
 import { Button } from "../ui/button";
 import React from "react";
+import { cn } from "@/lib/utils";
 
 const ProjectsSection = () => {
   const [visibleCount, setVisibleCount] = React.useState(5);
@@ -26,7 +27,7 @@ const ProjectsSection = () => {
   return (
     <SectionTitle title="Projects">
       <div className="relative">
-        {visibleProjects.map((project) => (
+        {visibleProjects.map((project, index) => (
           <Accordion
             key={project.id}
             type="multiple"
@@ -35,7 +36,10 @@ const ProjectsSection = () => {
           >
             <AccordionItem value={`project-${project.id}`} className="">
               <AccordionTrigger
-                className="group hover:no-underline pr-4  rounded-none hover:bg-accent/50 py-6 px-2 flex items-center justify-between border-b data-[state=open]:border-b-transparent"
+                className={cn(
+                  "group hover:no-underline pr-4  rounded-none hover:bg-accent/50 py-6 px-2 flex items-center justify-between border border-t-transparent data-[state=open]:bg-white",
+                  index === 0 ? "border-t-border" : ""
+                )}
                 icon={<AccordionIcon />}
               >
                 <div className="rounded-lg  w-9 h-8 bg-white overflow-hidden border border-border">
@@ -119,7 +123,7 @@ const ProjectsSection = () => {
                   )}
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="pt-6 px-8 border">
+              <AccordionContent className="pt-6 px-8 border border-t-0 bg-white">
                 <div className="space-y-4">
                   {/* Markdown Content */}
                   {project.content && (
