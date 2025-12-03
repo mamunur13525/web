@@ -1,7 +1,7 @@
 import flowai from "../../assets/icons/flow.ico";
 import nexvio from "../../assets/icons/nexvio.ico";
 import zyberai from "../../assets/icons/zyberai.ico";
-import logo from '../../assets/icons/logo.ico'
+import logo from "../../assets/icons/logo.ico";
 
 const projects = [
   {
@@ -97,6 +97,60 @@ The platform features a wide array of pre-built templates for text, image, and c
     },
     type: ["full-stack"],
   },
+
+  {
+    id: 1,
+    image: {
+      thumbnail:
+        "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/mamun-website_R6gwhhpyb8.png",
+      full_screen: "",
+    },
+    icon: logo,
+    title: "mamundev-steel.vercel.app",
+    date: "2025-",
+    content: `A minimal, pixel-perfect dev portfolio, component registry, and blog.
+
+## Featured
+
+- Clean & modern design
+- Light/Dark themes
+- vCard integration
+- SEO optimized (JSON-LD schema, sitemap, robots)
+- AI-ready with /llms.txt
+- Spam-protected email
+- Installable as PWA
+
+## Blog
+
+- Supports MDX & Markdown
+- Raw .mdx endpoints for AI readability
+- Syntax highlighting for clear code presentation
+- Dynamic OG images for rich link previews
+- RSS feed for easy content distribution
+
+## Registry
+
+- Easily build and distribute reusable components, hooks, and pages using a custom registry powered by the shadcn CLI.
+- Each entry is well-documented and includes:
+  - Live preview & code snippets
+  - Beautiful, readable code blocks
+  - One-click command blocks (pnpm, npm, yarn, bun)`,
+    slug: "mamundev-steel",
+    live: {
+      preview: "https://mamundev-steel.vercel.app",
+      git: "https://github.com/mamunur13525/web",
+    },
+    type: [
+      "full-stack",
+      "mongodb",
+      "next.js",
+      "tailwind",
+      "typescript",
+      "vercel",
+      "ci-cd",
+      "mongoose",
+    ],
+  },
   {
     id: 5,
     image: {
@@ -122,31 +176,6 @@ The platform features a wide array of pre-built templates for text, image, and c
     type: ["full-stack", "web_app"],
   },
 
-  {
-    id: 1,
-    image: {
-      thumbnail:
-        "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/mamun-website_R6gwhhpyb8.png",
-      full_screen: "",
-    },
-    icon: logo,
-    title: "mamundev-steel.vercel.app",
-    date: "2025-",
-    content: `A modern and responsive portfolio website built with React, showcasing my projects, skills, and professional experience. Features smooth animations, dynamic content loading, and a clean, minimalist design.
-
-## Highlights
-
-- Showcase projects and professional experience
-- Smooth animations and transitions
-- Dynamic content loading
-- Clean, minimalist design`,
-    slug: "mamundev-steel",
-    live: {
-      preview: "https://mamundev-steel.vercel.app",
-      git: "https://github.com/mamunur13525/web",
-    },
-    type: ["front-end"],
-  },
   {
     id: 2,
     image: {

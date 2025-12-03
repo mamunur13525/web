@@ -6,7 +6,7 @@ import dailydev from '../../assets/icons/dailydotdev.webp';
 const Connects = [
   {
     name: "X (formerly Twitter)",
-    handle: "Mamun13525",
+    handle: "@Mamun13525",
     icon: x,
     url: "https://x.com/Mamun13525",
   },

@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { ChevronDown, Github, Link2 } from "lucide-react";
+import { ChevronDown, FileBracesCorner, Github, Link2 } from "lucide-react";
 import AccordionIcon from "../ui/accordion-icon";
 import { projects } from "@/data/demo/projects";
 import Image from "next/image";
@@ -38,17 +38,19 @@ const ProjectsSection = () => {
                 className="group hover:no-underline pr-4  rounded-none hover:bg-accent/50 py-6 px-2 flex items-center justify-between border-b data-[state=open]:border-b-transparent"
                 icon={<AccordionIcon />}
               >
-                <div className="p-1 rounded-xl w-fit h-fit">
+                <div className="rounded-lg  w-9 h-8 bg-white overflow-hidden border border-border">
                   {project.icon ? (
                     <Image
                       src={project.icon || ""}
                       alt={project.title}
-                      width={32}
+                      width={36}
                       height={32}
-                      className=""
+                      className="w-full h-full"
                     />
                   ) : (
-                    <span className="w-8 h-8 block rounded-full" />
+                    <span className="w-full h-full bg-white shadow-lg flex items-center justify-center">
+                      <FileBracesCorner className="w-5 h-5 text-[#353537]" />
+                    </span>
                   )}
                 </div>
                 <div className="flex flex-col items-start text-left w-full">
@@ -127,23 +129,23 @@ const ProjectsSection = () => {
                         components={{
                           h2: ({ node, ...props }) => (
                             <h2
-                              className="text-base font-semibold mb-3 mt-6 text-foreground"
+                              className="text-sm font-medium uppercase tracking-wider  mb-3 mt-6"
                               {...props}
                             />
                           ),
                           p: ({ node, ...props }) => (
                             <p
-                              className="text-secondary-foreground leading-relaxed mb-4"
+                              className=" leading-relaxed mb-4 text-[15px]"
                               {...props}
                             />
                           ),
                           ul: ({ node, ...props }) => (
-                            <ul className="space-y-2 mb-4 ml-4" {...props} />
+                            <ul className="space-y-2 mb-4" {...props} />
                           ),
                           li: ({ node, ...props }) => (
-                            <li className="flex items-start gap-2 text-secondary-foreground">
-                              <span className="mt-2.5 w-1.5 h-1.5 rounded-full bg-muted-foreground/40 shrink-0" />
-                              <span {...props} />
+                            <li className="flex items-start gap-2.5 text-[15px] ">
+                              <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary/60 shrink-0" />
+                              <span className="leading-relaxed" {...props} />
                             </li>
                           ),
                         }}
@@ -157,7 +159,7 @@ const ProjectsSection = () => {
                     <FullscreenImage
                       src={project.image.thumbnail}
                       alt={project.title}
-                      className="object-cover"
+                      className="object-cover border border-border shadow-lg hover:shadow-none"
                     />
                   )}
 
