@@ -76,18 +76,57 @@ const experienceData: ExperienceGroup[] = [
     ],
   },
   {
-    id: "edu-1",
+    id: "freelance-1",
+    organization: "Freelance",
+    logo: "",
+    list: [
+      {
+        id: "freelance-1",
+        title: "Front End Developer",
+        organization: "Freelance",
+        period: "08.2018—2026",
+        description: [
+          {
+            text: "Developed responsive frontend features using React and Ionic, contributing to the timely release of product updates.",
+          },
+          {
+            text: "Collaborated with backend teams to integrate APIs, ensuring seamless data flow and application stability.",
+          },
+          {
+            text: "Achieved several awards, including:",
+            subItems: [
+              {
+                text: "Bronze Medal — 10th Design, Manufacturing, and Application Award 2022",
+              },
+              {
+                text: "2nd Prize — Business Startup Competition 2019",
+              },
+            ],
+          },
+        ],
+        skills: [
+          "React",
+          "CSS", 
+          "Tailwind CSS",
+          "Zustand",
+        ],
+        type: "freelance",
+      },
+    ],
+  },
+  {
+    id: "edu-2",
     organization: "Education",
     logo: "",
     list: [
       {
-        id: "edu-1",
-        title: "University of Science",
-        organization: "VNUHCM",
-        period: "08.2018—2026",
+        id: "edu-2",
+        title: "Khan Bahadur Ahsanullah University",
+        organization: "Khan Bahadur Ahsanullah University",
+        period: "2016—2022",
         description: [
           {
-            text: "Currently studying for a Bachelor's degree in Information Systems.",
+            text: "Completed a Bachelor's degree in Information Systems.",
           },
           {
             text: "Language Proficiency: B1 English Level.",

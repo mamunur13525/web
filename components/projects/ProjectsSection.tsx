@@ -69,22 +69,46 @@ const ProjectsSection = () => {
                           <Link2 className="-rotate-60 w-4 h-4 text-muted-foreground" />
                         </Link>
                       </TooltipTrigger>
-                      <TooltipContent>View Project</TooltipContent>
+                      <TooltipContent>Live Preview</TooltipContent>
                     </Tooltip>
                   )}
                   {project.live.git && (
-                    <Link
-                      href={project.live.git}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        window.open(project.live.git, "_blank");
-                      }}
-                    >
-                      <Github className="w-4 h-4 text-zinc-600" />
-                    </Link>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link
+                          href={project.live.git}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            window.open(project.live.git, "_blank");
+                          }}
+                        >
+                          <Github className="w-4 h-4 text-zinc-600" />
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent>Frontend</TooltipContent>
+                    </Tooltip>
+                  )}
+                  {project.live.backend && (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link
+                          href={project.live.backend}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            window.open(project.live.backend, "_blank");
+                          }}
+                        >
+                          <Github className="w-4 h-4 text-zinc-600" />
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent>Backend</TooltipContent>
+                    </Tooltip>
                   )}
                 </div>
               </AccordionTrigger>

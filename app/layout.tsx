@@ -38,8 +38,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange={false}
         >
-          <section className="bg-[#f8f8f8] dark:bg-background overflow-y-auto h-screen w-screen">
-            <section className="w-full max-w-4xl mx-auto pt-32 px-7 xl:px-0 ">
+          <section className="bg-[#f8f8f8] dark:bg-background overflow-y-auto h-screen w-screen ">
+            <section className="w-full max-w-4xl  mx-auto pt-32 px-7 xl:px-0 ">
               <Navbar />
               {children}
               <Footer />

@@ -41,7 +41,7 @@ const ExperienceSection = () => {
       <div className="space-y-16">
         {experienceData.map((orgGroup) => (
           <div key={orgGroup.id}>
-            <h2 className="text-lg font-medium mb-8 flex items-center gap-3 ">
+            <h2 className="text-lg font-semibold mb-8 flex items-center gap-3 ">
               {orgGroup.logo ? (
                 <Image
                   src={orgGroup.logo}
@@ -81,7 +81,7 @@ const ExperienceSection = () => {
                       icon={<AccordionIcon />}
                     >
                       <div className="flex flex-col items-start text-left w-full">
-                        <h3 className="text-lg font-semibold">{item.title}</h3>
+                        <h3 className="text-lg font-medium">{item.title}</h3>
                         <span className="text-sm text-muted-foreground mt-1 font-normal">
                           {item.period}
                         </span>
@@ -90,7 +90,6 @@ const ExperienceSection = () => {
 
                     <AccordionContent className="pt-6 pb-8">
                       <DescriptionList items={item.description} />
-
                       {item.skills.length > 0 && (
                         <div className="flex flex-wrap gap-2">
                           {item.skills.map((skill) => (

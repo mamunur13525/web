@@ -45,7 +45,7 @@ interface ExperienceItem {
   period: string;
   description: DescriptionItem[];
   skills: string[];
-  type: "education" | "experience";
+  type: "education" | "experience" | "freelance";
 }
 
 interface ExperienceGroup {
