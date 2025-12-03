@@ -37,7 +37,7 @@ const ProjectsSection = () => {
             <AccordionItem value={`project-${project.id}`} className="">
               <AccordionTrigger
                 className={cn(
-                  "group hover:no-underline pr-4  rounded-none hover:bg-accent/50 py-6 px-2 flex items-center justify-between border border-t-transparent data-[state=open]:bg-white",
+                  "group hover:no-underline pr-4 rounded-none hover:bg-accent/50 py-6 px-2 flex items-center justify-between border border-t-transparent data-[state=open]:bg-white/60 backdrop-blur-lg data-[state=open]:dark:bg-[#141416]/60",
                   index === 0 ? "border-t-border" : ""
                 )}
                 icon={<AccordionIcon />}
@@ -123,7 +123,7 @@ const ProjectsSection = () => {
                   )}
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="pt-6 px-8 border border-t-0 bg-white">
+              <AccordionContent className="pt-6 px-8 border border-t-0 bg-white/60 dark:bg-[#141416]/60  backdrop-blur-lg">
                 <div className="space-y-4">
                   {/* Markdown Content */}
                   {project.content && (
@@ -183,13 +183,7 @@ const ProjectsSection = () => {
           </Accordion>
         ))}
         {visibleCount < projects.length && (
-          <div
-            className="absolute bottom-0 w-full h-24 flex items-end pb-8 justify-center mt-8"
-            style={{
-              background:
-                "linear-gradient(180deg,rgba(248, 248, 248, 0) 0%, rgba(248, 248, 248, 1) 56%)",
-            }}
-          >
+          <div className="absolute bottom-0 w-full h-24 flex items-end pb-8 justify-center mt-8 bg-[linear-gradient(0deg,rgba(255,255,255,1)_15%,rgba(255,255,255,0.13)_100%)] dark:bg-[linear-gradient(0deg,rgba(0,0,0,1)_15%,rgba(0,0,0,0.13)_100%)]">
             <Button
               variant="outline"
               onClick={() => setVisibleCount((prev) => prev + 5)}
