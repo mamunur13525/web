@@ -27,6 +27,7 @@ console.log({name, email,message})
     // Configure Nodemailer transporter
     // Note: In production, these should be environment variables.
     // Specifying defaults to avoid throwing if env vars are missing during dev/no-setup
+    console.log({user:process.env.SMTP_USER,pass:process.env.SMTP_PASS})
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || "smtp.gmail.com",
       port: Number(process.env.SMTP_PORT) || 587,
@@ -46,7 +47,7 @@ console.log({name, email,message})
         Message: ${message}
       `);
       // Return success simulation for dev
-      return NextResponse.json({ success: true, message: "Email logged (no credentials)" });
+      return NextResponse.json({ success: false, message: "Email logged (no credentials)" });
     }
 
     // Send email
@@ -54,7 +55,7 @@ console.log({name, email,message})
       from: `"${name}" <${process.env.SMTP_USER}>`, // Sender address (often must match auth user)
       to: process.env.CONTACT_EMAIL || process.env.SMTP_USER, // Receiver address
       replyTo: email, // Valid reply-to address
-      subject: `New Contact Form Submission from ${name}`,
+      subject: `New Contact Form Submission from Portfolio website`,
       text: message,
       html: `
         <div style="font-family: sans-serif; padding: 20px;">

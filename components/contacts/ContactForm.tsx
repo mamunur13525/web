@@ -51,10 +51,15 @@ const ContactForm = () => {
       if (!response.ok) {
         throw new Error(data.error || "Something went wrong");
       }
-
-      toast.success("Message sent!", {
-        description: "Thanks for reaching out. I'll get back to you soon.",
-      });
+      if (data.success) {
+        toast.success("Message sent!", {
+          description: "Thanks for reaching out. I'll get back to you soon.",
+        });
+      } else {
+        toast.error("Failed to send message", {
+          description: "Please try again later or email me directly.",
+        });
+      }
       reset();
     } catch (err) {
       console.error(err);
