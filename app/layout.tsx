@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import AIChat from "@/components/ai/ai-chat";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,7 +39,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange={false}
         >
-          <section className="bg-[#f8f8f8] dark:bg-background overflow-y-auto h-screen w-screen ">
+          <section
+            id="main-scroll-container"
+            className="bg-[#f8f8f8] dark:bg-background overflow-y-auto h-screen w-screen "
+          >
+            <ScrollToTop />
             <section className="flex flex-col w-full min-h-full justify-between max-w-4xl  mx-auto pt-32 px-7 xl:px-0 ">
               <Navbar />
               {children}

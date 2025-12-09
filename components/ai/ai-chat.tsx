@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { MessageCircle, X, Send, Sparkles, Bot } from "lucide-react";
 
@@ -36,7 +36,7 @@ const AIChat = () => {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -49,6 +49,15 @@ const AIChat = () => {
       // setTimeout(() => inputRef.current?.focus(), 300);
     }
   }, [isOpen, messages]);
+
+  // Auto-resize textarea
+  useEffect(() => {
+    const textarea = inputRef.current;
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = `${Math.min(textarea.scrollHeight, 150)}px`;
+    }
+  }, [inputValue]);
 
   const handleToggleChat = () => {
     setIsOpen((prev) => !prev);
@@ -81,7 +90,7 @@ const AIChat = () => {
     }, 1500);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
@@ -95,7 +104,7 @@ const AIChat = () => {
         onClick={handleToggleChat}
         size="icon"
         className={cn(
-          "fixed z-300 transition-all duration-500 ease-out",
+          "fixed z-200 transition-[transform,opacity] duration-300 ease-out will-change-transform",
           "w-16 h-16 rounded-full shadow-2xl",
           "bg-zinc-900 dark:bg-white",
           "hover:bg-zinc-800 dark:hover:bg-zinc-100",
@@ -115,7 +124,7 @@ const AIChat = () => {
       {/* Chat Window */}
       <div
         className={cn(
-          "fixed z-300 transition-all duration-500 ease-out",
+          "fixed z-200 transition-[opacity,transform] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform",
           // Mobile: Full screen
           "inset-0 md:inset-auto",
           // Desktop: Bottom right with size
@@ -123,8 +132,8 @@ const AIChat = () => {
           "md:rounded-2xl overflow-hidden",
           "shadow-2xl",
           isOpen
-            ? "opacity-100 scale-100 pointer-events-auto"
-            : "opacity-0 scale-95 pointer-events-none md:translate-y-4"
+            ? "opacity-100 scale-100 pointer-events-auto translate-y-0"
+            : "opacity-0 scale-95 pointer-events-none translate-y-4"
         )}
       >
         {/* Background with glassmorphism */}
@@ -140,13 +149,13 @@ const AIChat = () => {
             {/* Header background with subtle gradient */}
             <div className="absolute inset-0 bg-linear-to-r from-zinc-50/50 to-transparent dark:from-zinc-900/50 dark:to-transparent" />
 
-            <div className="relative flex items-center justify-between p-5 md:p-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div className="relative flex items-center justify-between p-5 md:p-5 md:py-4 border-b border-zinc-200/80 dark:border-zinc-800/80">
               <div className="flex items-center gap-4">
                 <div className="relative">
                   {/* Animated pulse ring */}
                   <div className="absolute inset-0 rounded-full bg-zinc-900 dark:bg-white animate-ping opacity-20" />
                   <div className="relative w-12 h-12 rounded-full bg-zinc-900 dark:bg-white flex items-center justify-center shadow-lg">
-                    <Sparkles className="w-6 h-6 text-white dark:text-zinc-900" />
+                    <Bot className="w-6! h-6! text-white dark:text-zinc-900" />
                   </div>
                   <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-white dark:border-zinc-950 shadow-sm" />
                 </div>
@@ -235,14 +244,14 @@ const AIChat = () => {
           <div className="p-4 md:p-5 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 backdrop-blur-sm">
             <div className="flex gap-3 items-center">
               <div className="flex-1 relative">
-                <Input
+                <Textarea
                   ref={inputRef}
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={handleKeyPress}
+                  onKeyDown={handleKeyDown}
                   placeholder="Type your message..."
                   className={cn(
-                    "w-full h-12 rounded-2xl px-5",
+                    "w-full min-h-[48px] max-h-[150px] rounded-2xl px-5 py-3",
                     "bg-white dark:bg-zinc-900",
                     "border-2 border-zinc-200 dark:border-zinc-700",
                     "focus-visible:border-zinc-900 dark:focus-visible:border-white",
@@ -250,9 +259,11 @@ const AIChat = () => {
                     "placeholder:text-zinc-400 dark:placeholder:text-zinc-500",
                     "text-zinc-900 dark:text-white font-medium",
                     "transition-all duration-300",
-                    "disabled:opacity-50 disabled:cursor-not-allowed"
+                    "disabled:opacity-50 disabled:cursor-not-allowed",
+                    "resize-none overflow-y-auto scrollbar-hide"
                   )}
                   disabled={isLoading}
+                  rows={1}
                 />
               </div>
               <Button
@@ -292,6 +303,7 @@ const AIChat = () => {
         .message-animate {
           animation: messageEnter 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
           opacity: 0;
+          will-change: transform, opacity;
         }
 
         /* Custom scrollbar for chat */

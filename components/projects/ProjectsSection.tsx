@@ -42,23 +42,34 @@ const ProjectsSection = () => {
                 )}
                 icon={<AccordionIcon />}
               >
-                <div className="rounded-lg  w-9 h-8 bg-white overflow-hidden border border-border">
+                <div
+                  className={cn(
+                    "rounded-lg w-8! h-8! bg-white overflow-hidden border border-border flex items-center justify-center",
+                    project.icon ? "" : "p-1"
+                  )}
+                >
                   {project.icon ? (
                     <Image
                       src={project.icon || ""}
                       alt={project.title}
                       width={36}
                       height={32}
-                      className="w-full h-full"
+                      className="w-full h-full object-contain rounded-sm"
                     />
                   ) : (
-                    <span className="w-full h-full bg-white shadow-lg flex items-center justify-center">
+                    <span className="w-full h-full shadow-lg flex items-center justify-center">
                       <FileBracesCorner className="w-5 h-5 text-[#353537]" />
                     </span>
                   )}
                 </div>
-                <div className="flex flex-col items-start text-left w-full">
-                  <h3 className="text-lg font-semibold">{project.title}</h3>
+                <div className="flex-1 flex flex-col items-start text-left w-full">
+                  <Link
+                    href={project.live.preview}
+                    target="_blank"
+                    className="hover:underline"
+                  >
+                    <h3 className="text-lg font-semibold">{project.title}</h3>
+                  </Link>
                   <span className="text-sm text-muted-foreground mt-1 font-normal">
                     {project.date}
                   </span>
@@ -99,7 +110,7 @@ const ProjectsSection = () => {
                           <Github className="w-4 h-4 text-zinc-600" />
                         </Link>
                       </TooltipTrigger>
-                      <TooltipContent>Frontend</TooltipContent>
+                      <TooltipContent>Frontend Code</TooltipContent>
                     </Tooltip>
                   )}
                   {project.live.backend && (
@@ -118,7 +129,7 @@ const ProjectsSection = () => {
                           <Github className="w-4 h-4 text-zinc-600" />
                         </Link>
                       </TooltipTrigger>
-                      <TooltipContent>Backend</TooltipContent>
+                      <TooltipContent>Backend Code</TooltipContent>
                     </Tooltip>
                   )}
                 </div>

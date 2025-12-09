@@ -14,7 +14,7 @@ const projects = [
         "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/aistudioflow_HcPd3T514Q.webp?updatedAt=1762757909355",
     },
     title: "Flow AI Studio",
-    date: "2024 - Present",
+    date: "2024 - 2025",
     content: `Flow AI is an AI-powered document processing and workflow automation system built for professionals who think in systems.
 
 Unlike traditional tools, Flow AI lets you design structured, scalable workflows for faster processing, greater control, and seamless collaboration.
@@ -49,7 +49,7 @@ Unlike traditional tools, Flow AI lets you design structured, scalable workflows
         "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/nexvio_jsVB1byLsb.webp?updatedAt=1762757909431",
     },
     title: "Nexvio AI",
-    date: "2024",
+    date: `2024 - 2025`,
     content: `Automate customer support with Nexvio Agents, an AI-powered chatbot platform for seamless 24/7 customer interactions.
 
 Transform customer interactions into seamless, 24/7 experiences that boost satisfaction, capture leads, and drive revenue—all while cutting costs.
@@ -77,7 +77,7 @@ Transform customer interactions into seamless, 24/7 experiences that boost satis
         "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/zyberai_GX6_Ds-SQ.png",
     },
     title: "Zyber AI",
-    date: "2024",
+    date: "2023 - 2024",
     content: `Zyber AI is a comprehensive AI platform offering a suite of generative tools including text generation, image synthesis, code generation, intelligent chatbots, and speech-to-text capabilities.
 
 The platform features a wide array of pre-built templates for text, image, and code generation, designed to streamline content creation workflows and boost productivity.
@@ -106,8 +106,8 @@ The platform features a wide array of pre-built templates for text, image, and c
       full_screen: "",
     },
     icon: logo,
-    title: "mamundev-steel.vercel.app",
-    date: "2025-",
+    title: "Mamun Portfolio",
+    date: "2025 - Present",
     content: `A minimal, pixel-perfect dev portfolio, component registry, and blog.
 
 ## Featured

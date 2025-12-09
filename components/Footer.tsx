@@ -83,7 +83,7 @@ const Footer = () => {
                       alt={connect.name}
                       width={20}
                       height={20}
-                      className="w-5 h-5 opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300"
+                      className="w-5 h-5 opacity-70 group-hover:opacity-100 group-hover:scale-125 transition-all duration-300 rounded-sm"
                     />
                   </a>
                 ))}

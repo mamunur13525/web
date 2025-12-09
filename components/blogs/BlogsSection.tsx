@@ -7,6 +7,7 @@ import Link from "next/link";
 import SectionTitle from "../ui/section-title";
 import { ArrowRight } from "lucide-react";
 import { BlogType } from "@/types/types";
+import { Skeleton } from "../ui/skeleton";
 
 const BlogsSection = () => {
   const [blogs, setBlogs] = useState<BlogType[]>([]);
@@ -46,18 +47,21 @@ const BlogsSection = () => {
   return (
     <SectionTitle title="Blogs">
       {loading && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {[1, 2, 3, 4].map((i) => (
-            <div
-              key={i}
-              className="h-80 bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse"
-            />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 mt-10">
+          {[1, 2].map((i) => (
+            <div key={i} className="flex flex-col space-y-3">
+              <Skeleton className="h-48 w-full rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-[80%]" />
+              </div>
+            </div>
           ))}
         </div>
       )}
 
       {error && (
-        <div className="p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+        <div className="mt-10 p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
           <p className="text-red-600 dark:text-red-400">
             Error loading blogs: {error}
           </p>
@@ -65,25 +69,19 @@ const BlogsSection = () => {
       )}
 
       {!loading && !error && (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {blogs.map((blog) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 mt-10">
+          {blogs.length > 0 ? (
+            blogs.map((blog: BlogType) => (
               <SingleBlog key={blog._id || blog.slug} blog={blog} />
-            ))}
-          </div>
-          <div className="flex justify-center mt-8">
-            <Link href="/blogs">
-              <Button
-                className="w-40 group py-5 rounded-full cursor-pointer bg-[#000000] dark:text-white dark:bg-[#fafafa]/20 backdrop-blur-lg"
-                variant="default"
-                type="button"
-              >
-                All Blogs{" "}
-                <ArrowRight className="group-hover:translate-x-1 transition-all duration-200" />
-              </Button>
-            </Link>
-          </div>
-        </>
+            ))
+          ) : (
+            <div className="col-span-full text-center py-10">
+              <p className="text-muted-foreground">
+                No blogs found in this category.
+              </p>
+            </div>
+          )}
+        </div>
       )}
     </SectionTitle>
   );

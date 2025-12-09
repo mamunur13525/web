@@ -13,6 +13,7 @@ export function ThemeToggle() {
 
   useEffect(() => {
     setMounted(true);
+    if (theme === "system") setTheme("light");
   }, []);
 
   const playClickSound = () => {
@@ -45,13 +46,13 @@ export function ThemeToggle() {
   const toggleTheme = () => {
     setIsAnimating(true);
     playClickSound();
-    setTheme(theme === "dark" ? "light" : "dark");
+    setTheme(theme === "light" ? "dark" : "light");
 
     setTimeout(() => {
       setIsAnimating(false);
     }, 500);
   };
-
+  console.log({ theme });
   if (!mounted) {
     return (
       <Button

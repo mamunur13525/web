@@ -110,13 +110,13 @@ const Navbar = () => {
         <div className="flex items-center gap-2 md:gap-4">
           <Link
             href="/blogs"
-            className="text-xs md:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1"
+            className="hidden sm:flex text-xs sm:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1"
           >
             Blogs
           </Link>
           <Link
             href="/contact"
-            className="text-xs md:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1"
+            className="hidden sm:flex text-xs sm:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1"
           >
             Contact
           </Link>
@@ -149,29 +149,29 @@ const Navbar = () => {
       <div
         id="navbar-menu-sheet"
         className={cn(
-          "pointer-events-none fixed inset-0 z-250 flex justify-center overflow-hidden bg-white/0 transition-opacity duration-500 ease-out md:justify-end",
+          "pointer-events-none fixed inset-0 z-400 flex justify-center overflow-hidden bg-white/0 transition-opacity duration-500 ease-out md:justify-end",
           isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0"
         )}
       >
         <div
           className={cn(
-            "menu-sheet-panel flex h-full w-full flex-col justify-between bg-white/95 px-6 py-10 backdrop-blur-xl sm:px-10 md:w-[500px] ",
+            "menu-sheet-panel flex h-full w-full flex-col justify-between  px-6 py-10 backdrop-blur-xl sm:px-10 md:w-[500px] ",
             isMenuOpen ? "menu-sheet-panel-open" : "menu-sheet-panel-closed"
           )}
         >
           <div className="flex items-center justify-between">
-            <p className="text-xs font-semibold uppercase tracking-[0.4em] text-zinc-500">
+            <p className="text-xs font-semibold uppercase tracking-[0.4em] text-zinc-500 dark:text-zinc-400 ">
               Navigation
             </p>
             <Button
               size={"icon"}
               variant={"outline"}
-              className="h-14 w-14 cursor-pointer rounded-full border border-transparent bg-white text-zinc-900 dark:text-zinc-800 transition-colors hover:bg-zinc-100"
+              className="h-14 w-14 cursor-pointer roun    ded-full border border-transparent bg-white text-zinc-900 dark:text-zinc-800 transition-colors hover:bg-zinc-100"
               type="button"
               aria-label="Close menu"
               onClick={handleMenuToggle}
             >
-              <X className="h-8! w-8!" />
+              <X className="h-8! w-8! dark:text-zinc-200" />
             </Button>
           </div>
 
@@ -181,7 +181,7 @@ const Navbar = () => {
                 <Link
                   href={item.href}
                   className={cn(
-                    "menu-item-animate block rounded-full border border-transparent bg-zinc-900/95 px-8 py-5 text-lg font-semibold uppercase tracking-wider text-white transition-colors hover:border-zinc-800 hover:bg-white hover:text-zinc-900",
+                    "menu-item-animate block rounded-full border border-transparent bg-zinc-900/95 dark:bg-zinc-50/95 px-8 py-5 text-lg font-semibold uppercase tracking-wider text-white dark:text-zinc-800 transition-colors hover:border-zinc-800 hover:bg-white hover:text-zinc-900 dark:hover:bg-zinc-500/55 dark:hover:text-zinc-200",
                     isMenuOpen && "menu-item-visible"
                   )}
                   style={{
@@ -197,13 +197,13 @@ const Navbar = () => {
             ))}
           </ul>
 
-          <div className="flex flex-wrap md:flex-col items-center md:items-start gap-2 justify-between text-sm text-zinc-500">
-            <span className="flex items-center gap-1">
+          <div className="flex flex-wrap md:flex-col items-center md:items-start gap-2 justify-between text-sm">
+            <span className="flex items-center gap-1 text-zinc-500 dark:text-zinc-400">
               Based in Dhaka, Bangladesh
             </span>
             <a
               href="mailto:mamun.ahmed135255@gmail.com"
-              className="group flex items-center gap-0 hover:gap-1 transition-all duration-300 font-medium text-zinc-800 underline-offset-4 hover:underline"
+              className="group flex items-center gap-0 hover:gap-1 transition-all duration-300 font-medium text-zinc-800 dark:text-zinc-200 underline-offset-4 hover:underline"
             >
               mamun.ahmed13525@gmail.com
               <ArrowUpRight className="w-3.5! pt-1 group-hover:pt-0 duration-300 " />
