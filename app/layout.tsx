@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://mamun-dev.vercel.app"),
+  metadataBase: new URL("https://mamundev-steel.vercel.app"),
   title: {
     default: "Mamun Dev | Full Stack Developer",
     template: "%s | Mamun Dev",
@@ -39,14 +39,14 @@ export const metadata: Metadata = {
   authors: [
     {
       name: "Mamun",
-      url: "https://mamun-dev.vercel.app",
+      url: "https://mamundev-steel.vercel.app",
     },
   ],
   creator: "Mamun",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://mamun-dev.vercel.app",
+    url: "https://mamundev-steel.vercel.app",
     title: "Mamun Dev | Full Stack Developer",
     description:
       "Full Stack Developer specializing in building exceptional digital experiences. Expertise in Next.js, React, Node.js, and modern web technologies.",
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     description:
       "Full Stack Developer specializing in building exceptional digital experiences. Expertise in Next.js, React, Node.js, and modern web technologies.",
     images: ["/og-image.png"],
-    creator: "@mamun_dev",
+    creator: "@Mamun13525",
   },
   robots: {
     index: true,
