@@ -38,24 +38,29 @@ const ContactForm = () => {
   async function onSubmit(values: ContactFormValues) {
     setSubmitting(true);
     try {
-      // Defensive: safeParse to prevent an uncaught ZodError from somewhere
-      const parsed = contactSchema.safeParse(values);
-      if (!parsed.success) {
-        console.warn("Validation (safeParse) failed:", parsed.error);
-        // optionally show UI feedback
-        setSubmitting(false);
-        return;
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong");
       }
 
-      // Replace this with real submit (fetch to your API)
-      await new Promise((r) => setTimeout(r, 600));
-      console.log("Contact form submitted:", parsed.data);
-      toast.success("Form Submited.", {
-        description: "Thanks for your email.",
+      toast.success("Message sent!", {
+        description: "Thanks for reaching out. I'll get back to you soon.",
       });
       reset();
     } catch (err) {
       console.error(err);
+      toast.error("Failed to send message", {
+        description: "Please try again later or email me directly.",
+      });
     } finally {
       setSubmitting(false);
     }

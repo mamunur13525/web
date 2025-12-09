@@ -7,6 +7,8 @@ import ProjectsSection from "@/components/projects/ProjectsSection";
 import BlogsSection from "@/components/blogs/BlogsSection";
 import ConnectSection from "@/components/connects/ConnectSection";
 import { Metadata } from "next";
+import ContactForm from "@/components/contacts/ContactForm";
+import SectionTitle from "@/components/ui/section-title";
 
 export const metadata: Metadata = {
   title: "Mamun Dev",
@@ -23,6 +25,9 @@ export default function Home() {
       <ExperienceSection />
       <ProjectsSection />
       <BlogsSection />
+      <SectionTitle title="Contact Us">
+        <ContactForm />
+      </SectionTitle>
     </main>
   );
 }
