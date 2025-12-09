@@ -93,7 +93,7 @@ export default function FullscreenImage({
       </DialogTrigger>
 
       <DialogContent
-        className="max-w-none! w-screen! h-screen! border-none bg-black/95 shadow-none p-0 flex items-center justify-center dialog-content-fullscreen z-200"
+        className="max-w-none! w-screen! h-screen! border-none bg-black/95 shadow-none p-0 flex items-center justify-center dialog-content-fullscreen z-400"
         showCloseButton={false} // We'll add our own custom close button for better positioning
       >
         <DialogTitle className="sr-only">Fullscreen view of {alt}</DialogTitle>

@@ -150,7 +150,7 @@ const AIChat = () => {
         onClick={handleToggleChat}
         size="icon"
         className={cn(
-          "fixed z-200 transition-[transform,opacity] duration-300 ease-out will-change-transform",
+          "fixed z-300 transition-[transform,opacity] duration-300 ease-out will-change-transform",
           "w-16 h-16 rounded-full shadow-2xl",
           "bg-zinc-900 dark:bg-white",
           "hover:bg-zinc-800 dark:hover:bg-zinc-100",
@@ -170,7 +170,7 @@ const AIChat = () => {
       {/* Chat Window */}
       <div
         className={cn(
-          "fixed z-200 transition-[opacity,transform] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform",
+          "fixed z-400 transition-[opacity,transform] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform",
           // Mobile: Full screen
           "inset-0 md:inset-auto",
           // Desktop: Bottom right with size

@@ -83,7 +83,7 @@ const Navbar = () => {
   return (
     <header
       className={cn(
-        "fixed z-200 top-0 left-0 transition-all duration-500 ease-in-out    w-full",
+        "fixed z-400 top-0 left-0 transition-all duration-500 ease-in-out    w-full",
         isScrolled ? "pt-4" : "pt-10"
       )}
     >

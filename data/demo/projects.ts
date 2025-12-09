@@ -108,9 +108,9 @@ The platform features a wide array of pre-built templates for text, image, and c
       full_screen: "",
     },
     icon: logo,
-    title: "Mamun Portfolio",
+    title: "Mamun AI Portfolio",
     date: "2025 - Present",
-    content: `A minimal, pixel-perfect dev portfolio, component registry, and blog.
+    content: `A minimal, pixel-perfect AI-powered dev portfolio, component registry, and blog.
 
 ## Featured
 
@@ -151,6 +151,7 @@ The platform features a wide array of pre-built templates for text, image, and c
       "vercel",
       "ci-cd",
       "mongoose",
+      "AI",
     ],
   },
   {

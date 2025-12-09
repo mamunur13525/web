@@ -19,8 +19,66 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mamun Dev.",
-  description: "Full Stack Developer",
+  metadataBase: new URL("https://mamun-dev.vercel.app"),
+  title: {
+    default: "Mamun Dev | Full Stack Developer",
+    template: "%s | Mamun Dev",
+  },
+  description:
+    "Full Stack Developer specializing in building exceptional digital experiences. Expertise in Next.js, React, Node.js, and modern web technologies.",
+  keywords: [
+    "Next.js",
+    "React",
+    "Tailwind CSS",
+    "Server Components",
+    "Radix UI",
+    "Full Stack Developer",
+    "Portfolio",
+    "Mamun Dev",
+  ],
+  authors: [
+    {
+      name: "Mamun",
+      url: "https://mamun-dev.vercel.app",
+    },
+  ],
+  creator: "Mamun",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://mamun-dev.vercel.app",
+    title: "Mamun Dev | Full Stack Developer",
+    description:
+      "Full Stack Developer specializing in building exceptional digital experiences. Expertise in Next.js, React, Node.js, and modern web technologies.",
+    siteName: "Mamun Dev",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Mamun Dev Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mamun Dev | Full Stack Developer",
+    description:
+      "Full Stack Developer specializing in building exceptional digital experiences. Expertise in Next.js, React, Node.js, and modern web technologies.",
+    images: ["/og-image.png"],
+    creator: "@mamun_dev",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -44,7 +102,7 @@ export default function RootLayout({
             className="bg-[#f8f8f8] dark:bg-background overflow-y-auto h-screen w-screen "
           >
             <ScrollToTop />
-            <section className="flex flex-col w-full min-h-full justify-between max-w-4xl  mx-auto pt-32 px-7 xl:px-0 relative z-400">
+            <section className="flex flex-col w-full min-h-full justify-between max-w-4xl  mx-auto pt-32 px-7 xl:px-0">
               <Navbar />
               {children}
               <Footer />

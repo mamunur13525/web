@@ -6,7 +6,13 @@ import ExperienceSection from "@/components/experiences/ExperienceSection";
 import ProjectsSection from "@/components/projects/ProjectsSection";
 import BlogsSection from "@/components/blogs/BlogsSection";
 import ConnectSection from "@/components/connects/ConnectSection";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Mamun Dev",
+  description:
+    "Welcome to my AI-powered portfolio. I am a Full Stack Developer passionate about building accessible, pixel-perfect, and performant web applications.",
+};
 export default function Home() {
   return (
     <main>
