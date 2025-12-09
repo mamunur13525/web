@@ -69,7 +69,8 @@ const ExperienceSection = () => {
                     className="relative border-none pl-5"
                   >
                     <div className="absolute -left-[15px] top-2 bg-background p-1.5 rounded-full border border-border shadow">
-                      {item.type === "experience" ? (
+                      {item.type === "experience" ||
+                      item.type === "freelance" ? (
                         <Briefcase className="w-4 h-4 text-muted-foreground" />
                       ) : (
                         <GraduationCap className="w-4 h-4 text-muted-foreground" />

@@ -4,7 +4,18 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { MessageCircle, X, Send, Sparkles, Bot } from "lucide-react";
+import {
+  MessageCircle,
+  X,
+  Send,
+  Sparkles,
+  Bot,
+  ArrowDownCircle,
+  ArrowDown,
+} from "lucide-react";
+import { generateChatResponse } from "@/app/actions/chat";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface Message {
   id: string;
@@ -21,13 +32,6 @@ const DEFAULT_MESSAGES: Message[] = [
       "👋 Hi! I'm your AI assistant for this portfolio. Ask me anything about Mamun's work, skills, or projects!",
     timestamp: new Date(),
   },
-  {
-    id: "default-2",
-    role: "assistant",
-    content:
-      "You can ask questions like:\n• What technologies does Mamun work with?\n• Tell me about recent projects\n• What's Mamun's experience?",
-    timestamp: new Date(),
-  },
 ];
 
 const AIChat = () => {
@@ -38,17 +42,38 @@ const AIChat = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  const [showScrollButton, setShowScrollButton] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    setShowScrollButton(false);
+  };
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+      const isBottom = scrollHeight - scrollTop - clientHeight < 100;
+      setShowScrollButton(!isBottom);
+    }
   };
 
   useEffect(() => {
     if (isOpen) {
-      scrollToBottom();
-      // Focus input when chat opens
-      // setTimeout(() => inputRef.current?.focus(), 300);
+      const timer = setTimeout(() => {
+        scrollToBottom();
+      }, 100);
+      return () => clearTimeout(timer);
     }
-  }, [isOpen, messages]);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      // Only auto-scroll if we were already near bottom or it's a new message
+      // For now, let's auto-scroll on new messages for better UX
+      // scrollToBottom();
+    }
+  }, [messages]);
 
   // Auto-resize textarea
   useEffect(() => {
@@ -76,18 +101,39 @@ const AIChat = () => {
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
     setIsLoading(true);
-
-    // Simulate AI response (replace with actual API call)
     setTimeout(() => {
+      scrollToBottom();
+    }, 500);
+
+    // Call Gemini API
+    try {
+      // Include the new user message in the history sent to the server
+      const conversationHistory = [...messages, userMessage].map((m) => ({
+        role: m.role,
+        content: m.content,
+      }));
+
+      const responseText = await generateChatResponse(conversationHistory);
+
       const aiMessage: Message = {
         id: `ai-${Date.now()}`,
         role: "assistant",
-        content: `Thanks for your message! This is a demo response. In production, this would connect to an AI API to provide intelligent responses about Mamun's portfolio.`,
+        content: responseText || "Sorry, I couldn't generate a response.",
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, aiMessage]);
+    } catch (error) {
+      console.error("Chat Error:", error);
+      const errorMessage: Message = {
+        id: `ai-error-${Date.now()}`,
+        role: "assistant",
+        content: "Sorry, something went wrong. Please try again.",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -182,7 +228,11 @@ const AIChat = () => {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 md:p-5 space-y-4">
+          <div
+            ref={scrollRef}
+            onScroll={handleScroll}
+            className="flex-1 overflow-y-auto p-4 md:p-5 space-y-4 relative scroll-smooth"
+          >
             {messages.map((message, index) => (
               <div
                 key={message.id}
@@ -196,17 +246,38 @@ const AIChat = () => {
               >
                 <div
                   className={cn(
-                    "max-w-[85%] rounded-2xl px-5 py-3.5 shadow-lg backdrop-blur-sm",
+                    "max-w-[85%] rounded-2xl px-5 pb-3.5 shadow-lg backdrop-blur-sm",
                     "transition-all duration-300 hover:shadow-xl",
                     "border",
                     message.role === "user"
-                      ? "bg-zinc-900/95 dark:bg-white/95 text-white dark:text-zinc-900 rounded-br-sm border-zinc-700 dark:border-zinc-300"
+                      ? "bg-zinc-900/95 dark:bg-zinc-300/95 text-white dark:text-zinc-900 rounded-br-sm border-zinc-700 dark:border-zinc-300"
                       : "bg-zinc-100/80 dark:bg-zinc-800/80 text-zinc-900 dark:text-white rounded-bl-sm border-zinc-200 dark:border-zinc-700"
                   )}
                 >
-                  <p className="text-sm leading-relaxed whitespace-pre-wrap font-medium">
-                    {message.content}
-                  </p>
+                  <div
+                    className={cn(
+                      "text-sm leading-relaxed font-medium prose dark:prose-invert prose-p:my-1 prose-pre:my-1 prose-pre:bg-zinc-800 prose-pre:p-2 prose-pre:rounded-lg",
+                      message.role === "user"
+                        ? "text-white dark:text-zinc-900"
+                        : "text-zinc-900 dark:text-white"
+                    )}
+                  >
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        a: ({ node, ...props }) => (
+                          <a
+                            {...props}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 hover:underline"
+                          />
+                        ),
+                      }}
+                    >
+                      {message.content}
+                    </ReactMarkdown>
+                  </div>
                   <span
                     className={cn(
                       "text-[10px] mt-2 block font-medium",
@@ -244,6 +315,24 @@ const AIChat = () => {
           <div className="p-4 md:p-5 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 backdrop-blur-sm">
             <div className="flex gap-3 items-center">
               <div className="flex-1 relative">
+                {/* Scroll to bottom button */}
+                <div
+                  className={cn(
+                    "absolute -top-20 left-1/2 translate-x-[30%] transition-all duration-300 z-10",
+                    showScrollButton
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-4 pointer-events-none"
+                  )}
+                >
+                  <Button
+                    onClick={scrollToBottom}
+                    size="icon"
+                    variant="secondary"
+                    className="border rounded-full w-10 h-10 bg-white/90 dark:bg-zinc-800/90 shadow-lg border-zinc-200 dark:border-zinc-700 hover:scale-110 transition-transform cursor-pointer"
+                  >
+                    <ArrowDown className="w-6! h-6! text-zinc-900 dark:text-white" />
+                  </Button>
+                </div>
                 <Textarea
                   ref={inputRef}
                   value={inputValue}

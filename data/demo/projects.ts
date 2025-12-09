@@ -1,7 +1,9 @@
 import flowai from "../../assets/icons/flow.ico";
-import nexvio from "../../assets/icons/nexvio.ico";
-import zyberai from "../../assets/icons/zyberai.ico";
+import nexvio from "../../assets/icons/nexvio.webp";
+import zyberai from "../../assets/icons/zyberai.webp";
 import logo from "../../assets/icons/logo.ico";
+import eCommerce from '../../assets/icons/e-commerce(1).webp'
+import course from '../../assets/icons/free-course.webp'
 
 const projects = [
   {
@@ -158,6 +160,8 @@ The platform features a wide array of pre-built templates for text, image, and c
         "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/fruits-e-commerce_SS17K5pM3.png?updatedAt=1762599897673",
       full_screen: "",
     },
+    icon: eCommerce,
+
     title: "Fruits E-Commerce App",
     date: "2023",
     content: `A full-featured e-commerce platform specialized in fresh fruit sales. Includes shopping cart functionality, secure checkout, product categorization, and real-time inventory management.
@@ -170,7 +174,7 @@ The platform features a wide array of pre-built templates for text, image, and c
 - Real-time inventory management`,
     slug: "fruits-e-commerce-app",
     live: {
-      preview: "https://fruits-merce.netlify.app",
+      preview: "https://e-commerce-blue-nu.vercel.app",
       git: "https://github.com/mamunur13525/e-commerce",
     },
     type: ["full-stack", "web_app"],
@@ -183,6 +187,7 @@ The platform features a wide array of pre-built templates for text, image, and c
         "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/free-course_vEjskA84X.png?updatedAt=1762599897613",
       full_screen: "",
     },
+    icon:course, 
     title: "Course Blog Site",
     date: "2023",
     content: `A comprehensive blog platform focused on educational content and online courses. Features course listings, blog posts, user authentication, and a responsive design that works seamlessly across all devices.
@@ -200,31 +205,6 @@ The platform features a wide array of pre-built templates for text, image, and c
       backend: "https://github.com/mamunur13525/free_course_back",
     },
     type: ["full-stack"],
-  },
-
-  {
-    id: 3,
-    image: {
-      thumbnail:
-        "https://ik.imagekit.io/b1lhvbzf99x/Mamun%20Web%20Portfolio/netflix-clone_TgDbP-00r.png?updatedAt=1762599897697",
-      full_screen: "",
-    },
-    title: "Netflix Clone Webapp",
-    date: "2023",
-    content: `A Netflix-inspired streaming platform clone featuring a modern UI, dynamic content loading, video playback capabilities, and user authentication. Built with React and integrated with a movie database API.
-
-## What's Included
-
-- Modern UI inspired by Netflix
-- Dynamic content loading
-- Video playback capabilities
-- User authentication and movie database API integration`,
-    slug: "netflix-clone-webapp",
-    live: {
-      preview: "https://netflix-clone-mamundev.netlify.app",
-      git: "https://github.com/mamunur13525/Netflix-Clone-With-React",
-    },
-    type: ["full-stack", "web_app"],
   },
 ];
 
