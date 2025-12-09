@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
 import NestedNavbar from "@/components/NestedNavbar";
 import FullscreenImage from "@/components/ui/fullscreen-image";
+import { CodeBlock } from "@/components/ui/code-block";
 import connectDB from "@/lib/mongodb";
 import Blog from "@/models/Blog";
 import { notFound } from "next/navigation";
@@ -110,6 +112,7 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
               options={{
                 mdxOptions: {
                   remarkPlugins: [remarkGfm],
+                  rehypePlugins: [rehypeHighlight],
                 },
               }}
               components={{
@@ -151,17 +154,11 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
                 ),
                 code: ({ node, ...props }) => (
                   <code
-                    className="px-1.5 py-0.5 rounded text-sm font-mono text-foreground"
+                    className="px-1.5 py-0.5 rounded text-sm font-mono text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800"
                     {...props}
                   />
                 ),
-                pre: ({ node, ...props }) => (
-                  <pre
-                    style={{ backgroundColor: "#2d2d2d" }}
-                    className="bg-zinc-900 dark:bg-zinc-950 text-zinc-100 p-4 rounded-lg overflow-x-auto mb-6"
-                    {...props}
-                  />
-                ),
+                pre: ({ node, ...props }) => <CodeBlock {...props} />,
                 blockquote: ({ node, ...props }) => (
                   <blockquote
                     className="border-l-4 border-border pl-4 italic text-muted-foreground my-6"

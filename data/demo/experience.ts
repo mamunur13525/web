@@ -10,7 +10,7 @@ const experienceData: ExperienceGroup[] = [
         id: "work-1",
         title: "Full Stack Developer",
         organization: "W3Dev: IT Services & Product Engineering",
-        period: "Dec 2020 - Nov 2025 . 5 Yrs",
+        period: "Dec 2020 - Nov 2025 . 5 Years",
         description: [
           {
             text: "Developed AI-powered document processing (Flow.ai), enabling professionals to automate complex workflows with speed and precision.",
@@ -84,7 +84,7 @@ const experienceData: ExperienceGroup[] = [
         id: "freelance-1",
         title: "Front End Developer",
         organization: "Freelance",
-        period: "08.2021—2026",
+        period: "08.2021 - 2022",
         description: [
           {
             text: "Developed responsive frontend features using React and Ionic, contributing to the timely release of product updates.",
@@ -123,7 +123,7 @@ const experienceData: ExperienceGroup[] = [
         id: "edu-2",
         title: "Khan Bahadur Ahsanullah University",
         organization: "Khan Bahadur Ahsanullah University",
-        period: "2016—2022",
+        period: "2016 - 2022",
         description: [
           {
             text: "Completed a Bachelor's degree in Information Systems.",

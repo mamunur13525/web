@@ -17,10 +17,10 @@ import { ThemeToggle } from "./theme-toggle";
 const SCROLL_THRESHOLD = 50; // px
 
 const MENU_ITEMS = [
-  { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
-  { label: "Work", href: "#work" },
-  { label: "Contact", href: "contact" },
+  { label: "Home", href: "/#home" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Blogs", href: "/#blogs" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const MENU_PANEL_DURATION = 300; // ms, should match CSS duration
@@ -195,6 +195,20 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
+            <li
+              className={cn(
+                "menu-item-animate flex md:hidden items-center  gap-3 rounded-full border border-transparent bg-zinc-900/95 dark:bg-zinc-50/95 px-8 py-5 text-lg font-semibold uppercase tracking-wider text-white dark:text-zinc-800 transition-colors hover:border-zinc-800 hover:bg-white hover:text-zinc-900 dark:hover:bg-zinc-500/55 dark:hover:text-zinc-200",
+                isMenuOpen && "menu-item-visible"
+              )}
+              style={{
+                animationDelay: `${
+                  MENU_PANEL_DURATION + 5 * MENU_ITEM_STAGGER
+                }ms`,
+              }}
+            >
+              <CloudDownload />
+              Download Resume
+            </li>
           </ul>
 
           <div className="flex flex-wrap md:flex-col items-center md:items-start gap-2 justify-between text-sm">
