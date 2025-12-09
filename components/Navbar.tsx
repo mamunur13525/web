@@ -149,13 +149,13 @@ const Navbar = () => {
       <div
         id="navbar-menu-sheet"
         className={cn(
-          "pointer-events-none fixed inset-0 z-400 flex justify-center overflow-hidden bg-white/0 transition-opacity duration-500 ease-out md:justify-end",
+          "pointer-events-none fixed inset-0 z-400 flex justify-center overflow-hidden bg-white/0 transition-opacity duration-500 ease-out md:justify-end backdrop-blur-xl",
           isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0"
         )}
       >
         <div
           className={cn(
-            "menu-sheet-panel flex h-full w-full flex-col justify-between  px-6 py-10 backdrop-blur-xl sm:px-10 md:w-[500px] ",
+            "menu-sheet-panel flex h-full w-full flex-col justify-between  px-6 py-10  sm:px-10 md:w-[500px] bg-white dark:bg-zinc-900",
             isMenuOpen ? "menu-sheet-panel-open" : "menu-sheet-panel-closed"
           )}
         >
@@ -166,7 +166,7 @@ const Navbar = () => {
             <Button
               size={"icon"}
               variant={"outline"}
-              className="h-14 w-14 cursor-pointer roun    ded-full border border-transparent bg-white text-zinc-900 dark:text-zinc-800 transition-colors hover:bg-zinc-100"
+              className="h-14 w-14 cursor-pointer rounded-full border border-transparent bg-white text-zinc-900 dark:text-zinc-800 transition-colors hover:bg-zinc-100"
               type="button"
               aria-label="Close menu"
               onClick={handleMenuToggle}

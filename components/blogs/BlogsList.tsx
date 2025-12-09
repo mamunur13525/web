@@ -96,7 +96,7 @@ const BlogsList = () => {
       </div>
 
       {loading && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 mt-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="flex flex-col space-y-3">
               <Skeleton className="h-48 w-full rounded-xl" />
@@ -118,7 +118,7 @@ const BlogsList = () => {
       )}
 
       {!loading && !error && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 mt-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
           {blogs.length > 0 ? (
             blogs.map((blog: BlogType) => (
               <SingleBlog key={blog._id || blog.slug} blog={blog} />
