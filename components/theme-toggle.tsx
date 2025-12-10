@@ -52,7 +52,7 @@ export function ThemeToggle() {
       setIsAnimating(false);
     }, 500);
   };
-  console.log({ theme });
+
   if (!mounted) {
     return (
       <Button

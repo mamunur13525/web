@@ -104,12 +104,7 @@ const experienceData: ExperienceGroup[] = [
             ],
           },
         ],
-        skills: [
-          "React",
-          "CSS", 
-          "Tailwind CSS",
-          "Zustand",
-        ],
+        skills: ["React", "CSS", "Tailwind CSS", "Zustand"],
         type: "freelance",
       },
     ],
@@ -121,42 +116,18 @@ const experienceData: ExperienceGroup[] = [
     list: [
       {
         id: "edu-2",
-        title: "Khan Bahadur Ahsanullah University",
-        organization: "Khan Bahadur Ahsanullah University",
+        title: "Bachelor of Business Administration (BBA)",
+        organization: "Khan Bahadur Ahsanullah College",
         period: "2016 - 2022",
         description: [
           {
-            text: "Completed a Bachelor's degree in Information Systems.",
+            text: "Completed a Bachelor of Business Administration (BBA) degree.",
           },
           {
             text: "Language Proficiency: B1 English Level.",
           },
-          {
-            text: "Achieved several awards, including:",
-            subItems: [
-              {
-                text: "Bronze Medal — 10th Design, Manufacturing, and Application Award 2022",
-              },
-              {
-                text: "2nd Prize — Business Startup Competition 2019",
-              },
-            ],
-          },
         ],
-        skills: [
-          "C++",
-          "Java",
-          "Python",
-          "Data Structures",
-          "Algorithms",
-          "Advanced Databases",
-          "Systems Design",
-          "Distributed Systems",
-          "Software Engineering",
-          "Self-learning",
-          "Teamwork",
-          "Presentation",
-        ],
+        skills: ["Self-learning", "Teamwork", "Presentation"],
         type: "education",
       },
     ],

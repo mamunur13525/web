@@ -23,11 +23,9 @@ export async function POST(req: Request) {
     }
 
     const { name, email, message } = parsed.data;
-console.log({name, email,message})
     // Configure Nodemailer transporter
     // Note: In production, these should be environment variables.
     // Specifying defaults to avoid throwing if env vars are missing during dev/no-setup
-    console.log({user:process.env.SMTP_USER,pass:process.env.SMTP_PASS})
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || "smtp.gmail.com",
       port: Number(process.env.SMTP_PORT) || 587,
@@ -42,10 +40,6 @@ console.log({name, email,message})
     // If not, we log to console (useful for dev) - in real app, might fail or mock.
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
       console.warn("Missing SMTP credentials in env. Logging email instead.");
-      console.log(`
-        Email from: ${name} <${email}>
-        Message: ${message}
-      `);
       // Return success simulation for dev
       return NextResponse.json({ success: false, message: "Email logged (no credentials)" });
     }
