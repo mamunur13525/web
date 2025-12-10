@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     siteName: "Mamun Dev",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://mamundev-steel.vercel.app/og-image.png",
         width: 1200,
         height: 630,
         alt: "Mamun Dev Portfolio",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     title: "Mamun Dev | Full Stack Developer",
     description:
       "Full Stack Developer specializing in building exceptional digital experiences. Expertise in Next.js, React, Node.js, and modern web technologies.",
-    images: ["/og-image.png"],
+    images: ["https://mamundev-steel.vercel.app/og-image.png"],
     creator: "@Mamun13525",
   },
   robots: {
