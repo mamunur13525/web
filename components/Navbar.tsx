@@ -120,15 +120,20 @@ const Navbar = () => {
           >
             Contact
           </Link>
-          <Button
-            className="group items-center justify-start px-4 md:px-6 py-2 md:py-3 rounded-full cursor-pointer bg-[#000000] hidden md:flex duration-300 transition-all hover:w-46 w-10 relative"
-            type="button"
+          <Link
+            href="https://drive.google.com/file/d/1eoTHc59uvKcAMP1unihX6VwSDaOR7d0E/view?usp=drive_link"
+            target="_blank"
           >
-            <CloudDownload className="text-zinc-300 group-hover:dark:text-zinc-900" />
-            <span className="absolute right-3.5 top-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-full duration-300 transition-all pointer-events-none group-hover:pointer-events-auto">
-              Download Resume
-            </span>
-          </Button>
+            <Button
+              className="group items-center justify-start px-4 md:px-6 py-2 md:py-3 rounded-full cursor-pointer bg-[#000000] hidden md:flex duration-300 transition-all hover:w-26 w-10 relative"
+              type="button"
+            >
+              <CloudDownload className="text-zinc-300 group-hover:dark:text-zinc-900" />
+              <span className="absolute right-3.5 top-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-full duration-300 transition-all pointer-events-none group-hover:pointer-events-auto">
+                Resume
+              </span>
+            </Button>
+          </Link>
 
           <ThemeToggle />
 
