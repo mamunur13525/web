@@ -1,0 +1,64 @@
+---
+/**
+ * Cal.com booking button. The React version used `@calcom/embed-react`;
+ * here the official vanilla embed snippet is loaded instead, which powers
+ * the same `data-cal-*` attributes.
+ */
+---
+
+<button
+  data-cal-namespace="15min"
+  data-cal-link="mohammad-mamun/15min"
+  data-cal-config='{"layout":"month_view"}'
+  class="btn px-6 py-5 h-auto min-h-0 rounded-full cursor-pointer bg-[#000000] text-white border-none dark:text-white dark:bg-[#fafafa]/20 backdrop-blur-lg text-sm font-medium"
+  type="button"
+>
+  Book a call
+</button>
+
+<script>
+  // Official Cal.com vanilla embed loader
+  (function (C: any, A: string, L: string) {
+    let p = function (a: any, ar: any) {
+      a.q.push(ar);
+    };
+    let d = C.document;
+    C.Cal =
+      C.Cal ||
+      function () {
+        let cal = C.Cal;
+        let ar = arguments;
+        if (!cal.loaded) {
+          cal.ns = {};
+          cal.q = cal.q || [];
+          d.head.appendChild(d.createElement("script")).src = A;
+          cal.loaded = true;
+        }
+        if (ar[0] === L) {
+          const api: any = function () {
+            p(api, arguments);
+          };
+          const namespace = ar[1];
+          api.q = api.q || [];
+          if (typeof namespace === "string") {
+            cal.ns[namespace] = cal.ns[namespace] || api;
+            p(cal.ns[namespace], ar);
+            p(cal, ["initNamespace", namespace]);
+          } else {
+            p(cal, ar);
+          }
+          return;
+        }
+        p(cal, ar);
+      };
+  })(window, "https://app.cal.com/embed/embed.js", "init");
+
+  const Cal = (window as any).Cal;
+
+  Cal("init", "15min", { origin: "https://app.cal.com" });
+  Cal.ns["15min"]("ui", {
+    hideEventTypeDetails: false,
+    layout: "month_view",
+    theme: "light",
+  });
+</script>

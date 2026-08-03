@@ -1,0 +1,19 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import NestedNavbar from "@/components/NestedNavbar.astro";
+import PageTitle from "@/components/PageTitle.astro";
+import ContactForm from "@/components/contacts/ContactForm.astro";
+---
+
+<Layout
+  title="Contact"
+  description="Get in touch with me. I am always open to discussing new projects, creative ideas or opportunities to be part of your visions."
+>
+  <div>
+    <NestedNavbar />
+    <section class="pt-10 mb-5">
+      <PageTitle title="Contact Us" />
+    </section>
+    <ContactForm />
+  </div>
+</Layout>

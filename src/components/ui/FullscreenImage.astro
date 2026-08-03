@@ -1,0 +1,202 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  aspectRatio?: "video" | "square" | "portrait";
+}
+
+const {
+  src,
+  alt,
+  class: className = "",
+  aspectRatio = "video",
+} = Astro.props;
+
+const aspectRatioClass = {
+  video: "aspect-video",
+  square: "aspect-square",
+  portrait: "aspect-[3/4]",
+}[aspectRatio];
+
+const modalId = `fs-${Math.random().toString(36).slice(2, 10)}`;
+---
+
+<div
+  class={`fullscreen-image relative w-full ${aspectRatioClass} rounded-lg overflow-hidden cursor-zoom-in group ${className}`}
+  data-modal-target={modalId}
+  role="button"
+  tabindex="0"
+  aria-label={`Open fullscreen view of ${alt}`}
+>
+  <img
+    src={src}
+    alt={alt}
+    loading="lazy"
+    decoding="async"
+    class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+  />
+  <div
+    class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"
+  >
+  </div>
+</div>
+
+<dialog id={modalId} class="modal fullscreen-modal">
+  <div
+    class="modal-box max-w-none w-screen h-screen rounded-none border-none bg-black/95 shadow-none p-0 flex items-center justify-center"
+  >
+    <h3 class="sr-only">Fullscreen view of {alt}</h3>
+
+    <button
+      class="fullscreen-close absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-100 cursor-pointer"
+      aria-label="Close"
+      type="button"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="w-6 h-6 text-white"
+      >
+        <path d="M18 6 6 18"></path>
+        <path d="m6 6 12 12"></path>
+      </svg>
+    </button>
+
+    <div class="zoom-viewport relative w-full h-full flex items-center justify-center overflow-hidden">
+      <div class="zoom-stage relative w-[95vw] h-[95vh] max-w-7xl transition-transform duration-100 ease-out">
+        <img
+          src={src}
+          alt={alt}
+          draggable="false"
+          class="absolute inset-0 w-full h-full object-contain pointer-events-none"
+        />
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  class FullscreenImageController {
+    private trigger: HTMLElement;
+    private dialog: HTMLDialogElement;
+    private stage: HTMLElement;
+    private scale = 1;
+    private position = { x: 0, y: 0 };
+    private isDragging = false;
+    private startPos = { x: 0, y: 0 };
+
+    constructor(trigger: HTMLElement) {
+      this.trigger = trigger;
+      const id = trigger.dataset.modalTarget!;
+      this.dialog = document.getElementById(id) as HTMLDialogElement;
+      this.stage = this.dialog.querySelector(".zoom-stage") as HTMLElement;
+      this.bind();
+    }
+
+    private bind() {
+      this.trigger.addEventListener("click", () => this.open());
+      this.trigger.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          this.open();
+        }
+      });
+
+      this.dialog
+        .querySelector(".fullscreen-close")
+        ?.addEventListener("click", () => this.dialog.close());
+
+      this.dialog.addEventListener("close", () => this.reset());
+
+      const viewport = this.dialog.querySelector(".zoom-viewport") as HTMLElement;
+
+      viewport.addEventListener(
+        "wheel",
+        (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (e.deltaY < 0) {
+            this.scale = Math.min(this.scale + 0.5, 4);
+          } else {
+            this.scale = Math.max(this.scale - 0.5, 1);
+            if (this.scale === 1) this.position = { x: 0, y: 0 };
+          }
+          this.apply();
+        },
+        { passive: false }
+      );
+
+      viewport.addEventListener("mousedown", (e) => {
+        if (this.scale > 1) {
+          this.isDragging = true;
+          this.startPos = {
+            x: e.clientX - this.position.x,
+            y: e.clientY - this.position.y,
+          };
+          this.apply();
+        }
+      });
+
+      viewport.addEventListener("mousemove", (e) => {
+        if (this.isDragging && this.scale > 1) {
+          e.preventDefault();
+          this.position = {
+            x: e.clientX - this.startPos.x,
+            y: e.clientY - this.startPos.y,
+          };
+          this.apply();
+        }
+      });
+
+      const stopDrag = () => {
+        this.isDragging = false;
+        this.apply();
+      };
+      viewport.addEventListener("mouseup", stopDrag);
+      viewport.addEventListener("mouseleave", stopDrag);
+    }
+
+    private open() {
+      this.dialog.showModal();
+    }
+
+    private reset() {
+      this.scale = 1;
+      this.position = { x: 0, y: 0 };
+      this.isDragging = false;
+      this.apply();
+    }
+
+    private apply() {
+      this.stage.style.transform = `translate(${this.position.x}px, ${this.position.y}px) scale(${this.scale})`;
+      this.stage.style.cursor =
+        this.scale > 1 ? (this.isDragging ? "grabbing" : "grab") : "zoom-in";
+    }
+  }
+
+  function init() {
+    document
+      .querySelectorAll<HTMLElement>(".fullscreen-image:not([data-fs-ready])")
+      .forEach((el) => {
+        el.dataset.fsReady = "true";
+        new FullscreenImageController(el);
+      });
+  }
+
+  init();
+  document.addEventListener("astro:page-load", init);
+</script>
+
+<style>
+  .fullscreen-modal::backdrop {
+    background: rgba(0, 0, 0, 0.95);
+  }
+</style>

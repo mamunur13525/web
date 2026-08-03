@@ -1,0 +1,69 @@
+---
+/**
+ * Behaviour for the accordion markup used by the Experience and Projects
+ * sections. Mirrors Radix's `type="multiple"` accordion: each trigger
+ * toggles its own panel independently, with a height transition.
+ */
+---
+
+<script>
+  function toggle(trigger: HTMLElement) {
+    const content = trigger.nextElementSibling as HTMLElement | null;
+    if (!content?.classList.contains("accordion-content")) return;
+
+    const isOpen = trigger.dataset.state === "open";
+    const next = isOpen ? "closed" : "open";
+
+    trigger.dataset.state = next;
+    trigger.setAttribute("aria-expanded", String(!isOpen));
+    content.dataset.state = next;
+
+    if (isOpen) {
+      content.style.height = `${content.scrollHeight}px`;
+      requestAnimationFrame(() => {
+        content.style.height = "0px";
+      });
+      content.addEventListener(
+        "transitionend",
+        () => {
+          if (content.dataset.state === "closed") {
+            content.hidden = true;
+            content.style.height = "";
+          }
+        },
+        { once: true }
+      );
+    } else {
+      content.hidden = false;
+      content.style.height = "0px";
+      requestAnimationFrame(() => {
+        content.style.height = `${content.scrollHeight}px`;
+      });
+      content.addEventListener(
+        "transitionend",
+        () => {
+          if (content.dataset.state === "open") content.style.height = "auto";
+        },
+        { once: true }
+      );
+    }
+  }
+
+  function init() {
+    document
+      .querySelectorAll<HTMLElement>(".accordion-trigger:not([data-ready])")
+      .forEach((trigger) => {
+        trigger.dataset.ready = "true";
+        trigger.addEventListener("click", () => toggle(trigger));
+      });
+  }
+
+  init();
+  document.addEventListener("astro:page-load", init);
+</script>
+
+<style is:global>
+  .accordion-content {
+    transition: height 200ms ease-out;
+  }
+</style>

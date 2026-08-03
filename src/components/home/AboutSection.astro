@@ -1,0 +1,13 @@
+---
+import SectionTitle from "../ui/SectionTitle.astro";
+import { aboutContent } from "@/data/demo/about";
+import { renderMarkdown } from "@/lib/markdown";
+
+const html = renderMarkdown(aboutContent, "about");
+---
+
+<SectionTitle title="About">
+  <div class="prose prose-zinc max-w-none">
+    <Fragment set:html={html} />
+  </div>
+</SectionTitle>

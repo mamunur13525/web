@@ -1,0 +1,140 @@
+---
+/**
+ * Sun/moon toggle that swaps the daisyUI `data-theme` between
+ * `portfolio` (light) and `portfolio-dark`, with the same click sound
+ * and spin animation as the original.
+ */
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  class="btn btn-outline w-10 h-10 min-h-0 p-0 flex items-center justify-center cursor-pointer rounded-full border border-border bg-background hover:bg-accent hover:text-accent-foreground relative overflow-hidden group"
+  aria-label="Toggle theme"
+>
+  <span class="w-5 h-5 relative flex items-center justify-center">
+    <!-- Sun -->
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="theme-icon-sun absolute left-1/2 top-1/2 -translate-1/2 h-5 w-5 transition-all duration-500 ease-in-out"
+    >
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2"></path>
+      <path d="M12 20v2"></path>
+      <path d="m4.93 4.93 1.41 1.41"></path>
+      <path d="m17.66 17.66 1.41 1.41"></path>
+      <path d="M2 12h2"></path>
+      <path d="M20 12h2"></path>
+      <path d="m6.34 17.66-1.41 1.41"></path>
+      <path d="m19.07 4.93-1.41 1.41"></path>
+    </svg>
+    <!-- Moon -->
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="theme-icon-moon absolute left-1/2 top-1/2 -translate-1/2 h-5 w-5 transition-all duration-500 ease-in-out"
+    >
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+    </svg>
+  </span>
+</button>
+
+<style>
+  /* Light theme: sun visible, moon hidden */
+  :global([data-theme="portfolio"]) .theme-icon-sun {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  :global([data-theme="portfolio"]) .theme-icon-moon {
+    transform: translate(-50%, -50%) rotate(-90deg) scale(0);
+    opacity: 0;
+  }
+
+  /* Dark theme: moon visible, sun hidden */
+  :global([data-theme="portfolio-dark"]) .theme-icon-sun {
+    transform: translate(-50%, -50%) rotate(90deg) scale(0);
+    opacity: 0;
+  }
+  :global([data-theme="portfolio-dark"]) .theme-icon-moon {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+
+  .theme-spinning .theme-icon-sun,
+  .theme-spinning .theme-icon-moon {
+    animation: spin 1s linear infinite;
+  }
+</style>
+
+<script>
+  const LIGHT = "portfolio";
+  const DARK = "portfolio-dark";
+
+  function playClickSound() {
+    try {
+      const Ctx =
+        window.AudioContext || (window as any).webkitAudioContext;
+      if (!Ctx) return;
+      const audioContext = new Ctx();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
+      // Sharp, percussive "click" sound
+      oscillator.frequency.value = 1200;
+      oscillator.type = "square";
+
+      gainNode.gain.setValueAtTime(0.4, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(
+        0.01,
+        audioContext.currentTime + 0.05
+      );
+
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.05);
+    } catch {
+      // Silently fail if the Web Audio API is unavailable
+    }
+  }
+
+  function init() {
+    const button = document.getElementById("theme-toggle");
+    if (!button || button.dataset.ready) return;
+    button.dataset.ready = "true";
+
+    button.addEventListener("click", () => {
+      const current =
+        document.documentElement.getAttribute("data-theme") || LIGHT;
+      const next = current === DARK ? LIGHT : DARK;
+
+      document.documentElement.setAttribute("data-theme", next);
+      try {
+        localStorage.setItem("theme", next);
+      } catch {}
+
+      playClickSound();
+      button.classList.add("theme-spinning");
+      setTimeout(() => button.classList.remove("theme-spinning"), 500);
+    });
+  }
+
+  init();
+  document.addEventListener("astro:page-load", init);
+</script>

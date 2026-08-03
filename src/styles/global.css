@@ -1,0 +1,359 @@
+@import url("https://fonts.googleapis.com/css2?family=Stack+Sans+Notch:wght@200..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import "tailwindcss";
+@import "highlight.js/styles/atom-one-dark.css";
+
+@plugin "daisyui" {
+  themes: false;
+  logs: false;
+}
+
+/* daisyUI theme tuned to match the original portfolio palette (light) */
+@plugin "daisyui/theme" {
+  name: "portfolio";
+  default: true;
+  color-scheme: light;
+
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(96.7% 0.001 286.375);
+  --color-base-300: oklch(92% 0.004 286.32);
+  --color-base-content: oklch(14.1% 0.005 285.823);
+
+  --color-primary: oklch(21% 0.006 285.885);
+  --color-primary-content: oklch(98.5% 0 0);
+  --color-secondary: oklch(96.7% 0.001 286.375);
+  --color-secondary-content: oklch(21% 0.006 285.885);
+  --color-accent: oklch(96.7% 0.001 286.375);
+  --color-accent-content: oklch(21% 0.006 285.885);
+  --color-neutral: oklch(21% 0.006 285.885);
+  --color-neutral-content: oklch(98.5% 0 0);
+
+  --color-info: oklch(60% 0.118 184.704);
+  --color-info-content: oklch(98.5% 0 0);
+  --color-success: oklch(69.6% 0.17 162.48);
+  --color-success-content: oklch(98.5% 0 0);
+  --color-warning: oklch(82.8% 0.189 84.429);
+  --color-warning-content: oklch(21% 0.006 285.885);
+  --color-error: oklch(57.7% 0.245 27.325);
+  --color-error-content: oklch(98.5% 0 0);
+
+  --radius-selector: 0.625rem;
+  --radius-field: 0.625rem;
+  --radius-box: 0.625rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+/* daisyUI theme tuned to match the original portfolio palette (dark) */
+@plugin "daisyui/theme" {
+  name: "portfolio-dark";
+  color-scheme: dark;
+
+  --color-base-100: oklch(14.1% 0.005 285.823);
+  --color-base-200: oklch(21% 0.006 285.885);
+  --color-base-300: oklch(27.4% 0.006 286.033);
+  --color-base-content: oklch(98.5% 0 0);
+
+  --color-primary: oklch(92% 0.004 286.32);
+  --color-primary-content: oklch(21% 0.006 285.885);
+  --color-secondary: oklch(27.4% 0.006 286.033);
+  --color-secondary-content: oklch(98.5% 0 0);
+  --color-accent: oklch(27.4% 0.006 286.033);
+  --color-accent-content: oklch(98.5% 0 0);
+  --color-neutral: oklch(27.4% 0.006 286.033);
+  --color-neutral-content: oklch(98.5% 0 0);
+
+  --color-info: oklch(69.6% 0.17 162.48);
+  --color-info-content: oklch(14.1% 0.005 285.823);
+  --color-success: oklch(69.6% 0.17 162.48);
+  --color-success-content: oklch(14.1% 0.005 285.823);
+  --color-warning: oklch(76.9% 0.188 70.08);
+  --color-warning-content: oklch(14.1% 0.005 285.823);
+  --color-error: oklch(70.4% 0.191 22.216);
+  --color-error-content: oklch(14.1% 0.005 285.823);
+
+  --radius-selector: 0.625rem;
+  --radius-field: 0.625rem;
+  --radius-box: 0.625rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+/* The theme is switched through `data-theme`, so bind the `dark:` variant to it */
+@custom-variant dark (&:where([data-theme="portfolio-dark"], [data-theme="portfolio-dark"] *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border-color);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+[data-theme="portfolio"] {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.141 0.005 285.823);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.141 0.005 285.823);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+  --muted: oklch(0.967 0.001 286.375);
+  --muted-foreground: oklch(0.552 0.016 285.938);
+  --accent-foreground: oklch(0.21 0.006 285.885);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border-color: oklch(0.92 0.004 286.32);
+  --input: oklch(0.92 0.004 286.32);
+  --ring: oklch(0.705 0.015 286.067);
+}
+
+[data-theme="portfolio-dark"] {
+  --radius: 0.625rem;
+  --background: oklch(0.141 0.005 285.823);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.21 0.006 285.885);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.21 0.006 285.885);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.21 0.006 285.885);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.705 0.015 286.067);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border-color: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.552 0.016 285.938);
+}
+
+@layer base {
+  * {
+    border-color: var(--border-color);
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.011em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .font-stack {
+    font-family: "Stack Sans Notch", sans-serif;
+  }
+}
+
+@layer components {
+  .no-global-border * {
+    border-color: transparent !important;
+    outline: none !important;
+  }
+
+  /* Minimal local `prose` styles so the project doesn't need the
+     @tailwindcss/typography plugin to render markdown nicely. */
+  .prose {
+    color: var(--foreground);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+  .prose p {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    color: inherit;
+    font-weight: 700;
+    margin-top: 1.25em;
+    margin-bottom: 0.5em;
+    line-height: 1.2;
+  }
+  .prose h1 {
+    font-size: 2rem;
+  }
+  .prose h2 {
+    font-size: 1.5rem;
+  }
+  .prose h3 {
+    font-size: 1.25rem;
+  }
+  .prose ul,
+  .prose ol {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding-left: 1.25rem;
+  }
+  .prose li {
+    margin-top: 0.35rem;
+  }
+  .prose pre {
+    background: rgba(15, 23, 42, 0.9);
+    color: #e6eef8;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow: auto;
+  }
+  .prose code {
+    background: rgba(0, 0, 0, 0.04);
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono",
+      "Courier New", monospace;
+    font-size: 0.95em;
+  }
+  .prose pre code {
+    background: transparent;
+    padding: 0;
+  }
+  .prose a {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+  .prose img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0.75rem 0;
+  }
+  .prose blockquote {
+    border-left: 4px solid rgba(0, 0, 0, 0.08);
+    padding-left: 1rem;
+    color: var(--muted-foreground);
+    font-style: italic;
+    margin: 1rem 0;
+  }
+}
+
+/* ---------- Shared animations ported from the original site ---------- */
+
+@keyframes menuItemEnter {
+  from {
+    opacity: 0;
+    transform: translateX(2.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.menu-item-animate {
+  opacity: 0;
+  transform: translateX(2.5rem);
+}
+
+.menu-item-visible {
+  animation: menuItemEnter 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.menu-sheet-panel {
+  transform-origin: top center;
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1), opacity 1s ease;
+}
+
+.menu-sheet-panel-open {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.menu-sheet-panel-closed {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
+@media (min-width: 768px) {
+  .menu-sheet-panel {
+    transform-origin: center right;
+  }
+
+  .menu-sheet-panel-open {
+    transform: translateX(0);
+  }
+
+  .menu-sheet-panel-closed {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(101, 255, 120, 0.3),
+      0 0 0 0.25em rgba(101, 255, 120, 0.3),
+      0 0 0 0.75em rgba(101, 255, 120, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 0 0.25em rgba(101, 255, 120, 0.3),
+      0 0 0 0.5em rgba(101, 255, 120, 0.3), 0 0 0 1em rgba(101, 255, 120, 0);
+  }
+}
+
+@keyframes messageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.message-animate {
+  animation: messageEnter 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Custom scrollbar for the chat panel */
+.chat-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+[data-theme="portfolio-dark"] .chat-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.chat-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="portfolio-dark"] .chat-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}

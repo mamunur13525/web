@@ -1,17 +1,32 @@
 ---
-
+import Layout from "@/layouts/Layout.astro";
+import HeroSection from "@/components/home/HeroSection.astro";
+import ConnectSection from "@/components/connects/ConnectSection.astro";
+import AboutSection from "@/components/home/AboutSection.astro";
+import StackSection from "@/components/StackSection.astro";
+import ExperienceSection from "@/components/experiences/ExperienceSection.astro";
+import ProjectsSection from "@/components/projects/ProjectsSection.astro";
+import BlogsSection from "@/components/blogs/BlogsSection.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import ContactForm from "@/components/contacts/ContactForm.astro";
+import AccordionScript from "@/components/ui/AccordionScript.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout
+  title="Mamun Dev"
+  description="Welcome to my AI-powered portfolio. I am a Full Stack Developer passionate about building accessible, pixel-perfect, and performant web applications."
+>
+  <main>
+    <HeroSection />
+    <ConnectSection />
+    <AboutSection />
+    <StackSection />
+    <ExperienceSection />
+    <ProjectsSection />
+    <BlogsSection />
+    <SectionTitle title="Contact Us" id="contact">
+      <ContactForm />
+    </SectionTitle>
+  </main>
+  <AccordionScript />
+</Layout>

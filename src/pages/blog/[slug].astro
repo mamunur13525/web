@@ -1,0 +1,138 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import NestedNavbar from "@/components/NestedNavbar.astro";
+import FullscreenImage from "@/components/ui/FullscreenImage.astro";
+import connectDB from "@/lib/mongodb";
+import Blog from "@/models/Blog";
+import { renderMarkdown } from "@/lib/markdown";
+import type { BlogType } from "@/types/types";
+
+const { slug } = Astro.params;
+
+let blog: BlogType | null = null;
+let loadFailed = false;
+
+try {
+  await connectDB();
+  const doc = await Blog.findOne({ slug }).lean();
+  if (doc) blog = JSON.parse(JSON.stringify(doc)) as BlogType;
+} catch (error) {
+  console.error("Error loading blog:", error);
+  loadFailed = true;
+}
+
+/* Matches the Next.js `notFound()` behaviour */
+if (!blog && !loadFailed) {
+  return Astro.rewrite("/404");
+}
+
+const contentHtml = blog ? renderMarkdown(blog.content, "blog") : "";
+---
+
+{
+  loadFailed ? (
+    <Layout title="Error Loading Blog">
+      <div class="min-h-screen flex items-center justify-center">
+        <div class="text-center">
+          <h1 class="text-4xl font-bold mb-4">Error Loading Blog</h1>
+          <p class="text-muted-foreground mb-4">
+            There was an error loading this blog post.
+          </p>
+          <a href="/blogs" class="text-primary hover:underline">
+            View all blogs
+          </a>
+        </div>
+      </div>
+    </Layout>
+  ) : (
+    <Layout
+      title={blog!.title}
+      description={blog!.excerpt}
+      image={blog!.image}
+      type="article"
+      publishedTime={blog!.date}
+    >
+      <main>
+        <div class="mb-4">
+          <NestedNavbar prevRoute="/blogs" />
+        </div>
+
+        <article>
+          <div class="mb-6">
+            <span class="text-sm text-muted-foreground">{blog!.category}</span>
+            <h1 class="text-4xl md:text-5xl font-bold mt-2 mb-4">
+              {blog!.title}
+            </h1>
+            <p class="text-muted-foreground">{blog!.date}</p>
+          </div>
+
+          {blog!.image && (
+            <FullscreenImage
+              src={blog!.image}
+              alt={blog!.title}
+              class="object-cover"
+            />
+          )}
+
+          <div class="prose prose-zinc max-w-none">
+            <Fragment set:html={contentHtml} />
+          </div>
+        </article>
+      </main>
+    </Layout>
+  )
+}
+
+<script>
+  /**
+   * Adds the copy-to-clipboard button to rendered `<pre>` blocks,
+   * replacing the React `CodeBlock` component.
+   */
+  const CHECK_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M20 6 9 17l-5-5"/></svg>`;
+  const COPY_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
+
+  function init() {
+    document
+      .querySelectorAll<HTMLPreElement>(".prose pre:not([data-copy-ready])")
+      .forEach((pre) => {
+        pre.dataset.copyReady = "true";
+        pre.classList.add("overflow-x-auto", "rounded-lg");
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "relative group mb-6";
+        pre.parentNode?.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = [
+          "absolute right-2 top-2 p-2 rounded-md w-8 h-8",
+          "bg-zinc-700/50 hover:bg-zinc-700 text-zinc-100",
+          "opacity-0 transition-opacity duration-200 group-hover:opacity-100",
+          "focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-zinc-400",
+          "border border-zinc-600/50 backdrop-blur-sm cursor-pointer",
+        ].join(" ");
+        button.setAttribute("aria-label", "Copy code");
+        button.title = "Copy code";
+        button.innerHTML = COPY_ICON;
+
+        button.addEventListener("click", async () => {
+          const text = pre.innerText.replace(/\n$/, "");
+          try {
+            await navigator.clipboard.writeText(text);
+            button.innerHTML = CHECK_ICON;
+            setTimeout(() => {
+              button.innerHTML = COPY_ICON;
+            }, 2000);
+          } catch (err) {
+            console.error("Failed to copy text: ", err);
+          }
+        });
+
+        wrapper.appendChild(button);
+      });
+  }
+
+  init();
+  document.addEventListener("astro:page-load", init);
+</script>

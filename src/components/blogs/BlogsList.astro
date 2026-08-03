@@ -1,0 +1,82 @@
+---
+import SingleBlog from "./SingleBlog.astro";
+import connectDB from "@/lib/mongodb";
+import Blog from "@/models/Blog";
+import type { BlogType } from "@/types/types";
+
+const filterBtns = [
+  { id: 1, name: "All Category's", type: "" },
+  { id: 2, name: "React", type: "React" },
+  { id: 3, name: "Next.js", type: "Next.js" },
+  { id: 4, name: "TypeScript", type: "TypeScript" },
+];
+
+/* The active filter comes from `?category=` so the list renders on the server. */
+const activeBtn = Astro.url.searchParams.get("category") ?? "";
+
+let blogs: BlogType[] = [];
+let error: string | null = null;
+
+try {
+  await connectDB();
+  const query = activeBtn ? { category: activeBtn } : {};
+  const docs = await Blog.find(query)
+    .select("title slug excerpt category image date")
+    .sort({ date: -1 })
+    .lean();
+  blogs = JSON.parse(JSON.stringify(docs)) as BlogType[];
+} catch (err) {
+  console.error("Error fetching blogs:", err);
+  error = err instanceof Error ? err.message : "An error occurred";
+}
+---
+
+<div>
+  <div
+    class="flex flex-wrap justify-between gap-2 bg-white dark:bg-gray-900 rounded-3xl md:rounded-full py-2 px-2 w-fit"
+  >
+    {
+      filterBtns.map(({ name, type }) => {
+        const active = activeBtn === type;
+        return (
+          <a
+            href={type ? `/blogs?category=${encodeURIComponent(type)}` : "/blogs"}
+            class:list={[
+              "btn h-9 min-h-0 rounded-full border-0 px-3 sm:px-6 shadow-zinc-100 dark:shadow-[#151517] cursor-pointer shrink-0 text-sm",
+              active
+                ? "font-medium bg-primary text-primary-foreground hover:bg-primary/90"
+                : "font-normal bg-background hover:bg-white dark:hover:bg-gray-700 hover:shadow-[#151517]/20 dark:hover:shadow-[#151517] hover:shadow-xl",
+            ]}
+            aria-current={active ? "page" : undefined}
+          >
+            {name}
+          </a>
+        );
+      })
+    }
+  </div>
+
+  {
+    error && (
+      <div class="mt-10 p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+        <p class="text-red-600 dark:text-red-400">
+          Error loading blogs: {error}
+        </p>
+      </div>
+    )
+  }
+
+  {
+    !error && (
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
+        {blogs.length > 0 ? (
+          blogs.map((blog) => <SingleBlog blog={blog} />)
+        ) : (
+          <div class="col-span-full text-center py-10">
+            <p class="text-muted-foreground">No blogs found in this category.</p>
+          </div>
+        )}
+      </div>
+    )
+  }
+</div>

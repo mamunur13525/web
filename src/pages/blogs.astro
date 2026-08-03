@@ -1,0 +1,19 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import NestedNavbar from "@/components/NestedNavbar.astro";
+import PageTitle from "@/components/PageTitle.astro";
+import BlogsList from "@/components/blogs/BlogsList.astro";
+---
+
+<Layout
+  title="Blogs"
+  description="Read my latest articles about web development, technology, and coding tutorials."
+>
+  <main>
+    <NestedNavbar />
+    <section class="pt-10 mb-5">
+      <PageTitle title="All Blogs" />
+    </section>
+    <BlogsList />
+  </main>
+</Layout>

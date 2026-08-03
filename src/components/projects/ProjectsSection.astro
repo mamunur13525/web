@@ -1,0 +1,287 @@
+---
+import SectionTitle from "../ui/SectionTitle.astro";
+import AccordionIcon from "../ui/AccordionIcon.astro";
+import FullscreenImage from "../ui/FullscreenImage.astro";
+import { projects } from "@/data/demo/projects";
+import { renderMarkdown } from "@/lib/markdown";
+import { cn } from "@/lib/utils";
+
+const INITIAL_VISIBLE = 5;
+---
+
+<SectionTitle title="Projects">
+  <div class="relative" id="projects-list">
+    {
+      projects.map((project, index) => {
+        /* `project-8` was open by default in the original */
+        const openByDefault = project.id === 8;
+        const contentHtml = renderMarkdown(project.content, "project");
+
+        return (
+          <div
+            class="relative w-full project-row"
+            data-index={index}
+            hidden={index >= INITIAL_VISIBLE}
+          >
+            <div>
+              <button
+                type="button"
+                data-state={openByDefault ? "open" : "closed"}
+                aria-expanded={openByDefault ? "true" : "false"}
+                class={cn(
+                  "accordion-trigger group hover:no-underline pr-4 rounded-none hover:bg-accent/50 py-6 px-2 flex items-center justify-between gap-4 border border-t-transparent data-[state=open]:bg-white/60 backdrop-blur-lg data-[state=open]:dark:bg-[#141416]/60 w-full text-left text-sm font-medium transition-all outline-none cursor-pointer",
+                  index === 0 ? "border-t-border" : ""
+                )}
+              >
+                <div
+                  class={cn(
+                    "rounded-lg w-8 h-8 bg-white overflow-hidden border border-border flex items-center justify-center shrink-0",
+                    project.icon ? "" : "p-1"
+                  )}
+                >
+                  {project.icon ? (
+                    <img
+                      src={project.icon}
+                      alt={project.title}
+                      width="36"
+                      height="32"
+                      loading="lazy"
+                      decoding="async"
+                      class="w-full h-full object-contain rounded-sm"
+                    />
+                  ) : (
+                    <span class="w-full h-full shadow-lg flex items-center justify-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="w-5 h-5 text-[#353537]"
+                      >
+                        <path d="M4 10c0-1.7 0-2.5.4-3.1a3 3 0 0 1 1-1C6 5.5 6.8 5.5 8.5 5.5" />
+                        <path d="M20 14c0 1.7 0 2.5-.4 3.1a3 3 0 0 1-1 1c-.6.4-1.4.4-3.1.4" />
+                        <path d="M8.5 18.5c-1.7 0-2.5 0-3.1-.4a3 3 0 0 1-1-1C4 16.5 4 15.7 4 14" />
+                        <path d="M15.5 5.5c1.7 0 2.5 0 3.1.4a3 3 0 0 1 1 1c.4.6.4 1.4.4 3.1" />
+                      </svg>
+                    </span>
+                  )}
+                </div>
+                <div class="flex-1 flex flex-col items-start text-left w-full">
+                  <a
+                    href={project.live.preview}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:underline project-title-link"
+                  >
+                    <h3 class="text-lg font-semibold">{project.title}</h3>
+                  </a>
+                  <span class="text-sm text-muted-foreground mt-1 font-normal">
+                    {project.date}
+                  </span>
+                </div>
+                <div class="flex items-center gap-5">
+                  {project.live.preview && (
+                    <div class="tooltip" data-tip="Live Preview">
+                      <a
+                        href={project.live.preview}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="project-icon-link flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                        aria-label="Live Preview"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="-rotate-60 w-4 h-4 text-muted-foreground"
+                        >
+                          <path d="M9 17H7A5 5 0 0 1 7 7h2" />
+                          <path d="M15 7h2a5 5 0 1 1 0 10h-2" />
+                          <line x1="8" x2="16" y1="12" y2="12" />
+                        </svg>
+                      </a>
+                    </div>
+                  )}
+                  {project.live.git && (
+                    <div class="tooltip" data-tip="Frontend Code">
+                      <a
+                        href={project.live.git}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="project-icon-link flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                        aria-label="Frontend Code"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="w-4 h-4 text-zinc-600"
+                        >
+                          <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                          <path d="M9 18c-4.51 2-5-2-7-2" />
+                        </svg>
+                      </a>
+                    </div>
+                  )}
+                  {project.live.backend && (
+                    <div class="tooltip" data-tip="Backend Code">
+                      <a
+                        href={project.live.backend}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="project-icon-link flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                        aria-label="Backend Code"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="w-4 h-4 text-zinc-600"
+                        >
+                          <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                          <path d="M9 18c-4.51 2-5-2-7-2" />
+                        </svg>
+                      </a>
+                    </div>
+                  )}
+                </div>
+                <div class="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200">
+                  <AccordionIcon />
+                </div>
+              </button>
+
+              <div
+                class="accordion-content overflow-hidden"
+                data-state={openByDefault ? "open" : "closed"}
+                hidden={!openByDefault}
+              >
+                <div class="pt-6 px-8 pb-4 border border-t-0 bg-white/60 dark:bg-[#141416]/60 backdrop-blur-lg text-sm">
+                  <div class="space-y-4">
+                    {project.content && (
+                      <div class="prose prose-zinc max-w-none">
+                        <Fragment set:html={contentHtml} />
+                      </div>
+                    )}
+
+                    {project.image.thumbnail && (
+                      <FullscreenImage
+                        src={project.image.thumbnail}
+                        alt={project.title}
+                        class="object-cover border border-border shadow-lg hover:shadow-none"
+                      />
+                    )}
+
+                    <div class="flex flex-wrap gap-2 mt-2">
+                      {project.type.map((type) => (
+                        <span class="px-2.5 py-0.5 rounded-full bg-secondary text-muted-foreground text-xs font-medium border border-border">
+                          {type}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })
+    }
+
+    {
+      projects.length > INITIAL_VISIBLE && (
+        <div
+          id="load-more-wrap"
+          class="absolute bottom-0 w-full h-24 flex items-end pb-8 justify-center mt-8 bg-[linear-gradient(0deg,rgba(255,255,255,1)_15%,rgba(255,255,255,0.13)_100%)] dark:bg-[linear-gradient(0deg,rgba(0,0,0,1)_15%,rgba(0,0,0,0.13)_100%)]"
+        >
+          <button
+            id="load-more-projects"
+            type="button"
+            class="btn btn-outline min-w-[120px] h-9 min-h-0 cursor-pointer gap-2 rounded-md border border-border bg-background hover:bg-accent hover:text-accent-foreground text-sm font-medium"
+          >
+            Load More
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-4 h-4"
+            >
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </button>
+        </div>
+      )
+    }
+  </div>
+</SectionTitle>
+
+<script>
+  const STEP = 5;
+
+  function init() {
+    const button = document.getElementById("load-more-projects");
+    const wrap = document.getElementById("load-more-wrap");
+    if (!button || !wrap || button.dataset.ready) return;
+    button.dataset.ready = "true";
+
+    const rows = Array.from(
+      document.querySelectorAll<HTMLElement>(".project-row")
+    );
+    let visibleCount = rows.filter((row) => !row.hidden).length;
+
+    button.addEventListener("click", () => {
+      visibleCount += STEP;
+      rows.forEach((row, index) => {
+        if (index < visibleCount) row.hidden = false;
+      });
+      if (visibleCount >= rows.length) wrap.remove();
+    });
+  }
+
+  /* Keep the accordion trigger from toggling when a link inside it is clicked */
+  function guardLinks() {
+    document
+      .querySelectorAll<HTMLAnchorElement>(
+        ".project-icon-link:not([data-guarded]), .project-title-link:not([data-guarded])"
+      )
+      .forEach((link) => {
+        link.dataset.guarded = "true";
+        link.addEventListener("click", (e) => e.stopPropagation());
+      });
+  }
+
+  init();
+  guardLinks();
+  document.addEventListener("astro:page-load", () => {
+    init();
+    guardLinks();
+  });
+</script>

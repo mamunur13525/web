@@ -1,0 +1,324 @@
+---
+import Logo from "./Logo.astro";
+import ThemeToggle from "./ui/ThemeToggle.astro";
+
+const MENU_ITEMS = [
+    { label: "Home", href: "/#home" },
+    { label: "Projects", href: "/#projects" },
+    { label: "Blogs", href: "/#blogs" },
+    { label: "Contact", href: "/contact" },
+];
+
+const MENU_PANEL_DURATION = 300; // ms, matches the CSS transition
+const MENU_ITEM_STAGGER = 160; // ms between each item
+
+const RESUME_URL =
+    "https://drive.google.com/file/d/1eoTHc59uvKcAMP1unihX6VwSDaOR7d0E/view?usp=drive_link";
+---
+
+<header
+    id="site-header"
+    class="fixed z-400 top-0 left-0 transition-all duration-500 ease-in-out w-full pt-10"
+>
+    <div
+        id="navbar-shell"
+        class="flex items-start justify-between origin-center transition-all duration-500 ease-in-out container mx-auto py-3 rounded-full border max-w-5xl px-7 xl:px-0 border-transparent bg-transparent"
+    >
+        <nav class="flex items-end gap-1 md:gap-3">
+            <a href="/#home">
+                <Logo />
+            </a>
+            <a
+                href="mailto:mamun.ahmed135255@gmail.com"
+                class="underline underline-offset-3 text-xs md:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1 pb-2"
+            >
+                mamun.ahmed13525@gmail.com
+            </a>
+        </nav>
+
+        <div class="flex items-center gap-2 md:gap-4">
+            <a
+                href="/blogs"
+                class="hidden sm:flex text-xs sm:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1"
+            >
+                Blogs
+            </a>
+            <a
+                href="/contact"
+                class="hidden sm:flex text-xs sm:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1"
+            >
+                Contact
+            </a>
+            <a href={RESUME_URL} target="_blank" rel="noopener noreferrer">
+                <button
+                    class="btn group items-center justify-start px-4 md:px-6 py-2 md:py-3 rounded-full cursor-pointer bg-[#000000] text-white border-none hidden md:flex duration-300 transition-all hover:w-26 w-10 relative h-9 min-h-0"
+                    type="button"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="w-4 h-4 text-zinc-300! group-hover:dark:text-zinc-900"
+                    >
+                        <path d="M12 13v8l-4-4"></path>
+                        <path d="m12 21 4-4"></path>
+                        <path
+                            d="M4.393 15.269A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.436 8.284"
+                        ></path>
+                    </svg>
+                    <span
+                        class="absolute right-3.5 top-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-full duration-300 transition-all pointer-events-none group-hover:pointer-events-auto text-sm"
+                    >
+                        Resume
+                    </span>
+                </button>
+            </a>
+
+            <ThemeToggle />
+
+            <button
+                id="menu-open-button"
+                type="button"
+                class="btn btn-outline btn-square w-10 h-10 min-h-0 p-0 cursor-pointer rounded-full border border-border bg-background hover:bg-accent hover:text-accent-foreground"
+                aria-expanded="false"
+                aria-controls="navbar-menu-sheet"
+                aria-label="Open menu"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="w-5 h-5"
+                >
+                    <path d="M3 5h18"></path>
+                    <path d="M3 12h18"></path>
+                    <path d="M3 19h12"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div
+        id="navbar-menu-sheet"
+        class="pointer-events-none fixed inset-0 z-400 flex justify-center overflow-hidden bg-white/0 transition-opacity duration-500 ease-out md:justify-end backdrop-blur-xl opacity-0"
+    >
+        <div
+            id="menu-sheet-panel"
+            class="menu-sheet-panel menu-sheet-panel-closed flex h-full w-full flex-col justify-between px-6 py-10 sm:px-10 md:w-[500px] bg-white dark:bg-zinc-900"
+        >
+            <div class="flex items-center justify-between">
+                <p
+                    class="text-xs font-semibold uppercase tracking-[0.4em] text-zinc-500 dark:text-zinc-400"
+                >
+                    Navigation
+                </p>
+                <button
+                    id="menu-close-button"
+                    type="button"
+                    class="btn btn-square h-14 w-14 min-h-0 cursor-pointer rounded-full border border-transparent bg-white text-zinc-900 dark:text-zinc-800 transition-colors hover:bg-zinc-100"
+                    aria-label="Close menu"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="h-8 w-8 dark:text-zinc-200"
+                    >
+                        <path d="M18 6 6 18"></path>
+                        <path d="m6 6 12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <ul class="flex flex-1 flex-col justify-center gap-4">
+                {
+                    MENU_ITEMS.map((item, index) => (
+                        <li>
+                            <a
+                                href={item.href}
+                                data-menu-link
+                                class="menu-item-animate block rounded-full border border-transparent bg-zinc-900/95 dark:bg-zinc-50/95 px-8 py-5 text-lg font-semibold uppercase tracking-wider text-white dark:text-zinc-800 transition-colors hover:border-zinc-800 hover:bg-white hover:text-zinc-900 dark:hover:bg-zinc-500/55 dark:hover:text-zinc-200"
+                                style={`animation-delay: ${MENU_PANEL_DURATION + index * MENU_ITEM_STAGGER}ms`}
+                            >
+                                {item.label}
+                            </a>
+                        </li>
+                    ))
+                }
+                <li
+                    class="menu-item-animate flex md:hidden items-center gap-3 rounded-full border border-transparent bg-zinc-900/95 dark:bg-zinc-50/95 px-8 py-5 text-lg font-semibold uppercase tracking-wider text-white dark:text-zinc-800 transition-colors hover:border-zinc-800 hover:bg-white hover:text-zinc-900 dark:hover:bg-zinc-500/55 dark:hover:text-zinc-200"
+                    style={`animation-delay: ${MENU_PANEL_DURATION + 5 * MENU_ITEM_STAGGER}ms`}
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="w-6 h-6"
+                    >
+                        <path d="M12 13v8l-4-4"></path>
+                        <path d="m12 21 4-4"></path>
+                        <path
+                            d="M4.393 15.269A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.436 8.284"
+                        ></path>
+                    </svg>
+                    Download Resume
+                </li>
+            </ul>
+
+            <div
+                class="flex flex-wrap md:flex-col items-center md:items-start gap-2 justify-between text-sm"
+            >
+                <span
+                    class="flex items-center gap-1 text-zinc-500 dark:text-zinc-400"
+                >
+                    Based in Dhaka, Bangladesh
+                </span>
+                <a
+                    href="mailto:mamun.ahmed135255@gmail.com"
+                    class="group flex items-center gap-0 hover:gap-1 transition-all duration-300 font-medium text-zinc-800 dark:text-zinc-200 underline-offset-4 hover:underline"
+                >
+                    mamun.ahmed13525@gmail.com
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="w-3.5 pt-1 group-hover:pt-0 duration-300"
+                    >
+                        <path d="M7 7h10v10"></path>
+                        <path d="M7 17 17 7"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script>
+    const SCROLL_THRESHOLD = 50; // px
+
+    const SCROLLED_SHELL = [
+        "bg-[#747475]/10",
+        "backdrop-blur-lg",
+        "max-w-[90%]",
+        "lg:max-w-4xl",
+        "px-6",
+    ];
+    const TOP_SHELL = [
+        "max-w-5xl",
+        "px-7",
+        "xl:px-0",
+        "border-transparent",
+        "bg-transparent",
+    ];
+
+    function init() {
+        const header = document.getElementById("site-header");
+        const shell = document.getElementById("navbar-shell");
+        const sheet = document.getElementById("navbar-menu-sheet");
+        const panel = document.getElementById("menu-sheet-panel");
+        const openButton = document.getElementById("menu-open-button");
+        const closeButton = document.getElementById("menu-close-button");
+
+        if (
+            !header ||
+            !shell ||
+            !sheet ||
+            !panel ||
+            !openButton ||
+            !closeButton
+        )
+            return;
+        if (header.dataset.ready) return;
+        header.dataset.ready = "true";
+
+        /* ---------- Scroll shrink behaviour ---------- */
+        const scrollContainer =
+            document.getElementById("main-scroll-container") ?? window;
+
+        const applyScrollState = (scrolled: boolean) => {
+            header.classList.toggle("pt-4", scrolled);
+            header.classList.toggle("pt-10", !scrolled);
+
+            SCROLLED_SHELL.forEach((c) => shell.classList.toggle(c, scrolled));
+            TOP_SHELL.forEach((c) => shell.classList.toggle(c, !scrolled));
+        };
+
+        const handleScroll = () => {
+            const scrollTop =
+                scrollContainer === window
+                    ? window.scrollY || window.pageYOffset
+                    : (scrollContainer as HTMLElement).scrollTop;
+            applyScrollState(scrollTop > SCROLL_THRESHOLD);
+        };
+
+        handleScroll();
+        scrollContainer.addEventListener("scroll", handleScroll, {
+            passive: true,
+        });
+        window.addEventListener("scroll", handleScroll, { passive: true });
+
+        /* ---------- Menu sheet ---------- */
+        const menuLinks =
+            panel.querySelectorAll<HTMLElement>(".menu-item-animate");
+
+        const setMenu = (open: boolean) => {
+            openButton.setAttribute("aria-expanded", String(open));
+            sheet.classList.toggle("opacity-100", open);
+            sheet.classList.toggle("pointer-events-auto", open);
+            sheet.classList.toggle("opacity-0", !open);
+            sheet.classList.toggle("pointer-events-none", !open);
+
+            panel.classList.toggle("menu-sheet-panel-open", open);
+            panel.classList.toggle("menu-sheet-panel-closed", !open);
+
+            menuLinks.forEach((link) =>
+                link.classList.toggle("menu-item-visible", open),
+            );
+        };
+
+        openButton.addEventListener("click", () => setMenu(true));
+        closeButton.addEventListener("click", () => setMenu(false));
+        panel
+            .querySelectorAll("[data-menu-link]")
+            .forEach((link) =>
+                link.addEventListener("click", () => setMenu(false)),
+            );
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") setMenu(false);
+        });
+    }
+
+    init();
+    document.addEventListener("astro:page-load", init);
+</script>

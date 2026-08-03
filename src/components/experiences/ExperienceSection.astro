@@ -1,0 +1,149 @@
+---
+import SectionTitle from "../ui/SectionTitle.astro";
+import AccordionIcon from "../ui/AccordionIcon.astro";
+import experienceData from "@/data/demo/experience";
+import type { DescriptionItem } from "@/types/types";
+
+/**
+ * Recursively renders the nested description bullets. Astro components
+ * can't self-recurse inline, so the markup is built as an HTML string.
+ */
+function renderDescriptionList(items: DescriptionItem[]): string {
+  if (!items || items.length === 0) return "";
+
+  const listItems = items
+    .map((item) => {
+      const sub = item.subItems
+        ? `<div class="ml-4 mt-2">${renderDescriptionList(item.subItems)}</div>`
+        : "";
+      return `<li>
+        <div class="flex items-start gap-2">
+          <span class="mt-2.5 w-1.5 h-1.5 rounded-full bg-muted-foreground/40 shrink-0"></span>
+          <span>${item.text}</span>
+        </div>
+        ${sub}
+      </li>`;
+    })
+    .join("");
+
+  return `<ul class="space-y-2 mb-4 text-secondary-foreground">${listItems}</ul>`;
+}
+---
+
+<SectionTitle title="Experience & Education" id="experience">
+  <div class="space-y-16">
+    {
+      experienceData.map((orgGroup) => (
+        <div>
+          <h2 class="text-lg font-semibold mb-8 flex items-center gap-3">
+            {orgGroup.logo ? (
+              <img
+                src={orgGroup.logo}
+                alt={orgGroup.organization}
+                width="24"
+                height="24"
+                loading="lazy"
+                decoding="async"
+                class="rounded-full ml-1.5 w-6 h-6"
+              />
+            ) : (
+              <div class="w-2 h-2 bg-[#d4d4d8] rounded-full ml-3" />
+            )}
+            {orgGroup.organization}
+          </h2>
+
+          <div class="relative border-l border-border ml-4">
+            <div class="w-full space-y-8">
+              {orgGroup.list.map((item) => {
+                const isWork =
+                  item.type === "experience" || item.type === "freelance";
+                /* `work-1` was open by default in the original */
+                const openByDefault = item.id === "work-1";
+
+                return (
+                  <div class="relative border-none pl-5 accordion-item">
+                    <div class="absolute -left-[15px] top-2 bg-background p-1.5 rounded-full border border-border shadow">
+                      {isWork ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="w-4 h-4 text-muted-foreground"
+                        >
+                          <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                          <rect width="20" height="14" x="2" y="6" rx="2" />
+                        </svg>
+                      ) : (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="w-4 h-4 text-muted-foreground"
+                        >
+                          <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
+                          <path d="M22 10v6" />
+                          <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
+                        </svg>
+                      )}
+                    </div>
+
+                    <button
+                      type="button"
+                      class="accordion-trigger group hover:no-underline pr-4 hover:bg-accent/50 py-2 px-2 rounded-lg flex flex-1 w-full items-start justify-between gap-4 text-left text-sm font-medium transition-all outline-none cursor-pointer"
+                      data-state={openByDefault ? "open" : "closed"}
+                      aria-expanded={openByDefault ? "true" : "false"}
+                    >
+                      <div class="flex flex-col items-start text-left w-full">
+                        <h3 class="text-lg font-medium">{item.title}</h3>
+                        <span class="text-sm text-muted-foreground mt-1 font-normal">
+                          {item.period}
+                        </span>
+                      </div>
+                      <div class="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200">
+                        <AccordionIcon />
+                      </div>
+                    </button>
+
+                    <div
+                      class="accordion-content overflow-hidden"
+                      data-state={openByDefault ? "open" : "closed"}
+                      hidden={!openByDefault}
+                    >
+                      <div class="pt-6 pb-8 text-sm">
+                        <Fragment
+                          set:html={renderDescriptionList(item.description)}
+                        />
+                        {item.skills.length > 0 && (
+                          <div class="flex flex-wrap gap-2">
+                            {item.skills.map((skill) => (
+                              <span class="px-2.5 py-0.5 rounded-full bg-secondary text-xs font-medium border border-border text-muted-foreground">
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <hr class="ml-[2.5%]" />
+        </div>
+      ))
+    }
+  </div>
+</SectionTitle>

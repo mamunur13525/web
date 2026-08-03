@@ -9,9 +9,29 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "check": "astro check",
+    "start": "node dist/server/entry.mjs",
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.1.6"
+    "@astrojs/node": "^11.0.3",
+    "@google/genai": "^2.15.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.1.6",
+    "clsx": "^2.1.1",
+    "daisyui": "^5.7.14",
+    "highlight.js": "^11.11.1",
+    "marked": "^18.0.7",
+    "marked-highlight": "^2.2.4",
+    "mongoose": "^9.9.1",
+    "nodemailer": "^9.0.3",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.3.3",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@types/nodemailer": "^8.0.1",
+    "typescript": "~6.0.3"
   }
 }

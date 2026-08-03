@@ -1,0 +1,39 @@
+---
+import type { BlogType } from "@/types/types";
+
+interface Props {
+  blog: BlogType;
+}
+
+const { blog } = Astro.props;
+---
+
+<a
+  href={blog?.slug ? `/blog/${blog.slug}` : "#"}
+  class="group block h-full w-full"
+>
+  <div class="rounded-3xl overflow-hidden transition-shadow duration-300 p-2">
+    {/* Image */}
+    <div
+      class="relative w-full h-[200px] rounded-xl overflow-hidden bg-gray-100"
+    >
+      <img
+        src={blog?.image}
+        alt={blog?.title}
+        loading="lazy"
+        decoding="async"
+        class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+      />
+    </div>
+
+    {/* Content */}
+    <div class="py-6 px-1">
+      <h3
+        class="text-lg leading-5 font-semibold mb-2 group-hover:text-primary transition-colors group-hover:underline"
+      >
+        {blog?.title}
+      </h3>
+      <p class="text-sm text-muted-foreground">{blog?.category}</p>
+    </div>
+  </div>
+</a>

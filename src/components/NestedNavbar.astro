@@ -1,0 +1,59 @@
+---
+interface Props {
+  prevRoute?: string;
+}
+
+const { prevRoute = "" } = Astro.props;
+---
+
+<div>
+  <button
+    type="button"
+    data-prev-route={prevRoute}
+    class="nested-back btn btn-outline btn-square h-9 min-h-0 cursor-pointer rounded-full bg-transparent border border-border md:flex duration-300 transition-all hover:w-21 md:w-10 w-21 px-2.5 relative flex justify-start items-center group hover:bg-zinc-800 hover:border-zinc-800"
+    aria-label="Go back"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="w-4 h-4 group-hover:text-white"
+    >
+      <path d="M15 6v12l-8.5-6L15 6z"></path>
+    </svg>
+    <span
+      class="md:block absolute right-3 top-2 md:opacity-0 opacity-100 group-hover:opacity-100 group-hover:translate-x-0 translate-0 md:translate-x-full duration-300 transition-all md:text-white text-black group-hover:text-white dark:text-white text-sm"
+    >
+      Back
+    </span>
+  </button>
+</div>
+
+<script>
+  function init() {
+    document
+      .querySelectorAll<HTMLButtonElement>(".nested-back:not([data-ready])")
+      .forEach((button) => {
+        button.dataset.ready = "true";
+        button.addEventListener("click", () => {
+          const target = button.dataset.prevRoute;
+          if (target) {
+            window.location.href = target;
+          } else if (window.history.length > 1) {
+            window.history.back();
+          } else {
+            window.location.href = "/";
+          }
+        });
+      });
+  }
+
+  init();
+  document.addEventListener("astro:page-load", init);
+</script>

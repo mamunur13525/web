@@ -1,0 +1,48 @@
+---
+import { Techstacks } from "@/data/demo/stacks";
+import SectionTitle from "./ui/SectionTitle.astro";
+import { cn } from "@/lib/utils";
+
+/* These logos are drawn dark, so they get inverted in dark mode. */
+const INVERT_IN_DARK = [
+  "react router",
+  "tanstack",
+  "shadcn/ui",
+  "radix ui",
+  "next.js",
+  "chatgpt",
+];
+---
+
+<SectionTitle title="Stack">
+  <div class="flex flex-wrap gap-4">
+    {
+      Techstacks.map((stack) => (
+        <div class="tooltip" data-tip={stack.name}>
+          <a
+            href={stack.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex flex-col items-center justify-center gap-1 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          >
+            <img
+              src={stack.icon}
+              alt={stack.name}
+              width="40"
+              height="40"
+              loading="lazy"
+              decoding="async"
+              class={cn(
+                "w-8 h-8 sm:w-10 sm:h-10",
+                INVERT_IN_DARK.includes(stack?.name?.toLowerCase() || "")
+                  ? "dark:invert"
+                  : ""
+              )}
+            />
+            <span class="text-xs sm:hidden">{stack.name}</span>
+          </a>
+        </div>
+      ))
+    }
+  </div>
+</SectionTitle>

@@ -1,0 +1,54 @@
+---
+import { Connects } from "@/data/demo/connects";
+import SectionTitle from "../ui/SectionTitle.astro";
+---
+
+<SectionTitle id="connect">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {
+      Connects.map((connect) => (
+        <a
+          href={connect.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group flex items-center gap-4 px-3 py-3 rounded-xl bg-card hover:bg-accent transition-colors duration-200"
+        >
+          <div class="shrink-0 w-16 h-16 rounded-lg bg-background flex items-center justify-center">
+            <img
+              src={connect.icon}
+              alt={connect.name}
+              width="48"
+              height="48"
+              loading="lazy"
+              decoding="async"
+              class="w-12 h-12 rounded-lg"
+            />
+          </div>
+
+          <div class="flex-1 min-w-0">
+            <h3 class="font-semibold text-foreground group-hover:underline">
+              {connect.name}
+            </h3>
+            <p class="text-sm text-muted-foreground">{connect.handle}</p>
+          </div>
+
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors shrink-0"
+          >
+            <path d="M7 7h10v10" />
+            <path d="M7 17 17 7" />
+          </svg>
+        </a>
+      ))
+    }
+  </div>
+</SectionTitle>
