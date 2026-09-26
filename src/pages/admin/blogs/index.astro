@@ -1,0 +1,176 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import AdminListScripts from "@/components/admin/AdminListScripts.astro";
+import connectDB from "@/lib/mongodb";
+import Blog from "@/models/Blog";
+import { formatDate } from "@/lib/utils";
+import type { BlogType } from "@/types/types";
+
+export const prerender = false;
+
+const actionClass =
+  "rounded-md border border-border bg-background px-2.5 py-1 text-xs font-medium no-underline transition-colors hover:bg-accent hover:text-accent-foreground";
+
+let error: string | null = null;
+let blogs: BlogType[] = [];
+
+try {
+  await connectDB();
+  blogs = JSON.parse(
+    JSON.stringify(await Blog.find({}).sort({ order: 1, date: -1 }).lean())
+  ) as BlogType[];
+} catch (err) {
+  console.error("Error loading blogs:", err);
+  error = err instanceof Error ? err.message : "Unknown error";
+}
+---
+
+<AdminLayout title="Blogs" active="blogs">
+  <div class="space-y-6">
+    <header class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <h1 class="font-stack text-2xl font-semibold">Blogs</h1>
+        <p class="mt-1 text-sm text-muted-foreground">
+          {blogs.length} post{blogs.length === 1 ? "" : "s"} in the{" "}
+          <code>blogs</code> collection.
+        </p>
+      </div>
+      <a
+        href="/admin/blogs/new"
+        class="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground no-underline transition-opacity hover:opacity-90"
+      >
+        + New blog
+      </a>
+    </header>
+
+    {
+      error && (
+        <div class="rounded-2xl border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
+          <p class="font-semibold">Could not reach MongoDB</p>
+          <p class="mt-1 break-words opacity-90">{error}</p>
+        </div>
+      )
+    }
+
+    {
+      !error && blogs.length > 0 && (
+        <input
+          id="admin-search"
+          type="search"
+          placeholder="Search posts by title, slug or category…"
+          class="w-full max-w-md rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-primary/60 focus:ring-2 focus:ring-ring/30"
+        />
+      )
+    }
+
+    {
+      !error && blogs.length === 0 && (
+        <div class="rounded-2xl border border-dashed border-border bg-background p-10 text-center">
+          <p class="text-sm text-muted-foreground">
+            No blog posts yet. Write your first one to see it here.
+          </p>
+          <a
+            href="/admin/blogs/new"
+            class="mt-4 inline-block rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground no-underline"
+          >
+            + New blog
+          </a>
+        </div>
+      )
+    }
+
+    {
+      !error && blogs.length > 0 && (
+        <div class="overflow-x-auto rounded-2xl border border-border bg-background">
+          <table class="w-full min-w-[720px] border-collapse text-sm">
+            <thead class="bg-muted/60 text-left text-xs uppercase tracking-wide text-muted-foreground">
+              <tr>
+                <th class="px-4 py-3 font-medium">Post</th>
+                <th class="px-4 py-3 font-medium">Category</th>
+                <th class="px-4 py-3 font-medium">Date</th>
+                <th class="px-4 py-3 text-right font-medium">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {blogs.map((blog) => (
+                <tr
+                  data-row
+                  data-row-id={blog._id ?? ""}
+                  data-search={`${blog.title} ${blog.slug} ${blog.category}`}
+                  class="border-t border-border align-middle"
+                >
+                  <td class="px-4 py-3">
+                    <div class="flex items-center gap-3">
+                      <span class="size-10 shrink-0 overflow-hidden rounded-md border border-border bg-muted">
+                        {blog.image ? (
+                          <img
+                            src={blog.image}
+                            alt=""
+                            class="size-full object-cover"
+                            loading="lazy"
+                          />
+                        ) : null}
+                      </span>
+                      <div class="min-w-0">
+                        <a
+                          href={`/admin/blogs/edit/${blog._id}`}
+                          class="block max-w-[260px] truncate font-medium no-underline hover:underline"
+                        >
+                          {blog.title}
+                        </a>
+                        <span class="block max-w-[260px] truncate text-xs text-muted-foreground">
+                          /{blog.slug}
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3">
+                    <span class="rounded-full border border-border bg-secondary px-2 py-0.5 text-xs text-muted-foreground">
+                      {blog.category}
+                    </span>
+                  </td>
+                  <td class="whitespace-nowrap px-4 py-3 text-muted-foreground">
+                    {formatDate(blog.date)}
+                  </td>
+                  <td class="px-4 py-3">
+                    <div class="flex items-center justify-end gap-2">
+                      <a
+                        href={`/blog/${blog.slug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class={actionClass}
+                      >
+                        View
+                      </a>
+                      <a
+                        href={`/admin/blogs/edit/${blog._id}`}
+                        class={actionClass}
+                      >
+                        Edit
+                      </a>
+                      <button
+                        type="button"
+                        data-delete-url={`/api/admin/blogs/${blog._id}`}
+                        data-delete-label={`"${blog.title}"`}
+                        data-row-id={blog._id ?? ""}
+                        class="cursor-pointer rounded-md border border-destructive/40 bg-destructive/10 px-2.5 py-1 text-xs font-medium text-destructive transition-colors hover:bg-destructive/20 disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )
+    }
+
+    <p id="admin-search-empty" class="hidden text-sm text-muted-foreground">
+      No posts match your search.
+    </p>
+  </div>
+</AdminLayout>
+
+<AdminListScripts />

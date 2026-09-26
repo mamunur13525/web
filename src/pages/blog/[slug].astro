@@ -2,20 +2,60 @@
 import Layout from "@/layouts/Layout.astro";
 import NestedNavbar from "@/components/NestedNavbar.astro";
 import FullscreenImage from "@/components/ui/FullscreenImage.astro";
+import SingleBlog from "@/components/blogs/SingleBlog.astro";
 import connectDB from "@/lib/mongodb";
 import Blog from "@/models/Blog";
 import { renderMarkdown } from "@/lib/markdown";
 import type { BlogType } from "@/types/types";
 
+export const prerender = false;
+
 const { slug } = Astro.params;
 
 let blog: BlogType | null = null;
+/** Sidebar: same category first, then newest — never the current post. */
+let related: BlogType[] = [];
+/** Fallback when there is nothing else to show. */
+let latest: BlogType[] = [];
 let loadFailed = false;
 
 try {
   await connectDB();
   const doc = await Blog.findOne({ slug }).lean();
   if (doc) blog = JSON.parse(JSON.stringify(doc)) as BlogType;
+
+  if (blog) {
+    const base = { _id: { $ne: doc._id }, slug: { $ne: blog.slug } };
+    const pick = "title slug excerpt category image date";
+    const byOrder = { order: 1 as const, date: -1 as const };
+
+    const [sameCategory, newest] = await Promise.all([
+      Blog.find({ ...base, category: blog.category })
+        .select(pick)
+        .sort(byOrder)
+        .limit(4)
+        .lean(),
+      Blog.find(base).select(pick).sort(byOrder).limit(4).lean(),
+    ]);
+
+    const seen = new Set<string>();
+    const deduped = [...sameCategory, ...newest].filter((item) => {
+      const key = String(item.slug || item._id);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    related = JSON.parse(JSON.stringify(deduped.slice(0, 4))) as BlogType[];
+  }
+
+  if (related.length === 0) {
+    const docs = await Blog.find(blog ? { slug: { $ne: blog.slug } } : {})
+      .select("title slug excerpt category image date")
+      .sort({ order: 1, date: -1 })
+      .limit(4)
+      .lean();
+    latest = JSON.parse(JSON.stringify(docs)) as BlogType[];
+  }
 } catch (error) {
   console.error("Error loading blog:", error);
   loadFailed = true;
@@ -25,6 +65,9 @@ try {
 if (!blog && !loadFailed) {
   return Astro.rewrite("/404");
 }
+
+const sidebar = related.length > 0 ? related : latest;
+const sidebarTitle = related.length > 0 ? "Related posts" : "Latest posts";
 
 const contentHtml = blog ? renderMarkdown(blog.content, "blog") : "";
 ---
@@ -57,27 +100,52 @@ const contentHtml = blog ? renderMarkdown(blog.content, "blog") : "";
           <NestedNavbar prevRoute="/blogs" />
         </div>
 
-        <article>
-          <div class="mb-6">
-            <span class="text-sm text-muted-foreground">{blog!.category}</span>
-            <h1 class="text-4xl md:text-5xl font-bold mt-2 mb-4">
-              {blog!.title}
-            </h1>
-            <p class="text-muted-foreground">{blog!.date}</p>
-          </div>
+        <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+          <article class="min-w-0">
+            <div class="mb-6">
+              <span class="text-sm text-muted-foreground">{blog!.category}</span>
+              <h1 class="text-4xl md:text-5xl font-bold mt-2 mb-4">
+                {blog!.title}
+              </h1>
+              <p class="text-muted-foreground">{blog!.date}</p>
+            </div>
 
-          {blog!.image && (
-            <FullscreenImage
-              src={blog!.image}
-              alt={blog!.title}
-              class="object-cover"
-            />
-          )}
+            {blog!.image && (
+              <FullscreenImage
+                src={blog!.image}
+                alt={blog!.title}
+                class="object-cover"
+              />
+            )}
 
-          <div class="prose prose-zinc max-w-none">
-            <Fragment set:html={contentHtml} />
-          </div>
-        </article>
+            <div class="prose prose-zinc max-w-none">
+              <Fragment set:html={contentHtml} />
+            </div>
+          </article>
+
+          {
+            sidebar.length > 0 && (
+              <aside class="min-w-0">
+                <div class="lg:sticky lg:top-24">
+                  <div class="mb-4 flex items-center justify-between gap-4">
+                    <h2 class="text-lg font-semibold">{sidebarTitle}</h2>
+                    <a
+                      href="/blogs"
+                      class="text-sm font-medium text-primary hover:underline"
+                    >
+                      All blogs
+                    </a>
+                  </div>
+                  <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                    {sidebar.map((item) => (
+                      <SingleBlog blog={item} variant="row" />
+                    ))}
+                  </div>
+                </div>
+              </aside>
+            )
+          }
+        </div>
       </main>
     </Layout>
   )

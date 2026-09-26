@@ -2,19 +2,59 @@
 import SectionTitle from "../ui/SectionTitle.astro";
 import AccordionIcon from "../ui/AccordionIcon.astro";
 import FullscreenImage from "../ui/FullscreenImage.astro";
-import { projects } from "@/data/demo/projects";
+import { getProjects } from "@/lib/projects";
 import { renderMarkdown } from "@/lib/markdown";
 import { cn } from "@/lib/utils";
+import type { ProjectType } from "@/types/types";
 
 const INITIAL_VISIBLE = 5;
+
+/**
+ * Homepage teaser: the 5 newest projects from the `projects` collection,
+ * rendered on the server so the list is present in the initial HTML.
+ */
+let projects: ProjectType[] = [];
+let error: string | null = null;
+
+try {
+  projects = await getProjects(INITIAL_VISIBLE);
+} catch (err) {
+  console.error("Error fetching projects:", err);
+  error = err instanceof Error ? err.message : "An error occurred";
+}
 ---
 
 <SectionTitle title="Projects">
-  <div class="relative" id="projects-list">
-    {
-      projects.map((project, index) => {
-        /* `project-8` was open by default in the original */
-        const openByDefault = project.id === 8;
+  {
+    error && (
+      <div class="mt-10 p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+        <p class="text-red-600 dark:text-red-400">
+          Error loading projects: {error}
+        </p>
+      </div>
+    )
+  }
+
+  {
+    !error && projects.length === 0 && (
+      <div class="mt-10 text-center py-10">
+        <p class="text-muted-foreground">
+          No projects yet. Add one from the{" "}
+          <a href="/admin/projects" class="underline">
+            admin panel
+          </a>
+          .
+        </p>
+      </div>
+    )
+  }
+
+  {
+    !error && projects.length > 0 && (
+      <div class="relative" id="projects-list">
+        {projects.map((project, index) => {
+          /* The newest project is open by default */
+          const openByDefault = index === 0;
         const contentHtml = renderMarkdown(project.content, "project");
 
         return (
@@ -206,66 +246,42 @@ const INITIAL_VISIBLE = 5;
               </div>
             </div>
           </div>
-        );
-      })
-    }
+          );
+        })}
+      </div>
+    )
+  }
 
-    {
-      projects.length > INITIAL_VISIBLE && (
-        <div
-          id="load-more-wrap"
-          class="absolute bottom-0 w-full h-24 flex items-end pb-8 justify-center mt-8 bg-[linear-gradient(0deg,rgba(255,255,255,1)_15%,rgba(255,255,255,0.13)_100%)] dark:bg-[linear-gradient(0deg,rgba(0,0,0,1)_15%,rgba(0,0,0,0.13)_100%)]"
+  {
+    !error && projects.length > 0 && (
+      <div class="flex justify-center mt-10">
+        <a
+          href="/projects"
+          class="btn btn-outline min-w-[140px] h-10 min-h-0 cursor-pointer gap-2 rounded-md border border-border bg-background hover:bg-accent hover:text-accent-foreground text-sm font-medium no-underline"
         >
-          <button
-            id="load-more-projects"
-            type="button"
-            class="btn btn-outline min-w-[120px] h-9 min-h-0 cursor-pointer gap-2 rounded-md border border-border bg-background hover:bg-accent hover:text-accent-foreground text-sm font-medium"
+          Show More
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="w-4 h-4"
           >
-            Load More
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-4 h-4"
-            >
-              <path d="m6 9 6 6 6-6" />
-            </svg>
-          </button>
-        </div>
-      )
-    }
-  </div>
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    )
+  }
 </SectionTitle>
 
 <script>
-  const STEP = 5;
-
-  function init() {
-    const button = document.getElementById("load-more-projects");
-    const wrap = document.getElementById("load-more-wrap");
-    if (!button || !wrap || button.dataset.ready) return;
-    button.dataset.ready = "true";
-
-    const rows = Array.from(
-      document.querySelectorAll<HTMLElement>(".project-row")
-    );
-    let visibleCount = rows.filter((row) => !row.hidden).length;
-
-    button.addEventListener("click", () => {
-      visibleCount += STEP;
-      rows.forEach((row, index) => {
-        if (index < visibleCount) row.hidden = false;
-      });
-      if (visibleCount >= rows.length) wrap.remove();
-    });
-  }
-
   /* Keep the accordion trigger from toggling when a link inside it is clicked */
   function guardLinks() {
     document
@@ -278,10 +294,6 @@ const INITIAL_VISIBLE = 5;
       });
   }
 
-  init();
   guardLinks();
-  document.addEventListener("astro:page-load", () => {
-    init();
-    guardLinks();
-  });
+  document.addEventListener("astro:page-load", guardLinks);
 </script>

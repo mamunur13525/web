@@ -4,27 +4,34 @@ import connectDB from "@/lib/mongodb";
 import Blog from "@/models/Blog";
 import type { BlogType } from "@/types/types";
 
-const filterBtns = [
-  { id: 1, name: "All Category's", type: "" },
-  { id: 2, name: "React", type: "React" },
-  { id: 3, name: "Next.js", type: "Next.js" },
-  { id: 4, name: "TypeScript", type: "TypeScript" },
-];
+/* Filter buttons derive from the categories actually present in the DB. */
+const DEFAULT_FILTERS = [{ name: "All Category's", type: "" }];
 
 /* The active filter comes from `?category=` so the list renders on the server. */
 const activeBtn = Astro.url.searchParams.get("category") ?? "";
 
 let blogs: BlogType[] = [];
+let filterBtns = DEFAULT_FILTERS;
 let error: string | null = null;
 
 try {
   await connectDB();
   const query = activeBtn ? { category: activeBtn } : {};
-  const docs = await Blog.find(query)
-    .select("title slug excerpt category image date")
-    .sort({ date: -1 })
-    .lean();
+  const [docs, categories] = await Promise.all([
+    Blog.find(query)
+      .select("title slug excerpt category image date")
+      .sort({ order: 1, date: -1 })
+      .lean(),
+    Blog.distinct("category"),
+  ]);
   blogs = JSON.parse(JSON.stringify(docs)) as BlogType[];
+  const sorted = (categories as unknown[])
+    .filter((c): c is string => typeof c === "string" && c.trim().length > 0)
+    .sort((a, b) => a.localeCompare(b));
+  filterBtns = [
+    ...DEFAULT_FILTERS,
+    ...sorted.map((category) => ({ name: category, type: category })),
+  ];
 } catch (err) {
   console.error("Error fetching blogs:", err);
   error = err instanceof Error ? err.message : "An error occurred";

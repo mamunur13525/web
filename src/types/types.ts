@@ -35,6 +35,8 @@ type BlogType = {
   content?: string;
   category: string;
   date?: string;
+  /** Manual display position (lower appears first on the site). */
+  order?: number;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -74,8 +76,32 @@ interface TechStackType {
   url: string;
 }
 
+/**
+ * Serialized project as stored in the `projects` collection. Mirrors
+ * `IProject` in `src/models/Project.ts` with dates stringified for transport.
+ */
+type AdminProjectType = {
+  _id: string;
+  title: string;
+  icon: string;
+  date: string;
+  description: string;
+  live_preview: string;
+  github_link: string;
+  image: {
+    full: string;
+    preview: string;
+  };
+  technologies: string[];
+  /** Manual display position (lower appears first on the site). */
+  order: number;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
 export type {
   ProjectType,
+  AdminProjectType,
   BlogType,
   ExperienceGroup,
   ExperienceItem,

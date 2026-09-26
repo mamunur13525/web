@@ -1,0 +1,209 @@
+---
+/**
+ * Client-side helpers shared by the admin list pages.
+ *
+ * - `#admin-search` filters `[data-row]` elements by their `data-search` text.
+ * - `[data-delete-url]` buttons send a DELETE request and remove the matching
+ *   `[data-row-id]` element.
+ * - `[data-reorder-table]` tables get drag-to-reorder on `[data-drag-handle]`
+ *   grips: dragging a row reorders the DOM and persists the id sequence to
+ *   the endpoint in `data-reorder-url` (`PUT`, `{ ids: [...] }`).
+ */
+---
+
+<script>
+  function initAdminList() {
+    const search = document.getElementById("admin-search") as HTMLInputElement | null;
+    const noResults = document.getElementById("admin-search-empty");
+    const rows = Array.from(document.querySelectorAll<HTMLElement>("[data-row]"));
+
+    if (search && !search.dataset.ready) {
+      search.dataset.ready = "true";
+      search.addEventListener("input", () => {
+        const term = search.value.trim().toLowerCase();
+        let visible = 0;
+
+        rows.forEach((row) => {
+          const match =
+            !term || (row.dataset.search ?? "").toLowerCase().includes(term);
+          row.classList.toggle("hidden", !match);
+          if (match) visible += 1;
+        });
+
+        noResults?.classList.toggle("hidden", visible > 0 || rows.length === 0);
+      });
+    }
+
+    document
+      .querySelectorAll<HTMLButtonElement>("[data-delete-url]")
+      .forEach((button) => {
+        if (button.dataset.ready) return;
+        button.dataset.ready = "true";
+
+        button.addEventListener("click", async () => {
+          const url = button.dataset.deleteUrl;
+          if (!url) return;
+
+          const label = button.dataset.deleteLabel ?? "this item";
+          if (!window.confirm(`Delete ${label}? This cannot be undone.`)) return;
+
+          button.setAttribute("disabled", "true");
+
+          try {
+            const response = await fetch(url, {
+              method: "DELETE",
+              /* A JSON content type keeps Astro's cross-origin form check happy */
+              headers: { "Content-Type": "application/json" },
+            });
+            const payload = await response.json().catch(() => null);
+
+            if (!response.ok) {
+              throw new Error(payload?.error ?? "Delete failed");
+            }
+
+            window.toast?.success("Deleted successfully");
+
+            document
+              .querySelector(`[data-row-id="${button.dataset.rowId}"]`)
+              ?.remove();
+
+            if (document.querySelectorAll("[data-row]").length === 0) {
+              window.location.reload();
+            }
+          } catch (error) {
+            window.toast?.error(
+              error instanceof Error ? error.message : "Delete failed"
+            );
+            button.removeAttribute("disabled");
+          }
+        });
+      });
+
+    document
+      .querySelectorAll<HTMLElement>("[data-reorder-table]")
+      .forEach((table) => {
+        if (table.dataset.ready) return;
+        table.dataset.ready = "true";
+
+        const url = table.dataset.reorderUrl;
+        if (!url) return;
+
+        const tbody = table.querySelector("tbody");
+        if (!tbody) return;
+
+        const rows = () =>
+          Array.from(tbody!.querySelectorAll<HTMLElement>("[data-row]"));
+
+        const status = document.getElementById("admin-reorder-status");
+        let dragging: HTMLElement | null = null;
+        let saveTimer: ReturnType<typeof setTimeout> | null = null;
+
+        const announce = (message: string, isError = false) => {
+          if (!status) return;
+          status.textContent = message;
+          status.classList.remove("hidden");
+          status.dataset.state = isError ? "error" : "ok";
+          status.classList.toggle("border-destructive/40", isError);
+          status.classList.toggle("bg-destructive/10", isError);
+          status.classList.toggle("text-destructive", isError);
+          status.classList.toggle("border-border", !isError);
+          status.classList.toggle("text-muted-foreground", !isError);
+        };
+
+        const persist = () => {
+          const ids = rows()
+            .map((row) => row.dataset.rowId ?? "")
+            .filter(Boolean);
+          announce("Saving new order…");
+          fetch(url, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ids }),
+          })
+            .then(async (response) => {
+              const payload = await response.json().catch(() => null);
+              if (!response.ok) {
+                throw new Error(payload?.error ?? "Could not save the order");
+              }
+              announce("Order saved ✓ — the site now shows this arrangement.");
+              window.toast?.success("Order saved");
+            })
+            .catch((error: unknown) => {
+              announce(
+                error instanceof Error ? error.message : "Could not save order",
+                true
+              );
+              window.toast?.error("Could not save the new order");
+            });
+        };
+
+        const schedulePersist = () => {
+          if (saveTimer) clearTimeout(saveTimer);
+          saveTimer = setTimeout(persist, 600);
+        };
+
+        const rowAfter = (y: number) => {
+          let candidate: HTMLElement | null = null;
+          for (const row of rows()) {
+            if (row === dragging) continue;
+            const box = row.getBoundingClientRect();
+            if (y < box.top + box.height / 2) {
+              candidate = row;
+              break;
+            }
+          }
+          return candidate;
+        };
+
+        rows().forEach((row) => {
+          const handle = row.querySelector<HTMLElement>("[data-drag-handle]");
+          if (handle) handle.setAttribute("draggable", "false");
+        });
+
+        tbody.addEventListener("dragstart", (event) => {
+          const handle = (event.target as HTMLElement).closest(
+            "[data-drag-handle]"
+          );
+          const row = (event.target as HTMLElement).closest<HTMLElement>(
+            "[data-row]"
+          );
+          if (!handle || !row) return;
+          dragging = row;
+          row.classList.add("opacity-50");
+          if (event.dataTransfer) {
+            event.dataTransfer.effectAllowed = "move";
+            try {
+              event.dataTransfer.setData("text/plain", row.dataset.rowId ?? "");
+            } catch {
+              /* some browsers disallow setData outside a real drag — ignore */
+            }
+          }
+        });
+
+        tbody.addEventListener("dragover", (event) => {
+          if (!dragging) return;
+          event.preventDefault();
+          if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+          const after = rowAfter(event.clientY);
+          if (!after) tbody.appendChild(dragging);
+          else if (after !== dragging) tbody.insertBefore(dragging, after);
+        });
+
+        tbody.addEventListener("drop", (event) => {
+          if (!dragging) return;
+          event.preventDefault();
+          schedulePersist();
+        });
+
+        tbody.addEventListener("dragend", () => {
+          if (!dragging) return;
+          dragging.classList.remove("opacity-50");
+          dragging = null;
+          schedulePersist();
+        });
+      });
+  }
+
+  initAdminList();
+  document.addEventListener("astro:page-load", initAdminList);
+</script>

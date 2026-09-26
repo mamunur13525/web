@@ -1,0 +1,25 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import ProjectForm from "@/components/admin/ProjectForm.astro";
+
+export const prerender = false;
+---
+
+<AdminLayout title="New project" active="projects">
+  <div class="space-y-6">
+    <header>
+      <a
+        href="/admin/projects"
+        class="text-sm text-muted-foreground no-underline hover:underline"
+      >
+        ← Projects
+      </a>
+      <h1 class="mt-2 font-stack text-2xl font-semibold">New project</h1>
+      <p class="mt-1 text-sm text-muted-foreground">
+        Add a project to the <code>projects</code> collection.
+      </p>
+    </header>
+
+    <ProjectForm />
+  </div>
+</AdminLayout>

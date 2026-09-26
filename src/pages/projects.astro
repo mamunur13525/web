@@ -1,0 +1,73 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import NestedNavbar from "@/components/NestedNavbar.astro";
+import PageTitle from "@/components/PageTitle.astro";
+import ProjectCard from "@/components/projects/ProjectCard.astro";
+import { getProjects } from "@/lib/projects";
+import type { ProjectType } from "@/types/types";
+
+/**
+ * Full projects archive, newest first, from the `projects` collection.
+ * Rendered on the server so the grid is present in the initial HTML.
+ */
+let projects: ProjectType[] = [];
+let error: string | null = null;
+
+try {
+  projects = await getProjects();
+} catch (err) {
+  console.error("Error fetching projects:", err);
+  error = err instanceof Error ? err.message : "An error occurred";
+}
+---
+
+<Layout
+  title="Projects"
+  description="Explore my portfolio of projects — full-stack apps, AI tools, and web applications built with modern technologies."
+>
+  <NestedNavbar />
+
+  <section class="py-10">
+    <PageTitle title="Projects" />
+
+    <p class="text-muted-foreground mt-4 mb-8 max-w-2xl">
+      A curated collection of projects I've built — from AI-powered platforms
+      to full-stack web applications. Click a card to view details, or follow
+      the links to see the live site and source code.
+    </p>
+
+    {
+      !error && projects.length > 0 && (
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {projects.map((project) => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+      )
+    }
+
+    {
+      error && (
+        <div class="mt-6 p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+          <p class="text-red-600 dark:text-red-400">
+            Error loading projects: {error}
+          </p>
+        </div>
+      )
+    }
+
+    {
+      !error && projects.length === 0 && (
+        <div class="text-center py-10">
+          <p class="text-muted-foreground">
+            No projects yet. Add one from the{" "}
+            <a href="/admin/projects" class="underline">
+              admin panel
+            </a>
+            .
+          </p>
+        </div>
+      )
+    }
+  </section>
+</Layout>

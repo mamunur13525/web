@@ -6,9 +6,9 @@ import Blog from "@/models/Blog";
 import type { BlogType } from "@/types/types";
 
 /**
- * The React version fetched `/api/blogs` from the client and showed
- * skeletons. Astro renders this on the server, so the list is present in
- * the initial HTML; only the error branch remains.
+ * Homepage teaser: the 4 newest posts from the `blogs` collection.
+ * Astro renders this on the server, so the list is present in the
+ * initial HTML; only the error branch remains.
  */
 let blogs: BlogType[] = [];
 let error: string | null = null;
@@ -17,7 +17,7 @@ try {
   await connectDB();
   const docs = await Blog.find({})
     .select("title slug excerpt category image date")
-    .sort({ date: -1 })
+    .sort({ order: 1, date: -1 })
     .limit(4)
     .lean();
   blogs = JSON.parse(JSON.stringify(docs)) as BlogType[];
@@ -39,15 +39,25 @@ try {
   }
 
   {
-    !error && (
+    !error && blogs.length === 0 && (
+      <div class="mt-10 text-center py-10">
+        <p class="text-muted-foreground">
+          No blogs yet. Add one from the{" "}
+          <a href="/admin/blogs" class="underline">
+            admin panel
+          </a>
+          .
+        </p>
+      </div>
+    )
+  }
+
+  {
+    !error && blogs.length > 0 && (
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
-        {blogs.length > 0 ? (
-          blogs.map((blog) => <SingleBlog blog={blog} />)
-        ) : (
-          <div class="col-span-full text-center py-10">
-            <p class="text-muted-foreground">No blogs found in this category.</p>
-          </div>
-        )}
+        {blogs.map((blog) => (
+          <SingleBlog blog={blog} />
+        ))}
       </div>
     )
   }

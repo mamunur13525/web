@@ -8,6 +8,12 @@ export interface IBlog extends Document {
   category: string;
   image: string;
   date: string;
+  /**
+   * Manual display position. Lower values appear first on the site; new
+   * documents default to `0` so they sit at the top until reordered from
+   * the admin panel.
+   */
+  order: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -48,6 +54,10 @@ const BlogSchema: Schema = new Schema(
       type: String,
       required: [true, 'Date is required'],
     },
+    order: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,
@@ -56,6 +66,6 @@ const BlogSchema: Schema = new Schema(
 
 // Create indexes for faster queries
 BlogSchema.index({ category: 1 });
-BlogSchema.index({ date: -1 });
+BlogSchema.index({ order: 1, date: -1 });
 
 export default mongoose.models.Blog || mongoose.model<IBlog>('Blog', BlogSchema, 'blogs');

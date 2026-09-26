@@ -1,0 +1,59 @@
+---
+import mongoose from "mongoose";
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import ProjectForm from "@/components/admin/ProjectForm.astro";
+import connectDB from "@/lib/mongodb";
+import Project from "@/models/Project";
+import type { AdminProjectType } from "@/types/types";
+
+export const prerender = false;
+
+const { id } = Astro.params;
+
+if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+  return Astro.redirect("/admin/projects");
+}
+
+let project: AdminProjectType | null = null;
+let error: string | null = null;
+
+try {
+  await connectDB();
+  const doc = await Project.findById(id).lean();
+
+  if (!doc) return Astro.redirect("/admin/projects");
+
+  project = JSON.parse(JSON.stringify(doc)) as AdminProjectType;
+} catch (err) {
+  console.error("Error loading project:", err);
+  error = err instanceof Error ? err.message : "Unknown error";
+}
+---
+
+<AdminLayout title="Edit project" active="projects">
+  <div class="space-y-6">
+    <header>
+      <a
+        href="/admin/projects"
+        class="text-sm text-muted-foreground no-underline hover:underline"
+      >
+        ← Projects
+      </a>
+      <h1 class="mt-2 font-stack text-2xl font-semibold">Edit project</h1>
+      <p class="mt-1 text-sm text-muted-foreground">
+        {project ? project.title : "Project could not be loaded."}
+      </p>
+    </header>
+
+    {
+      error && (
+        <div class="rounded-2xl border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
+          <p class="font-semibold">Could not load the project</p>
+          <p class="mt-1 break-words opacity-90">{error}</p>
+        </div>
+      )
+    }
+
+    {project && <ProjectForm project={project} />}
+  </div>
+</AdminLayout>

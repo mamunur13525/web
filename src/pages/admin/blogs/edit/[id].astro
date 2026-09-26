@@ -1,0 +1,78 @@
+---
+import mongoose from "mongoose";
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import BlogForm from "@/components/admin/BlogForm.astro";
+import connectDB from "@/lib/mongodb";
+import Blog from "@/models/Blog";
+import type { BlogType } from "@/types/types";
+
+export const prerender = false;
+
+const { id } = Astro.params;
+
+if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+  return Astro.redirect("/admin/blogs");
+}
+
+let blog: BlogType | null = null;
+let categories: string[] = [];
+let error: string | null = null;
+
+try {
+  await connectDB();
+
+  const doc = await Blog.findById(id).lean();
+  if (!doc) return Astro.redirect("/admin/blogs");
+
+  blog = JSON.parse(JSON.stringify(doc)) as BlogType;
+  categories = JSON.parse(
+    JSON.stringify(await Blog.distinct("category"))
+  ) as string[];
+} catch (err) {
+  console.error("Error loading blog:", err);
+  error = err instanceof Error ? err.message : "Unknown error";
+}
+---
+
+<AdminLayout title="Edit blog" active="blogs">
+  <div class="space-y-6">
+    <header>
+      <a
+        href="/admin/blogs"
+        class="text-sm text-muted-foreground no-underline hover:underline"
+      >
+        ← Blogs
+      </a>
+      <h1 class="mt-2 font-stack text-2xl font-semibold">Edit blog post</h1>
+      <p class="mt-1 text-sm text-muted-foreground">
+        {blog ? blog.title : "Post could not be loaded."}
+      </p>
+    </header>
+
+    {
+      error && (
+        <div class="rounded-2xl border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
+          <p class="font-semibold">Could not load the blog post</p>
+          <p class="mt-1 break-words opacity-90">{error}</p>
+        </div>
+      )
+    }
+
+    {
+      blog && (
+        <div class="flex flex-wrap gap-3">
+          <a
+            href={`/blog/${blog.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground no-underline transition-colors hover:bg-accent hover:text-accent-foreground"
+          >
+            View published post ↗
+          </a>
+        </div>
+      )
+    }
+
+    {blog && <BlogForm blog={blog} categories={categories} />}
+  </div>
+</AdminLayout>

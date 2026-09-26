@@ -17,7 +17,7 @@ export const GET: APIRoute = async ({ url }) => {
 
     const blogs = await Blog.find(query)
       .select("title slug excerpt category image date")
-      .sort({ date: -1 })
+      .sort({ order: 1, date: -1 })
       .lean();
 
     return new Response(JSON.stringify({ success: true, data: blogs }), {

@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "start": "node dist/server/entry.mjs",
-    "astro": "astro"
+    "astro": "astro",
+    "seed": "node scripts/seed/run.mjs"
   },
   "dependencies": {
     "@astrojs/vercel": "^11.0.4",

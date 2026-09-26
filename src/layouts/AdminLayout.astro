@@ -1,0 +1,119 @@
+---
+import "@/styles/global.css";
+import ThemeToggle from "@/components/ui/ThemeToggle.astro";
+import Toaster from "@/components/ui/Toaster.astro";
+
+interface Props {
+  title?: string;
+  active?: "dashboard" | "projects" | "blogs";
+}
+
+const { title = "Admin", active = "dashboard" } = Astro.props;
+
+const NAV = [
+  { key: "dashboard", label: "Dashboard", href: "/admin" },
+  { key: "projects", label: "Projects", href: "/admin/projects" },
+  { key: "blogs", label: "Blogs", href: "/admin/blogs" },
+] as const;
+---
+
+<!doctype html>
+<html lang="en" data-theme="portfolio">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <title>{title} | Admin Panel</title>
+
+    {/* Applies the stored theme before paint to avoid a flash */}
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          if (stored === "portfolio" || stored === "portfolio-dark") {
+            document.documentElement.setAttribute("data-theme", stored);
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen bg-muted/30 text-foreground">
+    <div
+      class="mx-auto flex w-full h-screen max-w-6xl flex-col gap-8  lg:flex-row "
+    >
+      <aside class="lg:w-56 lg:shrink-0 flex flex-col gap-6 bg-white px-4 py-8 lg:px-6">
+        <div class="flex items-start justify-between gap-4 lg:block">
+          <div>
+            <p class="font-stack text-lg font-semibold">Admin Panel</p>
+            <p class="text-xs text-muted-foreground">Projects &amp; Blogs</p>
+          </div>
+          <div class="lg:mt-5">
+            <ThemeToggle />
+          </div>
+        </div>
+
+        <nav class="flex-1 mt-6 flex flex-wrap gap-2 lg:flex-col">
+          {
+            NAV.map((item) => (
+              <a
+                href={item.href}
+                aria-current={active === item.key ? "page" : undefined}
+                class:list={[
+                  "rounded-lg px-3 py-2 text-sm font-medium no-underline transition-colors",
+                  active === item.key
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+                ]}
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+
+        <div class="mt-6 flex flex-wrap items-center gap-2 lg:flex-col lg:items-stretch">
+          <a
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-lg border border-border bg-background px-3 py-2 text-center text-sm font-medium text-muted-foreground no-underline transition-colors hover:bg-accent hover:text-accent-foreground"
+          >
+            View site ↗
+          </a>
+          <button
+            type="button"
+            id="admin-logout"
+            class="cursor-pointer rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+          >
+            Logout
+          </button>
+        </div>
+      </aside>
+
+      <main class="min-w-0 flex-1 py-8">
+        <slot />
+      </main>
+    </div>
+
+    <Toaster />
+
+    <script>
+      const logoutButton = document.getElementById("admin-logout");
+
+      logoutButton?.addEventListener("click", async () => {
+        logoutButton.setAttribute("disabled", "true");
+        try {
+          await fetch("/api/admin/logout", {
+            method: "POST",
+            /* A JSON content type keeps Astro's cross-origin form check happy */
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({}),
+          });
+        } finally {
+          window.location.href = "/admin/login";
+        }
+      });
+    </script>
+  </body>
+</html>

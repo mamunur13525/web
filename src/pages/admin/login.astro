@@ -1,0 +1,155 @@
+---
+import "@/styles/global.css";
+import Toaster from "@/components/ui/Toaster.astro";
+import {
+  SESSION_COOKIE,
+  isAdminConfigured,
+  verifySessionToken,
+} from "@/lib/auth";
+
+export const prerender = false;
+
+const requestedNext = Astro.url.searchParams.get("next") ?? "";
+/* Only allow same-site paths, never protocol-relative ones. */
+const next =
+  requestedNext.startsWith("/") && !requestedNext.startsWith("//")
+    ? requestedNext
+    : "/admin";
+
+if (verifySessionToken(Astro.cookies.get(SESSION_COOKIE)?.value)) {
+  return Astro.redirect(next);
+}
+
+const configured = isAdminConfigured();
+---
+
+<!doctype html>
+<html lang="en" data-theme="portfolio">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <title>Admin Login</title>
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          if (stored === "portfolio" || stored === "portfolio-dark") {
+            document.documentElement.setAttribute("data-theme", stored);
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body
+    class="flex min-h-screen items-center justify-center bg-muted/30 px-4 py-10 text-foreground"
+  >
+    <div class="w-full max-w-sm">
+      <div class="mb-6 text-center">
+        <p class="font-stack text-2xl font-semibold">Admin Panel</p>
+        <p class="mt-1 text-sm text-muted-foreground">
+          Sign in to manage projects &amp; blogs
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-border bg-background p-6 shadow-lg">
+        {
+          !configured && (
+            <div class="mb-5 rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-xs text-destructive">
+              <strong class="font-semibold">ADMIN_PASSWORD is not set.</strong>{" "}
+              Add it to your <code>.env</code> file (see{" "}
+              <code>.env.example</code>) and restart the server.
+            </div>
+          )
+        }
+
+        <form id="login-form" class="space-y-4" novalidate>
+          <div>
+            <label for="password" class="mb-1.5 block text-sm font-medium">
+              Password
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              required
+              autocomplete="current-password"
+              class="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-primary/60 focus:ring-2 focus:ring-ring/30"
+              placeholder="••••••••"
+            />
+          </div>
+
+          <div
+            id="login-error"
+            class="hidden rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive"
+          >
+          </div>
+
+          <button
+            id="login-submit"
+            type="submit"
+            class="w-full cursor-pointer rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            Sign in
+          </button>
+        </form>
+      </div>
+
+      <p class="mt-6 text-center text-xs text-muted-foreground">
+        <a href="/" class="text-muted-foreground underline hover:text-foreground">
+          ← Back to site
+        </a>
+      </p>
+    </div>
+
+    <Toaster />
+
+    <script is:inline define:vars={{ next }}>
+      const form = document.getElementById("login-form");
+      const errorBox = document.getElementById("login-error");
+      const submit = document.getElementById("login-submit");
+      const password = document.getElementById("password");
+
+      function showError(message) {
+        if (!errorBox) return;
+        errorBox.textContent = message;
+        errorBox.classList.remove("hidden");
+      }
+
+      form?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        errorBox?.classList.add("hidden");
+
+        if (!password.value) {
+          showError("Please enter the admin password.");
+          return;
+        }
+
+        submit.setAttribute("disabled", "true");
+        submit.textContent = "Signing in…";
+
+        try {
+          const response = await fetch("/api/admin/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: password.value }),
+          });
+          const payload = await response.json().catch(() => null);
+
+          if (response.ok && payload?.success) {
+            window.location.href = next;
+            return;
+          }
+
+          showError(payload?.error ?? "Login failed. Please try again.");
+        } catch (error) {
+          showError("Network error. Please try again.");
+        } finally {
+          submit.removeAttribute("disabled");
+          submit.textContent = "Sign in";
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,555 @@
+---
+import type { BlogType } from "@/types/types";
+import { toDateInputValue } from "@/lib/utils";
+
+interface Props {
+  /** Present when editing an existing post. */
+  blog?: BlogType;
+  /** Existing categories, offered as datalist suggestions. */
+  categories?: string[];
+}
+
+const { blog, categories = [] } = Astro.props;
+const isEdit = Boolean(blog);
+
+const fieldClass =
+  "w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-primary/60 focus:ring-2 focus:ring-ring/30";
+const labelClass = "mb-1.5 block text-sm font-medium";
+const hintClass = "mt-1 text-xs text-muted-foreground";
+const cardClass = "space-y-5 rounded-2xl border border-border bg-background p-5";
+
+const today = new Date().toISOString().slice(0, 10);
+
+interface ToolbarButton {
+  label: string;
+  title: string;
+  command?: string;
+  action?: "block" | "inlineCode" | "link";
+  value?: string;
+  extraClass?: string;
+}
+
+/**
+ * `command` maps straight to `document.execCommand`; `action` is handled by
+ * `src/lib/rich-text-editor.ts` (block wrappers, inline code and links).
+ */
+const TOOLBAR: ToolbarButton[] = [
+  { label: "B", title: "Bold", command: "bold", extraClass: "font-bold" },
+  { label: "I", title: "Italic", command: "italic", extraClass: "italic" },
+  {
+    label: "S",
+    title: "Strikethrough",
+    command: "strikeThrough",
+    extraClass: "line-through",
+  },
+  { label: "H2", title: "Heading 2", action: "block", value: "h2" },
+  { label: "H3", title: "Heading 3", action: "block", value: "h3" },
+  { label: "¶", title: "Paragraph", action: "block", value: "p" },
+  { label: "•", title: "Bullet list", command: "insertUnorderedList" },
+  { label: "1.", title: "Numbered list", command: "insertOrderedList" },
+  { label: "❝", title: "Quote", action: "block", value: "blockquote" },
+  { label: "{}", title: "Code block", action: "block", value: "pre" },
+  { label: "`x`", title: "Inline code", action: "inlineCode" },
+  { label: "Link", title: "Insert link", action: "link" },
+  { label: "Unlink", title: "Remove link", command: "unlink" },
+  { label: "Clear", title: "Clear formatting", command: "removeFormat" },
+  { label: "↶", title: "Undo", command: "undo" },
+  { label: "↷", title: "Redo", command: "redo" },
+];
+
+const toolButtonClass =
+  "cursor-pointer rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground";
+---
+
+<form
+  data-blog-form
+  data-endpoint={isEdit
+    ? `/api/admin/blogs/${blog!._id}`
+    : "/api/admin/blogs"}
+  data-method={isEdit ? "PUT" : "POST"}
+  class="space-y-5"
+  novalidate
+>
+  <section class={cardClass}>
+    <h2 class="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+      Post details
+    </h2>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      <div class="sm:col-span-2">
+        <label class={labelClass} for="title">Title *</label>
+        <input
+          id="title"
+          name="title"
+          required
+          maxlength="200"
+          value={blog?.title ?? ""}
+          placeholder="Complete Guide to React Data Fetching"
+          class={fieldClass}
+        />
+      </div>
+
+      <div>
+        <label class={labelClass} for="slug">Slug</label>
+        <input
+          id="slug"
+          name="slug"
+          value={blog?.slug ?? ""}
+          placeholder="auto-generated-from-title"
+          class={fieldClass}
+        />
+        <p class={hintClass}>
+          Leave empty to generate it from the title. Used in{" "}
+          <code>/blog/&lt;slug&gt;</code>.
+        </p>
+      </div>
+
+      <div>
+        <label class={labelClass} for="category">Category *</label>
+        <input
+          id="category"
+          name="category"
+          required
+          list="blog-categories"
+          value={blog?.category ?? ""}
+          placeholder="React"
+          class={fieldClass}
+        />
+        <datalist id="blog-categories">
+          {
+            categories.map((category) => (
+              <option value={category} />
+            ))
+          }
+        </datalist>
+      </div>
+
+      <div>
+        <label class={labelClass} for="date">Date *</label>
+        <input
+          id="date"
+          name="date"
+          type="date"
+          required
+          value={toDateInputValue(blog?.date) || today}
+          class={fieldClass}
+        />
+      </div>
+
+      <div>
+        <label class={labelClass} for="image">Cover image *</label>
+        <input
+          id="image"
+          name="image"
+          required
+          value={blog?.image ?? ""}
+          placeholder="https://…/cover.webp"
+          class={fieldClass}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class={cardClass}>
+    <h2 class="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+      Content
+    </h2>
+
+    <div>
+      <label class={labelClass} for="excerpt">Excerpt *</label>
+      <textarea
+        id="excerpt"
+        name="excerpt"
+        required
+        rows="3"
+        placeholder="Short summary shown on the blog cards and in social previews."
+        class={fieldClass}>{blog?.excerpt ?? ""}</textarea>
+    </div>
+
+    <div>
+      <div class="mb-1.5 flex items-center justify-between gap-3">
+        <label class={labelClass} for="content" style="margin-bottom: 0;">Content *</label>
+        <button
+          type="button"
+          data-rich-toggle
+          class="cursor-pointer rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+        >
+          Markdown source
+        </button>
+      </div>
+      {/*
+        Rich editor for the blog body. Editing happens in [data-rich-surface];
+        the value that gets saved stays Markdown in the hidden [data-rich-source]
+        textarea (synced in the submit handler), so the content keeps flowing
+        through renderMarkdown() unchanged.
+      */}
+      <div
+        data-rich-editor
+        data-mode="rich"
+        class="overflow-hidden rounded-lg border border-border bg-background transition-colors focus-within:border-primary/60 focus-within:ring-2 focus-within:ring-ring/30"
+      >
+        <div
+          data-rich-toolbar
+          role="toolbar"
+          aria-label="Formatting"
+          class="flex flex-wrap items-center gap-1 border-b border-border bg-muted/40 px-2 py-1.5"
+        >
+          {
+            TOOLBAR.map((button) => (
+              <button
+                type="button"
+                title={button.title}
+                aria-label={button.title}
+                data-rich-command={button.command}
+                data-rich-action={button.action}
+                data-rich-value={button.value}
+                class={`${toolButtonClass} ${button.extraClass ?? ""}`}
+              >
+                {button.label}
+              </button>
+            ))
+          }
+        </div>
+        <div
+          data-rich-surface
+          contenteditable="true"
+          role="textbox"
+          aria-multiline="true"
+          aria-label="Content (rich text)"
+          data-placeholder={"## Heading\n\nWrite the post in the editor above…"}
+          class="rich-surface min-h-72 px-3 py-2 text-sm leading-relaxed outline-none"
+        ></div>
+        <textarea
+          id="content"
+          name="content"
+          required
+          rows="18"
+          data-rich-source
+          placeholder={"## Heading\n\nWrite the post in Markdown.\n\n```js\nconsole.log('hello');\n```"}
+          class={`${fieldClass} rounded-none border-0 font-mono leading-relaxed focus:ring-0`}>{blog?.content ?? ""}</textarea>
+      </div>
+      <p class={hintClass}>
+        Rich text with a Markdown source view. Fenced code blocks get syntax
+        highlighting and a copy button on the published page.
+      </p>
+    </div>
+  </section>
+
+  <div
+    data-form-error
+    class="hidden rounded-2xl border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive"
+  >
+  </div>
+
+  <div class="flex flex-wrap items-center gap-3">
+    <button
+      type="submit"
+      data-form-submit
+      class="cursor-pointer rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+    >
+      Save blog post
+    </button>
+    <a
+      href="/admin/blogs"
+      class="rounded-lg border border-border bg-background px-5 py-2.5 text-sm font-medium text-muted-foreground no-underline transition-colors hover:bg-accent hover:text-accent-foreground"
+    >
+      Cancel
+    </a>
+  </div>
+</form>
+
+<script>
+  import {
+    initRichTextEditors,
+    syncRichTextEditors,
+  } from "@/lib/rich-text-editor";
+
+  type ToastOptions = { description?: string };
+
+  /** Access to the global toaster rendered by `<Toaster />`. */
+  function getToast() {
+    return (
+      window as unknown as {
+        toast?: {
+          success: (title: string, options?: ToastOptions) => void;
+          error: (title: string, options?: ToastOptions) => void;
+        };
+      }
+    ).toast;
+  }
+
+  /** Mirrors the server-side `slugify` helper in `src/lib/utils.ts`. */
+  function toSlug(value: string) {
+    return value
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 120);
+  }
+
+  function initBlogForm() {
+    const form = document.querySelector<HTMLFormElement>("form[data-blog-form]");
+    if (!form || form.dataset.ready) return;
+    form.dataset.ready = "true";
+
+    const errorBox = form.querySelector<HTMLElement>("[data-form-error]");
+    const submit = form.querySelector<HTMLButtonElement>("[data-form-submit]");
+
+    const showErrors = (messages: string[]) => {
+      if (!errorBox) return;
+      errorBox.replaceChildren(
+        ...messages.map((message) => {
+          const line = document.createElement("p");
+          line.textContent = `• ${message}`;
+          return line;
+        })
+      );
+      errorBox.classList.remove("hidden");
+      errorBox.scrollIntoView({ behavior: "smooth", block: "center" });
+    };
+
+    /* Keep the slug in sync with the title until it is edited manually. */
+    const titleInput = form.querySelector<HTMLInputElement>("#title");
+    const slugInput = form.querySelector<HTMLInputElement>("#slug");
+
+    if (titleInput && slugInput) {
+      let slugEdited = slugInput.value.trim().length > 0;
+
+      slugInput.addEventListener("input", () => {
+        slugEdited = true;
+      });
+
+      titleInput.addEventListener("input", () => {
+        if (!slugEdited) slugInput.value = toSlug(titleInput.value);
+      });
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      errorBox?.classList.add("hidden");
+
+      /* Flush the rich surface into the `content` textarea first. */
+      syncRichTextEditors(form);
+
+      const data = new FormData(form);
+      const value = (key: string) => String(data.get(key) ?? "").trim();
+
+      const payload = {
+        title: value("title"),
+        slug: value("slug"),
+        excerpt: value("excerpt"),
+        content: String(data.get("content") ?? ""),
+        category: value("category"),
+        image: value("image"),
+        date: value("date"),
+      };
+
+      if (submit) {
+        submit.disabled = true;
+        submit.textContent = "Saving…";
+      }
+
+      try {
+        const response = await fetch(String(form.dataset.endpoint), {
+          method: form.dataset.method ?? "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const result = await response.json().catch(() => null);
+
+        if (response.ok && result?.success) {
+          getToast()?.success("Blog post saved", { description: payload.title });
+          window.location.href = "/admin/blogs";
+          return;
+        }
+
+        const details: string[] = Array.isArray(result?.details)
+          ? result.details.map(
+              (detail: { path?: string; message?: string }) =>
+                detail.path ? `${detail.path}: ${detail.message}` : detail.message
+            )
+          : [];
+
+        showErrors(
+          details.length > 0
+            ? details
+            : [result?.error ?? "Could not save the blog post."]
+        );
+      } catch {
+        showErrors(["Network error. Please try again."]);
+      } finally {
+        if (submit) {
+          submit.disabled = false;
+          submit.textContent = "Save blog post";
+        }
+      }
+    });
+  }
+
+  initBlogForm();
+  initRichTextEditors();
+  document.addEventListener("astro:page-load", () => {
+    initBlogForm();
+    initRichTextEditors();
+  });
+</script>
+
+<style>
+  /*
+   * Rich text surface. Astro's scoped styles would not reach the nodes the
+   * editor creates at runtime, so these rules are global but namespaced under
+   * `.rich-surface` / `[data-rich-editor]`.
+   */
+  .rich-surface {
+    min-height: 18rem;
+  }
+
+  .rich-surface[contenteditable="true"]:empty::before {
+    content: attr(data-placeholder);
+    color: var(--muted-foreground);
+    pointer-events: none;
+  }
+
+  .rich-surface:focus-visible {
+    outline: none;
+  }
+
+  .rich-surface > :first-child {
+    margin-top: 0;
+  }
+
+  .rich-surface > :last-child {
+    margin-bottom: 0;
+  }
+
+  .rich-surface p {
+    margin: 0 0 0.75rem;
+  }
+
+  .rich-surface h1,
+  .rich-surface h2,
+  .rich-surface h3,
+  .rich-surface h4,
+  .rich-surface h5,
+  .rich-surface h6 {
+    margin: 1rem 0 0.5rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .rich-surface h1 {
+    font-size: 1.4rem;
+  }
+
+  .rich-surface h2 {
+    font-size: 1.2rem;
+  }
+
+  .rich-surface h3 {
+    font-size: 1.05rem;
+  }
+
+  .rich-surface h4,
+  .rich-surface h5,
+  .rich-surface h6 {
+    font-size: 1rem;
+  }
+
+  .rich-surface ul {
+    margin: 0 0 0.75rem;
+    padding-left: 1.25rem;
+    list-style: disc;
+  }
+
+  .rich-surface ol {
+    margin: 0 0 0.75rem;
+    padding-left: 1.5rem;
+    list-style: decimal;
+  }
+
+  .rich-surface li {
+    margin: 0.25rem 0;
+  }
+
+  .rich-surface li > ul,
+  .rich-surface li > ol {
+    margin-bottom: 0;
+  }
+
+  .rich-surface a {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .rich-surface blockquote {
+    margin: 0 0 0.75rem;
+    border-left: 3px solid var(--border-color);
+    padding-left: 0.75rem;
+    color: var(--muted-foreground);
+    font-style: italic;
+  }
+
+  .rich-surface code {
+    border-radius: 0.25rem;
+    background: var(--muted);
+    padding: 0.1rem 0.3rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono",
+      monospace;
+    font-size: 0.9em;
+  }
+
+  .rich-surface pre {
+    margin: 0 0 0.75rem;
+    border-radius: 0.5rem;
+    background: var(--muted);
+    padding: 0.75rem;
+    overflow: auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono",
+      monospace;
+    font-size: 0.9em;
+  }
+
+  .rich-surface pre code {
+    background: transparent;
+    padding: 0;
+  }
+
+  .rich-surface hr {
+    margin: 1rem 0;
+    border-color: var(--border-color);
+  }
+
+  .rich-surface img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .rich-surface table {
+    width: 100%;
+    margin: 0 0 0.75rem;
+    border-collapse: collapse;
+  }
+
+  .rich-surface th,
+  .rich-surface td {
+    border: 1px solid var(--border-color);
+    padding: 0.35rem 0.5rem;
+    text-align: left;
+  }
+
+  /* Rich text vs. raw markdown source */
+  [data-rich-editor][data-mode="rich"] [data-rich-source] {
+    display: none;
+  }
+
+  [data-rich-editor][data-mode="source"] [data-rich-surface],
+  [data-rich-editor][data-mode="source"] [data-rich-toolbar] {
+    display: none;
+  }
+
+  [data-rich-editor][data-mode="source"] [data-rich-source] {
+    display: block;
+    min-height: 18rem;
+  }
+</style>
