@@ -15,34 +15,41 @@ const INVERT_IN_DARK = [
 ---
 
 <SectionTitle title="Stack">
-  <div class="flex flex-wrap gap-4">
-    {
-      Techstacks.map((stack) => (
-        <div class="tooltip" data-tip={stack.name}>
-          <a
-            href={stack.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex flex-col items-center justify-center gap-1 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-          >
-            <img
-              src={stack.icon}
-              alt={stack.name}
-              width="40"
-              height="40"
-              loading="lazy"
-              decoding="async"
-              class={cn(
-                "w-8 h-8 sm:w-10 sm:h-10",
-                INVERT_IN_DARK.includes(stack?.name?.toLowerCase() || "")
-                  ? "dark:invert"
-                  : ""
-              )}
-            />
-            <span class="text-xs sm:hidden">{stack.name}</span>
-          </a>
-        </div>
-      ))
-    }
-  </div>
+<div 
+  class="grid grid-cols-5 sm:grid-cols-7 md:grid-cols-8 lg:grid-cols-10 border-t border-l border-border w-full"
+  style={{
+    backgroundImage: `
+      linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px)
+    `,
+    backgroundSize: 'calc(100% / 5) 100%, 100% calc(100% / 1)' // needs to match cols
+  }}
+>
+  {Techstacks.map((stack) => (
+    <div class="tooltip" data-tip={stack.name}>
+      <a
+        href={stack.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex flex-col items-center justify-center gap-1 border-r border-b border-border p-3 transition-colors hover:bg-accent hover:text-accent-foreground h-full"
+      >
+        <img
+          src={stack.icon}
+          alt={stack.name}
+          width="40"
+          height="40"
+          loading="lazy"
+          decoding="async"
+          class={cn(
+            "w-8 h-8 sm:w-10 sm:h-10",
+            INVERT_IN_DARK.includes(stack?.name?.toLowerCase() || "")
+              ? "dark:invert"
+              : "",
+          )}
+        />
+        <span class="text-xs text-center md:hidden">{stack.name}</span>
+      </a>
+    </div>
+  ))}
+</div>
 </SectionTitle>

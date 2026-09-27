@@ -243,14 +243,25 @@
     const closeBtn = document.getElementById("ai-chat-close");
     const list = document.getElementById("ai-chat-messages");
     const anchor = document.getElementById("ai-chat-anchor");
-    const input = document.getElementById("ai-chat-input") as HTMLTextAreaElement;
-    const sendBtn = document.getElementById("ai-chat-send") as HTMLButtonElement;
+    const input = document.getElementById(
+      "ai-chat-input",
+    ) as HTMLTextAreaElement;
+    const sendBtn = document.getElementById(
+      "ai-chat-send",
+    ) as HTMLButtonElement;
     const scrollWrap = document.getElementById("ai-chat-scroll-btn-wrap");
     const scrollBtn = document.getElementById("ai-chat-scroll-btn");
 
     if (
-      !toggle || !windowEl || !closeBtn || !list || !anchor ||
-      !input || !sendBtn || !scrollWrap || !scrollBtn
+      !toggle ||
+      !windowEl ||
+      !closeBtn ||
+      !list ||
+      !anchor ||
+      !input ||
+      !sendBtn ||
+      !scrollWrap ||
+      !scrollBtn
     ) {
       return;
     }
@@ -319,7 +330,11 @@
       document
         .getElementById("ai-chat-anchor")
         ?.scrollIntoView({ behavior: "smooth" });
-      scrollWrap!.classList.add("opacity-0", "translate-y-4", "pointer-events-none");
+      scrollWrap!.classList.add(
+        "opacity-0",
+        "translate-y-4",
+        "pointer-events-none",
+      );
       scrollWrap!.classList.remove("opacity-100", "translate-y-0");
     }
 

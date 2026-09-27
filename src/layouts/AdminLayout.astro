@@ -40,9 +40,11 @@ const NAV = [
   </head>
   <body class="min-h-screen bg-muted/30 text-foreground">
     <div
-      class="mx-auto flex w-full h-screen max-w-6xl flex-col gap-8  lg:flex-row "
+      class="mx-auto flex w-full h-screen max-w-6xl flex-col gap-8 lg:flex-row"
     >
-      <aside class="lg:w-56 lg:shrink-0 flex flex-col gap-6 bg-white px-4 py-8 lg:px-6">
+      <aside
+        class="lg:w-56 lg:shrink-0 flex flex-col gap-6 bg-white px-4 py-8 lg:px-6"
+      >
         <div class="flex items-start justify-between gap-4 lg:block">
           <div>
             <p class="font-stack text-lg font-semibold">Admin Panel</p>
@@ -72,7 +74,9 @@ const NAV = [
           }
         </nav>
 
-        <div class="mt-6 flex flex-wrap items-center gap-2 lg:flex-col lg:items-stretch">
+        <div
+          class="mt-6 flex flex-wrap items-center gap-2 lg:flex-col lg:items-stretch"
+        >
           <a
             href="/"
             target="_blank"
@@ -91,7 +95,7 @@ const NAV = [
         </div>
       </aside>
 
-      <main class="min-w-0 flex-1 py-8">
+      <main class="min-w-0 flex-1 py-8 px-5">
         <slot />
       </main>
     </div>

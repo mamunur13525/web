@@ -54,6 +54,8 @@ function renderDescriptionList(items: DescriptionItem[]): string {
 
           <div class="relative border-l border-border ml-4">
             <div class="w-full space-y-8">
+          <hr class="" />
+
               {orgGroup.list.map((item) => {
                 const isWork =
                   item.type === "experience" || item.type === "freelance";
@@ -101,7 +103,7 @@ function renderDescriptionList(items: DescriptionItem[]): string {
 
                     <button
                       type="button"
-                      class="accordion-trigger group hover:no-underline pr-4 hover:bg-accent/50 py-2 px-2 rounded-lg flex flex-1 w-full items-start justify-between gap-4 text-left text-sm font-medium transition-all outline-none cursor-pointer"
+                      class="accordion-trigger group hover:no-underline pr-4 hover:bg-accent/50 py-2 px-2 rounded-lg flex flex-1 w-full items-center justify-between gap-4 text-left text-sm font-medium transition-all outline-none cursor-pointer"
                       data-state={openByDefault ? "open" : "closed"}
                       aria-expanded={openByDefault ? "true" : "false"}
                     >
@@ -137,11 +139,12 @@ function renderDescriptionList(items: DescriptionItem[]): string {
                       </div>
                     </div>
                   </div>
+          <hr class="" />
+
                 );
               })}
             </div>
           </div>
-          <hr class="ml-[2.5%]" />
         </div>
       ))
     }

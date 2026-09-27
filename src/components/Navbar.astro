@@ -22,7 +22,7 @@ const RESUME_URL =
 >
     <div
         id="navbar-shell"
-        class="flex items-start justify-between origin-center transition-all duration-500 ease-in-out container mx-auto py-3 rounded-full border max-w-5xl px-7 xl:px-0 border-transparent bg-transparent"
+        class="flex items-start justify-between origin-center transition-all duration-500 ease-in-out container mx-auto py-3 rounded-none border max-w-6xl px-7 xl:px-0 border-transparent bg-transparent"
     >
         <nav class="flex items-end gap-1 md:gap-3">
             <a href="/#home">
@@ -42,12 +42,6 @@ const RESUME_URL =
                 class="hidden sm:flex text-xs sm:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1"
             >
                 Projects
-            </a>
-            <a
-                href="/blogs"
-                class="hidden sm:flex text-xs sm:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1"
-            >
-                Blogs
             </a>
             <a
                 href="/contact"
@@ -133,7 +127,7 @@ const RESUME_URL =
                 <button
                     id="menu-close-button"
                     type="button"
-                    class="btn btn-square h-14 w-14 min-h-0 cursor-pointer rounded-full border border-transparent bg-white text-zinc-900 dark:text-zinc-800 transition-colors hover:bg-zinc-100"
+                    class="btn btn-square h-14 w-14 min-h-0 cursor-pointer rounded-none border border-transparent bg-white text-zinc-900 dark:text-zinc-800 transition-colors hover:bg-zinc-100"
                     aria-label="Close menu"
                 >
                     <svg
@@ -161,7 +155,7 @@ const RESUME_URL =
                             <a
                                 href={item.href}
                                 data-menu-link
-                                class="menu-item-animate block rounded-full border border-transparent bg-zinc-900/95 dark:bg-zinc-50/95 px-8 py-5 text-lg font-semibold uppercase tracking-wider text-white dark:text-zinc-800 transition-colors hover:border-zinc-800 hover:bg-white hover:text-zinc-900 dark:hover:bg-zinc-500/55 dark:hover:text-zinc-200"
+                                class="menu-item-animate block rounded-none border border-transparent bg-zinc-900/95 dark:bg-zinc-50/95 px-8 py-5 text-lg font-semibold uppercase tracking-wider text-white dark:text-zinc-800 transition-colors hover:border-zinc-800 hover:bg-white hover:text-zinc-900 dark:hover:bg-zinc-500/55 dark:hover:text-zinc-200"
                                 style={`animation-delay: ${MENU_PANEL_DURATION + index * MENU_ITEM_STAGGER}ms`}
                             >
                                 {item.label}
@@ -170,7 +164,7 @@ const RESUME_URL =
                     ))
                 }
                 <li
-                    class="menu-item-animate flex md:hidden items-center gap-3 rounded-full border border-transparent bg-zinc-900/95 dark:bg-zinc-50/95 px-8 py-5 text-lg font-semibold uppercase tracking-wider text-white dark:text-zinc-800 transition-colors hover:border-zinc-800 hover:bg-white hover:text-zinc-900 dark:hover:bg-zinc-500/55 dark:hover:text-zinc-200"
+                    class="menu-item-animate flex md:hidden items-center gap-3 rounded-none border border-transparent bg-zinc-900/95 dark:bg-zinc-50/95 px-8 py-5 text-lg font-semibold uppercase tracking-wider text-white dark:text-zinc-800 transition-colors hover:border-zinc-800 hover:bg-white hover:text-zinc-900 dark:hover:bg-zinc-500/55 dark:hover:text-zinc-200"
                     style={`animation-delay: ${MENU_PANEL_DURATION + 5 * MENU_ITEM_STAGGER}ms`}
                 >
                     <svg
@@ -236,11 +230,11 @@ const RESUME_URL =
         "bg-[#747475]/10",
         "backdrop-blur-lg",
         "max-w-[90%]",
-        "lg:max-w-4xl",
+        "lg:max-w-5xl",
         "px-6",
     ];
     const TOP_SHELL = [
-        "max-w-5xl",
+        "max-w-6xl",
         "px-7",
         "xl:px-0",
         "border-transparent",
