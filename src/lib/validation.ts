@@ -51,6 +51,7 @@ export const projectSchema = z.object({
   title: z.string().trim().min(1, "Title is required").max(200, "Title is too long"),
   icon: assetUrlField("Icon").default(""),
   date: dateField("Date"),
+  short_description: z.string().trim().max(500, "Short description is too long").default(""),
   description: z.string().trim().min(1, "Description is required"),
   live_preview: urlField("Live preview").default(""),
   github_link: urlField("GitHub link").default(""),

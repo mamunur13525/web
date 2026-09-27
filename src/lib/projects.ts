@@ -36,6 +36,7 @@ export function toProjectView(
     image: { thumbnail: preview, full_screen: full },
     title: doc.title,
     date: formatDate(doc.date),
+    short_description: doc.short_description || "",
     content: doc.description,
     slug: slugify(doc.title),
     live: {

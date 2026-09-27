@@ -15,6 +15,7 @@ type ProjectType = {
   };
   title: string;
   date: string;
+  short_description?: string;
   content?: string;
   slug: string;
   live: {
@@ -85,6 +86,7 @@ type AdminProjectType = {
   title: string;
   icon: string;
   date: string;
+  short_description?: string;
   description: string;
   live_preview: string;
   github_link: string;

@@ -1,0 +1,246 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import AdminListScripts from "@/components/admin/AdminListScripts.astro";
+import connectDB from "@/lib/mongodb";
+import Project from "@/models/Project";
+import { formatDate } from "@/lib/utils";
+import type { AdminProjectType } from "@/types/types";
+
+export const prerender = false;
+
+const actionClass =
+  "rounded-md border border-border bg-background px-2.5 py-1 text-xs font-medium no-underline transition-colors hover:bg-accent hover:text-accent-foreground";
+
+let error: string | null = null;
+let projects: AdminProjectType[] = [];
+
+try {
+  await connectDB();
+  projects = JSON.parse(
+    JSON.stringify(await Project.find({}).sort({ order: 1, date: -1 }).lean())
+  ) as AdminProjectType[];
+} catch (err) {
+  console.error("Error loading projects:", err);
+  error = err instanceof Error ? err.message : "Unknown error";
+}
+---
+
+<AdminLayout title="Projects" active="projects">
+  <div class="space-y-6">
+    <header class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <h1 class="font-stack text-2xl font-semibold">Projects</h1>
+        <p class="mt-1 text-sm text-muted-foreground">
+          {projects.length} project{projects.length === 1 ? "" : "s"} in the{" "}
+          <code>projects</code> collection. Drag rows by the handle to rearrange display order.
+        </p>
+      </div>
+      <a
+        href="/admin/projects/new"
+        class="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground no-underline transition-opacity hover:opacity-90"
+      >
+        + New project
+      </a>
+    </header>
+
+    <div
+      id="admin-reorder-status"
+      role="status"
+      aria-live="polite"
+      class="hidden rounded-xl border px-3.5 py-2.5 text-xs font-medium transition-all shadow-sm"
+    ></div>
+
+    {
+      error && (
+        <div class="rounded-2xl border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
+          <p class="font-semibold">Could not reach MongoDB</p>
+          <p class="mt-1 break-words opacity-90">{error}</p>
+        </div>
+      )
+    }
+
+    {
+      !error && projects.length > 0 && (
+        <input
+          id="admin-search"
+          type="search"
+          placeholder="Search projects by title or technology…"
+          class="w-full max-w-md rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-primary/60 focus:ring-2 focus:ring-ring/30"
+        />
+      )
+    }
+
+    {
+      !error && projects.length === 0 && (
+        <div class="rounded-2xl border border-dashed border-border bg-background p-10 text-center">
+          <p class="text-sm text-muted-foreground">
+            No projects yet. Create your first one to see it here.
+          </p>
+          <a
+            href="/admin/projects/new"
+            class="mt-4 inline-block rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground no-underline"
+          >
+            + New project
+          </a>
+        </div>
+      )
+    }
+
+    {
+      !error && projects.length > 0 && (
+        <div class="overflow-x-auto rounded-2xl border border-border bg-background">
+          <table
+            class="w-full min-w-[720px] border-collapse text-sm"
+            data-reorder-table
+            data-reorder-url="/api/admin/projects/reorder"
+          >
+            <thead class="bg-muted/60 text-left text-xs uppercase tracking-wide text-muted-foreground">
+              <tr>
+                <th class="w-12 px-2 py-3 font-medium text-center" title="Reorder display order">
+                  <span class="sr-only">Reorder</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="mx-auto opacity-60"
+                    aria-hidden="true"
+                  >
+                    <path d="m3 8 4-4 4 4" />
+                    <path d="M7 4v16" />
+                    <path d="m21 16-4 4-4-4" />
+                    <path d="M17 20V4" />
+                  </svg>
+                </th>
+                <th class="px-4 py-3 font-medium">Project</th>
+                <th class="px-4 py-3 font-medium">Date</th>
+                <th class="px-4 py-3 font-medium">Technologies</th>
+                <th class="px-4 py-3 text-right font-medium">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {projects.map((project) => (
+                <tr
+                  data-row
+                  data-row-id={project._id}
+                  data-row-title={project.title}
+                  data-search={`${project.title} ${project.technologies.join(" ")}`}
+                  class="border-t border-border align-middle transition-colors hover:bg-muted/30"
+                >
+                  <td class="w-12 px-2 py-3 text-center">
+                    <button
+                      type="button"
+                      data-drag-handle
+                      aria-label={`Drag or use arrow keys to reorder ${project.title}`}
+                      title="Drag or press Up/Down arrow keys to reorder"
+                      class="inline-flex size-7 cursor-grab active:cursor-grabbing items-center justify-center rounded text-muted-foreground/60 transition-colors hover:bg-muted hover:text-foreground focus:outline-none focus:ring-1 focus:ring-ring touch-none select-none"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        class="pointer-events-none"
+                      >
+                        <circle cx="9" cy="5" r="1" />
+                        <circle cx="9" cy="12" r="1" />
+                        <circle cx="9" cy="19" r="1" />
+                        <circle cx="15" cy="5" r="1" />
+                        <circle cx="15" cy="12" r="1" />
+                        <circle cx="15" cy="19" r="1" />
+                      </svg>
+                    </button>
+                  </td>
+                  <td class="px-4 py-3">
+                    <div class="flex items-center gap-3">
+                      <span class="size-10 shrink-0 overflow-hidden rounded-md border border-border bg-muted">
+                        {project.image?.preview ? (
+                          <img
+                            src={project.image.preview}
+                            alt=""
+                            class="size-full object-cover"
+                            loading="lazy"
+                          />
+                        ) : null}
+                      </span>
+                      <span class="max-w-[220px] truncate font-medium">
+                        {project.title}
+                      </span>
+                    </div>
+                  </td>
+                  <td class="whitespace-nowrap px-4 py-3 text-muted-foreground">
+                    {formatDate(project.date)}
+                  </td>
+                  <td class="px-4 py-3">
+                    <div class="flex max-w-[260px] flex-wrap gap-1.5">
+                      {project.technologies.length === 0 ? (
+                        <span class="text-xs text-muted-foreground">—</span>
+                      ) : (
+                        project.technologies.slice(0, 5).map((technology) => (
+                          <span class="rounded-full border border-border bg-secondary px-2 py-0.5 text-xs text-muted-foreground">
+                            {technology}
+                          </span>
+                        ))
+                      )}
+                      {project.technologies.length > 5 && (
+                        <span class="text-xs text-muted-foreground">
+                          +{project.technologies.length - 5}
+                        </span>
+                      )}
+                    </div>
+                  </td>
+                  <td class="px-4 py-3">
+                    <div class="flex items-center justify-end gap-2">
+                      {project.live_preview && (
+                        <a
+                          href={project.live_preview}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class={actionClass}
+                        >
+                          Visit
+                        </a>
+                      )}
+                      <a
+                        href={`/admin/projects/edit/${project._id}`}
+                        class={actionClass}
+                      >
+                        Edit
+                      </a>
+                      <button
+                        type="button"
+                        data-delete-url={`/api/admin/projects/${project._id}`}
+                        data-delete-label={`"${project.title}"`}
+                        data-row-id={project._id}
+                        class="cursor-pointer rounded-md border border-destructive/40 bg-destructive/10 px-2.5 py-1 text-xs font-medium text-destructive transition-colors hover:bg-destructive/20 disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )
+    }
+
+    <p id="admin-search-empty" class="hidden text-sm text-muted-foreground">
+      No projects match your search.
+    </p>
+  </div>
+</AdminLayout>
+
+<AdminListScripts />

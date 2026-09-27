@@ -4,8 +4,8 @@ import ThemeToggle from "./ui/ThemeToggle.astro";
 
 const MENU_ITEMS = [
     { label: "Home", href: "/#home" },
-    { label: "Projects", href: "/#projects" },
-    { label: "Blogs", href: "/#blogs" },
+    { label: "Projects", href: "/projects" },
+    { label: "Blogs", href: "/blogs" },
     { label: "Contact", href: "/contact" },
 ];
 
@@ -29,7 +29,7 @@ const RESUME_URL =
                 <Logo />
             </a>
             <a
-                href="mailto:mamun.ahmed135255@gmail.com"
+                href="mailto:mamun.ahmed13525@gmail.com"
                 class="underline underline-offset-3 text-xs md:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1 pb-2"
             >
                 mamun.ahmed13525@gmail.com
@@ -37,6 +37,12 @@ const RESUME_URL =
         </nav>
 
         <div class="flex items-center gap-2 md:gap-4">
+            <a
+                href="/projects"
+                class="hidden sm:flex text-xs sm:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1"
+            >
+                Projects
+            </a>
             <a
                 href="/blogs"
                 class="hidden sm:flex text-xs sm:text-sm dark:text-zinc-200 text-zinc-800 hover:text-orange-600 whitespace-nowrap flex-1"
@@ -198,7 +204,7 @@ const RESUME_URL =
                     Based in Dhaka, Bangladesh
                 </span>
                 <a
-                    href="mailto:mamun.ahmed135255@gmail.com"
+                    href="mailto:mamun.ahmed13525@gmail.com"
                     class="group flex items-center gap-0 hover:gap-1 transition-all duration-300 font-medium text-zinc-800 dark:text-zinc-200 underline-offset-4 hover:underline"
                 >
                     mamun.ahmed13525@gmail.com

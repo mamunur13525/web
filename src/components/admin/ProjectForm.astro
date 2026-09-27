@@ -186,6 +186,21 @@ const toolButtonClass =
     </h2>
 
     <div>
+      <label class={labelClass} for="short_description">Short description</label>
+      <textarea
+        id="short_description"
+        name="short_description"
+        rows="2"
+        maxlength="500"
+        placeholder="Brief 1-2 sentence overview shown directly on project cards…"
+        class={fieldClass}
+      >{project?.short_description ?? ""}</textarea>
+      <p class={hintClass}>
+        A concise summary displayed on the project card before it is expanded.
+      </p>
+    </div>
+
+    <div>
       <div class="mb-1.5 flex flex-wrap items-center justify-between gap-2">
         <label class="text-sm font-medium" for="description">Description *</label>
         <button
@@ -345,6 +360,7 @@ const toolButtonClass =
         title: value("title"),
         icon: value("icon"),
         date: value("date"),
+        short_description: value("short_description"),
         description: value("description"),
         live_preview: value("live_preview"),
         github_link: value("github_link"),

@@ -9,6 +9,7 @@ export interface IProject extends Document {
   title: string;
   icon: string;
   date: Date;
+  short_description: string;
   description: string;
   live_preview: string;
   github_link: string;
@@ -55,6 +56,11 @@ const ProjectSchema: Schema = new Schema(
     date: {
       type: Date,
       required: [true, "Date is required"],
+    },
+    short_description: {
+      type: String,
+      default: "",
+      trim: true,
     },
     description: {
       type: String,
