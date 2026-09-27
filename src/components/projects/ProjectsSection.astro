@@ -1,283 +1,278 @@
 ---
 import SectionTitle from "../ui/SectionTitle.astro";
-import AccordionIcon from "../ui/AccordionIcon.astro";
 import FullscreenImage from "../ui/FullscreenImage.astro";
-import { getProjects } from "@/lib/projects";
-import { renderMarkdown } from "@/lib/markdown";
-import { cn } from "@/lib/utils";
-import type { ProjectType } from "@/types/types";
-
-const INITIAL_VISIBLE = 5;
 
 /**
- * Homepage teaser: the 5 newest projects from the `projects` collection,
- * rendered on the server so the list is present in the initial HTML.
+ * Homepage teaser: the 5 newest projects from the `projects` collection.
+ *
+ * The section renders an **instant static shell** (skeleton rows) with no
+ * database work; the client script at the bottom fetches `/api/projects`
+ * right after paint and builds the accordion rows from the response.
  */
-let projects: ProjectType[] = [];
-let error: string | null = null;
+const INITIAL_VISIBLE = 5;
 
-try {
-  projects = await getProjects(INITIAL_VISIBLE);
-} catch (err) {
-  console.error("Error fetching projects:", err);
-  error = err instanceof Error ? err.message : "An error occurred";
-}
+/** 1×1 transparent placeholder for the hidden FullscreenImage below. */
+const BLANK_PIXEL =
+  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+
+const SKELETON_ROWS = Array.from({ length: INITIAL_VISIBLE });
 ---
 
 <SectionTitle title="Projects">
-  {
-    error && (
-      <div class="mt-10 p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-        <p class="text-red-600 dark:text-red-400">
-          Error loading projects: {error}
-        </p>
-      </div>
-    )
-  }
+  {/* Error / empty state, revealed by the client script. */}
+  <div id="projects-status" hidden>
+    <div id="projects-status-box" class="mt-10 text-center py-10"></div>
+  </div>
 
-  {
-    !error && projects.length === 0 && (
-      <div class="mt-10 text-center py-10">
-        <p class="text-muted-foreground">
-          No projects.
-        </p>
-      </div>
-    )
-  }
-
-  {
-    !error && projects.length > 0 && (
-      <div class="relative" id="projects-list">
-        {projects.map((project, index) => {
-          /* The newest project is open by default */
-          const openByDefault = index === 0;
-        const contentHtml = renderMarkdown(project.content, "project");
-
-        return (
+  {/* Skeleton rows — replaced by the fetched projects. */}
+  <div class="relative" id="projects-list">
+    {
+      SKELETON_ROWS.map((_, index) => (
+        <div class="relative w-full project-row" data-skeleton>
           <div
-            class="relative w-full project-row"
-            data-index={index}
-            hidden={index >= INITIAL_VISIBLE}
+            class:list={[
+              "py-6 px-2 flex items-center gap-4 border border-t-transparent animate-pulse",
+              index === 0 ? "border-t-border" : "",
+            ]}
           >
-            <div>
-              <button
-                type="button"
-                data-state={openByDefault ? "open" : "closed"}
-                aria-expanded={openByDefault ? "true" : "false"}
-                class={cn(
-                  "accordion-trigger group hover:no-underline pr-4 rounded-none hover:bg-accent/50 py-6 px-2 flex items-center justify-between gap-4 border border-t-transparent data-[state=open]:bg-white/60 backdrop-blur-lg data-[state=open]:dark:bg-[#141416]/60 w-full text-left text-sm font-medium transition-all outline-none cursor-pointer",
-                  index === 0 ? "border-t-border" : ""
-                )}
-              >
-                <div
-                  class={cn(
-                    "rounded-lg w-8 h-8 bg-white overflow-hidden border border-border flex items-center justify-center shrink-0",
-                    project.icon ? "" : "p-1"
-                  )}
-                >
-                  {project.icon ? (
-                    <img
-                      src={project.icon}
-                      alt={project.title}
-                      width="36"
-                      height="32"
-                      loading="lazy"
-                      decoding="async"
-                      class="w-full h-full object-contain rounded-sm"
-                    />
-                  ) : (
-                    <span class="w-full h-full shadow-lg flex items-center justify-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="w-5 h-5 text-[#353537]"
-                      >
-                        <path d="M4 10c0-1.7 0-2.5.4-3.1a3 3 0 0 1 1-1C6 5.5 6.8 5.5 8.5 5.5" />
-                        <path d="M20 14c0 1.7 0 2.5-.4 3.1a3 3 0 0 1-1 1c-.6.4-1.4.4-3.1.4" />
-                        <path d="M8.5 18.5c-1.7 0-2.5 0-3.1-.4a3 3 0 0 1-1-1C4 16.5 4 15.7 4 14" />
-                        <path d="M15.5 5.5c1.7 0 2.5 0 3.1.4a3 3 0 0 1 1 1c.4.6.4 1.4.4 3.1" />
-                      </svg>
-                    </span>
-                  )}
-                </div>
-                <div class="flex-1 flex flex-col items-start text-left w-full">
-                  <a
-                    href={project.live.preview}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="hover:underline project-title-link"
-                  >
-                    <h3 class="text-lg font-semibold">{project.title}</h3>
-                  </a>
-                  <span class="text-sm text-muted-foreground mt-1 font-normal">
-                    {project.date}
-                  </span>
-                </div>
-                <div class="flex items-center gap-5">
-                  {project.live.preview && (
-                    <div class="tooltip" data-tip="Live Preview">
-                      <a
-                        href={project.live.preview}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="project-icon-link flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-                        aria-label="Live Preview"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          class="-rotate-60 w-4 h-4 text-muted-foreground"
-                        >
-                          <path d="M9 17H7A5 5 0 0 1 7 7h2" />
-                          <path d="M15 7h2a5 5 0 1 1 0 10h-2" />
-                          <line x1="8" x2="16" y1="12" y2="12" />
-                        </svg>
-                      </a>
-                    </div>
-                  )}
-                  {project.live.git && (
-                    <div class="tooltip" data-tip="Frontend Code">
-                      <a
-                        href={project.live.git}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="project-icon-link flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-                        aria-label="Frontend Code"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          class="w-4 h-4 text-zinc-600"
-                        >
-                          <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-                          <path d="M9 18c-4.51 2-5-2-7-2" />
-                        </svg>
-                      </a>
-                    </div>
-                  )}
-                  {project.live.backend && (
-                    <div class="tooltip" data-tip="Backend Code">
-                      <a
-                        href={project.live.backend}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="project-icon-link flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-                        aria-label="Backend Code"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          class="w-4 h-4 text-zinc-600"
-                        >
-                          <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-                          <path d="M9 18c-4.51 2-5-2-7-2" />
-                        </svg>
-                      </a>
-                    </div>
-                  )}
-                </div>
-                <div class="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200">
-                  <AccordionIcon />
-                </div>
-              </button>
-
-              <div
-                class="accordion-content overflow-hidden"
-                data-state={openByDefault ? "open" : "closed"}
-                hidden={!openByDefault}
-              >
-                <div class="pt-6 px-8 pb-4 border border-t-0 bg-white/60 dark:bg-[#141416]/60 backdrop-blur-lg text-sm">
-                  <div class="space-y-4">
-                    {project.content && (
-                      <div class="prose prose-zinc max-w-none">
-                        <Fragment set:html={contentHtml} />
-                      </div>
-                    )}
-
-                    {project.image.thumbnail && (
-                      <FullscreenImage
-                        src={project.image.thumbnail}
-                        alt={project.title}
-                        class="object-cover border border-border shadow-lg hover:shadow-none"
-                      />
-                    )}
-
-                    <div class="flex flex-wrap gap-2 mt-2">
-                      {project.type.map((type) => (
-                        <span class="px-2.5 py-0.5 rounded-full bg-secondary text-muted-foreground text-xs font-medium border border-border">
-                          {type}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <span class="rounded-lg w-8 h-8 bg-muted shrink-0" />
+            <span class="flex-1 space-y-2">
+              <span class="block h-5 w-1/3 rounded bg-muted" />
+              <span class="block h-4 w-24 rounded bg-muted" />
+            </span>
+            <span class="block size-4 rounded bg-muted" />
           </div>
-          );
-        })}
-      </div>
-    )
-  }
+        </div>
+      ))
+    }
+  </div>
 
-  {
-    !error && projects.length > 0 && (
-      <div class="flex justify-center mt-10">
-        <a
-          href="/projects"
-          class="btn btn-outline min-w-[140px] h-10 min-h-0 cursor-pointer gap-2 rounded-md border border-border bg-background hover:bg-accent hover:text-accent-foreground text-sm font-medium no-underline"
-        >
-          View All Projects
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="w-4 h-4"
-          >
-            <path d="M5 12h14" />
-            <path d="m12 5 7 7-7 7" />
-          </svg>
-        </a>
-      </div>
-    )
-  }
+  {/*
+    A hidden instance keeps FullscreenImage's behaviour script in the page
+    bundle so the rows the client script injects get working zoom dialogs.
+  */}
+  <div hidden>
+    <FullscreenImage src={BLANK_PIXEL} alt="" />
+  </div>
+
+  <div
+    id="projects-cta"
+    class="flex justify-center mt-10"
+    style="display: none;"
+  >
+    <a
+      href="/projects"
+      class="btn btn-outline min-w-[140px] h-10 min-h-0 cursor-pointer gap-2 rounded-md border border-border bg-background hover:bg-accent hover:text-accent-foreground text-sm font-medium no-underline"
+    >
+      View All Projects
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="w-4 h-4"
+      >
+        <path d="M5 12h14" />
+
+        <path d="m12 5 7 7-7 7" />
+      </svg>
+    </a>
+  </div>
 </SectionTitle>
 
 <script>
+  import type { AdminProjectType, ProjectType } from "@/types/types";
+  import { cn, formatDate, slugify } from "@/lib/utils";
+
+  const INITIAL_VISIBLE = 5;
+
+  /** `/api/projects` documents + the server-pre-rendered markdown. */
+  type ApiProject = AdminProjectType & { contentHtml?: string };
+  type ProjectsPayload = { success: boolean; data?: ApiProject[] };
+
+  type Project = ProjectType & { contentHtml?: string };
+
+  const listEl = document.getElementById("projects-list")!;
+  const statusEl = document.getElementById("projects-status")!;
+  const statusBoxEl = document.getElementById("projects-status-box")!;
+  const ctaEl = document.getElementById("projects-cta")!;
+
+  /* Chevron pair — mirrors `AccordionIcon.astro`. */
+  const ACCORDION_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 accordion-icon"><path class="accordion-icon-top transition-all duration-300" d="M7 9L12 4L17 9"></path><path class="accordion-icon-bottom transition-all duration-300" d="M7 15L12 20L17 15"></path></svg>`;
+
+  /** Fallback glyph when a project has no icon — mirrors the original markup. */
+  const PLACEHOLDER_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#353537]"><path d="M4 10c0-1.7 0-2.5.4-3.1a3 3 0 0 1 1-1C6 5.5 6.8 5.5 8.5 5.5" /><path d="M20 14c0 1.7 0 2.5-.4 3.1a3 3 0 0 1-1 1c-.6.4-1.4.4-3.1.4" /><path d="M8.5 18.5c-1.7 0-2.5 0-3.1-.4a3 3 0 0 1-1-1C4 16.5 4 15.7 4 14" /><path d="M15.5 5.5c1.7 0 2.5 0 3.1.4a3 3 0 0 1 1 1c.4.6.4 1.4.4 3.1" /></svg>`;
+
+  /** Escapes data before it is interpolated into markup. */
+  function esc(value: unknown): string {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  /**
+   * Adapts an API document to the `ProjectType` view shape — a client-safe
+   * copy of `toProjectView` in `src/lib/projects.ts` (that module imports
+   * mongoose, so it cannot be bundled for the browser).
+   */
+  function toView(doc: ApiProject, index: number): Project {
+    const preview = doc.image?.preview || doc.image?.full || "";
+    const full = doc.image?.full || doc.image?.preview || "";
+    return {
+      id: index,
+      icon: doc.icon || undefined,
+      image: { thumbnail: preview, full_screen: full },
+      title: doc.title,
+      date: formatDate(doc.date),
+      short_description: doc.short_description || "",
+      content: doc.description,
+      slug: slugify(doc.title),
+      live: {
+        preview: doc.live_preview || "",
+        git: doc.github_link || "",
+      },
+      type: doc.technologies ?? [],
+      contentHtml: doc.contentHtml,
+    };
+  }
+
+  /**
+   * Zoomable cover — same markup as `FullscreenImage.astro` (its controller
+   * binds to these nodes when the shared `astro:page-load` init re-runs).
+   */
+  function fullscreenHtml(src: string, alt: string): string {
+    const modalId = `fs-${Math.random().toString(36).slice(2, 10)}`;
+    return `<div class="fullscreen-image relative w-full aspect-video rounded-lg overflow-hidden cursor-zoom-in group object-cover border border-border shadow-lg hover:shadow-none" data-modal-target="${modalId}" role="button" tabindex="0" aria-label="Open fullscreen view of ${esc(alt)}">
+      <img src="${esc(src)}" alt="${esc(alt)}" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+      <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+    </div>
+    <dialog id="${modalId}" class="modal fullscreen-modal">
+      <div class="modal-box max-w-none w-screen h-screen rounded-none border-none bg-black/95 shadow-none p-0 flex items-center justify-center">
+        <h3 class="sr-only">Fullscreen view of ${esc(alt)}</h3>
+        <button class="fullscreen-close absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-100 cursor-pointer" aria-label="Close" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+        </button>
+        <div class="zoom-viewport relative w-full h-full flex items-center justify-center overflow-hidden">
+          <div class="zoom-stage relative w-[95vw] h-[95vh] max-w-7xl transition-transform duration-100 ease-out">
+            <img src="${esc(src)}" alt="${esc(alt)}" draggable="false" class="absolute inset-0 w-full h-full object-contain pointer-events-none" />
+          </div>
+        </div>
+      </div>
+    </dialog>`;
+  }
+
+  /* Action links in the accordion header — same SVGs as the original JSX. */
+  function headerLinksHtml(project: Project): string {
+    const links: string[] = [];
+
+    if (project.live.preview) {
+      links.push(`<div class="tooltip" data-tip="Live Preview">
+        <a href="${esc(project.live.preview)}" target="_blank" rel="noopener noreferrer" class="project-icon-link flex items-center gap-2 text-sm font-medium text-primary hover:underline" aria-label="Live Preview">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="-rotate-60 w-4 h-4 text-muted-foreground"><path d="M9 17H7A5 5 0 0 1 7 7h2" /><path d="M15 7h2a5 5 0 1 1 0 10h-2" /><line x1="8" x2="16" y1="12" y2="12" /></svg>
+        </a>
+      </div>`);
+    }
+
+    if (project.live.git) {
+      links.push(`<div class="tooltip" data-tip="Frontend Code">
+        <a href="${esc(project.live.git)}" target="_blank" rel="noopener noreferrer" class="project-icon-link flex items-center gap-2 text-sm font-medium text-primary hover:underline" aria-label="Frontend Code">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-zinc-600"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" /></svg>
+        </a>
+      </div>`);
+    }
+
+    if (project.live.backend) {
+      links.push(`<div class="tooltip" data-tip="Backend Code">
+        <a href="${esc(project.live.backend)}" target="_blank" rel="noopener noreferrer" class="project-icon-link flex items-center gap-2 text-sm font-medium text-primary hover:underline" aria-label="Backend Code">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-zinc-600"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" /></svg>
+        </a>
+      </div>`);
+    }
+
+    return links.join("");
+  }
+
+  /** One accordion row — same structure/classes as the server-rendered JSX. */
+  function rowHtml(project: Project, index: number): string {
+    const openByDefault = index === 0;
+
+    const triggerClass = cn(
+      "accordion-trigger group hover:no-underline pr-4 rounded-none hover:bg-accent/50 py-6 px-2 flex items-center justify-between gap-4 border border-t-transparent data-[state=open]:bg-white/60 backdrop-blur-lg data-[state=open]:dark:bg-[#141416]/60 w-full text-left text-sm font-medium transition-all outline-none cursor-pointer",
+      index === 0 ? "border-t-border" : ""
+    );
+    const iconWrapClass = cn(
+      "rounded-lg w-8 h-8 bg-white overflow-hidden border border-border flex items-center justify-center shrink-0",
+      project.icon ? "" : "p-1"
+    );
+    const iconInner = project.icon
+      ? `<img src="${esc(project.icon)}" alt="${esc(project.title)}" width="36" height="32" loading="lazy" decoding="async" class="w-full h-full object-contain rounded-sm" />`
+      : `<span class="w-full h-full shadow-lg flex items-center justify-center">${PLACEHOLDER_ICON}</span>`;
+
+    const tagsHtml = project.type
+      .map(
+        (type) =>
+          `<span class="px-2.5 py-0.5 rounded-full bg-secondary text-muted-foreground text-xs font-medium border border-border">${esc(type)}</span>`
+      )
+      .join("");
+
+    return `<div class="relative w-full project-row" data-index="${index}"${
+      index >= INITIAL_VISIBLE ? " hidden" : ""
+    }>
+      <div>
+        <button type="button" data-state="${openByDefault ? "open" : "closed"}" aria-expanded="${openByDefault ? "true" : "false"}" class="${triggerClass}">
+          <div class="${iconWrapClass}">${iconInner}</div>
+          <div class="flex-1 flex flex-col items-start text-left w-full">
+            <a href="${esc(project.live.preview)}" target="_blank" rel="noopener noreferrer" class="hover:underline project-title-link">
+              <h3 class="text-lg font-semibold">${esc(project.title)}</h3>
+            </a>
+            <span class="text-sm text-muted-foreground mt-1 font-normal">${esc(project.date)}</span>
+          </div>
+          <div class="flex items-center gap-5">${headerLinksHtml(project)}</div>
+          <div class="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200">${ACCORDION_ICON}</div>
+        </button>
+        <div class="accordion-content overflow-hidden" data-state="${openByDefault ? "open" : "closed"}"${openByDefault ? "" : " hidden"}>
+          <div class="pt-6 px-8 pb-4 border border-t-0 bg-white/60 dark:bg-[#141416]/60 backdrop-blur-lg text-sm">
+            <div class="space-y-4">
+              ${
+                project.content
+                  ? `<div class="prose prose-zinc max-w-none">${project.contentHtml ?? ""}</div>`
+                  : ""
+              }
+              ${
+                project.image.thumbnail
+                  ? fullscreenHtml(project.image.thumbnail, project.title)
+                  : ""
+              }
+              <div class="flex flex-wrap gap-2 mt-2">${tagsHtml}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  /** Error / empty state — mirrors the two branches the server used to render. */
+  function showStatus(kind: "error" | "empty", message?: string) {
+    if (kind === "error") {
+      statusBoxEl.className =
+        "mt-10 p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg";
+      statusBoxEl.innerHTML = `<p class="text-red-600 dark:text-red-400">Error loading projects: ${esc(
+        message ?? "An error occurred"
+      )}</p>`;
+    } else {
+      statusBoxEl.className = "mt-10 text-center py-10";
+      statusBoxEl.innerHTML = `<p class="text-muted-foreground">No projects.</p>`;
+    }
+    statusEl.removeAttribute("hidden");
+  }
+
   /* Keep the accordion trigger from toggling when a link inside it is clicked */
   function guardLinks() {
     document
@@ -290,6 +285,48 @@ try {
       });
   }
 
+  async function load() {
+    try {
+      const response = await fetch("/api/projects", {
+        headers: { Accept: "application/json" },
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to fetch projects (${response.status})`);
+      }
+      const payload = (await response.json()) as ProjectsPayload;
+      if (!payload.success) throw new Error("Failed to fetch projects");
+
+      const projects = (payload.data ?? [])
+        .slice(0, INITIAL_VISIBLE)
+        .map((doc, index) => toView(doc, index));
+
+      if (projects.length === 0) {
+        listEl.style.display = "none";
+        showStatus("empty");
+        return;
+      }
+
+      listEl.innerHTML = projects.map(rowHtml).join("");
+      ctaEl.style.display = "";
+
+      /* Re-run the shared initialisers (accordion toggles, fullscreen zoom,
+         link guards) so the injected rows become interactive. */
+      document.dispatchEvent(new Event("astro:page-load"));
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+      listEl.style.display = "none";
+      showStatus("error", error instanceof Error ? error.message : undefined);
+    }
+  }
+
   guardLinks();
   document.addEventListener("astro:page-load", guardLinks);
+  void load();
 </script>
+
+<style is:global>
+  /* Injected zoom dialogs miss FullscreenImage's scoped backdrop style. */
+  .fullscreen-modal::backdrop {
+    background: rgba(0, 0, 0, 0.95);
+  }
+</style>
